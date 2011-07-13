@@ -52,7 +52,7 @@ public class TestOneCorrScreen extends AbstractScreen{
 		g2.fill(new Rectangle.Float(0,0,width,height));
 		
 		// Draw the distribution in the centre of the screen
-		Image im = myDist.getImage(300, 300, 1, 1, 1, 1);
+		Image im = myDist.getImage(300, 300, 1, 1, 1, 1, 1);
 		
 		g2.drawImage(im, width/2-im.getWidth(null)/2, height/2-im.getHeight(null)/2, null);
 		

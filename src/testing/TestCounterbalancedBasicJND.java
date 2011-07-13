@@ -238,7 +238,7 @@ public class TestCounterbalancedBasicJND extends JFrame implements KeyListener{
                 double dotSize = ((BasicJNDCondition)currentCondition).getDotSize();
                 int dotStyle = ((BasicJNDCondition)currentCondition).getDotStyle();
 
-		LogfileRow lr = new LogfileRow(trialNum, trial_time_in_ms, myConverge.getTrialParam(), myConverge.getTrialCompare(), Math.abs(myConverge.getTrialCompare()-myConverge.getTrialParam()), correctKey==currentKey, !isDescending, isBaseOnLeft?LogfileRow.RIGHT:LogfileRow.LEFT, scalingVal, dotSize, numPoint, dotStyle);
+		LogfileRow lr = new LogfileRow(trialNum, trial_time_in_ms, myConverge.getTrialParam(), myConverge.getTrialCompare(), Math.abs(myConverge.getTrialCompare()-myConverge.getTrialParam()), correctKey==currentKey, !isDescending, isBaseOnLeft?LogfileRow.RIGHT:LogfileRow.LEFT, scalingVal, dotSize, numPoint, dotStyle, 1);
 		System.out.print(lr.toString() + "\n");
 		try{
 			BufferedWriter out = new BufferedWriter(new FileWriter(LOG_FOLDER+dataFilename, true));

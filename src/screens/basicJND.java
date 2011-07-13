@@ -132,8 +132,8 @@ public class basicJND extends AbstractScreen implements XMLWriteable{
 		g2.fill(new Rectangle.Float(0,0,width,height));
 		
 		// Draw the distribution in the centre of the screen
-		Image imLeft = myDistLeft.getImage(graphWidth, graphHeight, 1, 1, 1, 1);
-		Image imRight = myDistRight.getImage(graphWidth, graphHeight, 1, 1, 1, 1);
+		Image imLeft = myDistLeft.getImage(graphWidth, graphHeight, 1, 1, 1, 1, 1);
+		Image imRight = myDistRight.getImage(graphWidth, graphHeight, 1, 1, 1, 1, 1);
 		
 		int ypos = height/2-graphHeight/2;
 		int xlpos = width/4-graphWidth/2;

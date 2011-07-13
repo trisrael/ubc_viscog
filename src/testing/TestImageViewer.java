@@ -34,7 +34,7 @@ public class TestImageViewer extends JFrame{
 		// TODO Auto-generated method stub
                 int pointSize =1;
                 int pointStyle = 1;
-		Screen myScreen = new TestTwoCorrScreen(0.7, 0.3, 400, 0.0001, 1, pointSize, pointStyle);
+		Screen myScreen = new TestTwoCorrScreen(0.7, 0.3, 400, 0.0001, 1, pointSize, pointStyle, 1);
 		TestImageViewer myImage = new TestImageViewer(myScreen.getImage());
 	}
 
