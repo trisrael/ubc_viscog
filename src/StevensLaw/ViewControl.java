@@ -8,6 +8,6 @@ package StevensLaw;
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class TaskRoundSet {
+public class ViewControl {
     
 }
