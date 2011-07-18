@@ -32,7 +32,7 @@ public abstract class ManyCorrelationScreen extends AbstractStrictScreen {
         return null;
     }
     
-    Distribution2D getDistribution(Enum name){
+    protected Distribution2D getDistribution(Enum name){
         
         if(graphs == null){
             buildDistributions();

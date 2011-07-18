@@ -1,4 +1,4 @@
-package screens;
+package StevensLaw;
 
 import correlation.Distribution2D;
 import java.awt.Color;
@@ -7,13 +7,14 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import screens.ManyCorrelationScreen;
 import util.Util;
 
 /**
  *
  * @author Tristan Goffman(tgoffman@gmail.com)
  */
-public class StevensScreen extends ManyCorrelationScreen {
+public class Screen extends ManyCorrelationScreen {
 
  
     enum Constants {

@@ -11,7 +11,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 
 /**
- *
+ * Class which forces implementation of generateImage method
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 16, 2011
  */
 public abstract class AbstractStrictScreen extends AbstractScreen {
