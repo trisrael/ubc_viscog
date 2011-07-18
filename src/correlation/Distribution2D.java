@@ -872,7 +872,7 @@ public class Distribution2D implements XMLWriteable{
 		System.out.println(myDist.toString());
 		myDist.linearTransform();
 		System.out.println(myDist.toString());
-        System.out.println(myDist.getXMLString());
+                System.out.println(myDist.getXMLString());
 	}
 
 

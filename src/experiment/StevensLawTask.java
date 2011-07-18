@@ -12,7 +12,7 @@ import java.io.File;
  *
  * @author tristangoffman
  */
-public class RelateCorrelationTask extends AbstractExperiment implements KeyListener{
+public class StevensLawTask extends AbstractExperiment implements KeyListener{
 
     public void run() {
         throw new UnsupportedOperationException("Not supported yet.");

@@ -8,13 +8,17 @@ import java.util.HashMap;
  *
  * @author Tristan Goffman(tgoffman@gmail.com)
  */
-public abstract class ManyCorrelationScreen extends AbstractScreen {
+public abstract class ManyCorrelationScreen extends AbstractStrictScreen {
+    /**
+     * Instance variables
+     */
+     private HashMap<Enum, Distribution2D> graphs = null;
 
     /**
      *Returns first Enum class that contains the word 'Constant' & 'Screen' 
      * @return 
      */
-    Class<Enum> getDistribution2dNames() {
+    Class<Enum> getDistributionNamesEnum() {
 
         Class<?>[] classes = this.getClass().getClasses();
         for (Class<?> clazz : classes) {
@@ -28,5 +32,23 @@ public abstract class ManyCorrelationScreen extends AbstractScreen {
         return null;
     }
     
-    public HashMap<Enum, Distribution2D> graphs = new HashMap<Enum, Distribution2D>();
+    Distribution2D getDistribution(Enum name){
+        
+        if(graphs == null){
+            buildDistributions();
+        }
+        
+        return graphs.get(name);
+    }
+
+    private void buildDistributions() {
+        Class<Enum> clazz = getDistributionNamesEnum();
+        graphs = new HashMap<Enum, Distribution2D>();
+        
+        for (Enum n : clazz.getEnumConstants()) {
+            graphs.put(n, new Distribution2D());
+        }
+    }
+    
+  
 }
