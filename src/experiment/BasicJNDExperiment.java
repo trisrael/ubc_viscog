@@ -507,7 +507,7 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
 		GraphicsEnvironment.getLocalGraphicsEnvironment().
 		getDefaultScreenDevice().setFullScreenWindow(this);
 
-        w = this.getWidth();
+                w = this.getWidth();
 		h = this.getHeight();
 
 	}

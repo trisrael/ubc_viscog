@@ -58,4 +58,5 @@ public interface Experiment {
      * @return
      */
     public boolean checkConfigurationString(String conf);
+   
 }
