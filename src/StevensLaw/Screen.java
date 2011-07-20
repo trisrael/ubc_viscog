@@ -37,8 +37,6 @@ public class Screen extends ManyCorrelationScreen {
 
         g2.drawImage(im, width / 2 - im.getWidth(null) / 2, height / 2 - im.getHeight(null) / 2, null);
 
-
-
         System.out.println("R = " + mydist.getPearsonCorrelation());
 
         // Free resources

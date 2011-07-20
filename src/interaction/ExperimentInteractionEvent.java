@@ -14,7 +14,7 @@ public class ExperimentInteractionEvent extends EventObject {
         this.source = exInt; //Might as well use space already allocated in object, versus wasting more memory
     }
 
-    public <E extends ExperimentInteraction> E getType() {
+    public <E extends Enum> E getType() {
         return (E) this.source; //Let it throw an error if somebody subclasses and allows for another object to be
         //set to source
     }

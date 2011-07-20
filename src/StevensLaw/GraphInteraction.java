@@ -10,4 +10,3 @@ public enum GraphInteraction implements ExperimentInteraction{
     CorrelationUp,
     CorrelationDown
 }
-

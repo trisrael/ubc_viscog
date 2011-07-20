@@ -17,5 +17,5 @@ public interface ExperimentInteractionListener extends EventListener {
      * for the type of keypress to change, or to allow for multiple.. etc. All that is needed is for the appropriate
      * interaction to be added to UserInteractions
      **/
-    public abstract void interactionOccured(ExperimentInteraction ev);
+    public abstract void interactionOccured(ExperimentInteractionEvent ev);
 }

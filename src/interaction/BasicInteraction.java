@@ -10,6 +10,5 @@ package interaction;
  */
 public enum BasicInteraction implements ExperimentInteraction {
     Exit,
-    TaskCompleted,
-    
+    TaskCompleted
 }

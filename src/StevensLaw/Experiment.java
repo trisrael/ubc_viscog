@@ -1,35 +1,20 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package StevensLaw;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.File;
-import javax.swing.JFrame;
 
 /**
  *
  * @author tristangoffman
  */
-public class Experiment extends JFrame implements KeyListener{
+public class Experiment{
     
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /** Members **/
+    private final ExperimentControl eCon;
+    private final ViewControl vCon;
+    
+    public Experiment(){
+        this.vCon = new ViewControl();
+        this.eCon = new ExperimentControl();
     }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    //has_many rounds steven law task
+    
 
 }
