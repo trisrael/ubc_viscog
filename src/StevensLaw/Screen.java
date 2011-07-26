@@ -1,11 +1,8 @@
 package StevensLaw;
 
 import correlation.Distribution2D;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import screens.ManyCorrelationScreen;
 import util.Util;
@@ -16,17 +13,16 @@ import util.Util;
  */
 public class Screen extends ManyCorrelationScreen {
 
- 
     enum Constants {
         HIGH,
         MID,
         LOW
-    }        
+    }
 
     protected Image generateImage() {
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = bi.createGraphics();
-        
+
         final Distribution2D mydist = getDistribution(Constants.HIGH);
 
         mydist.turnIntoTransformedCorrelatedGaussian(0.7, 500, 0.001);

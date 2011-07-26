@@ -7,7 +7,7 @@ package StevensLaw;
 import StevensLaw.Validator.InvalidCorrelation;
 
 /**
- *A single task for a participant in which they must choose between lowering and highering a single distribution until they have deemed that it is
+ *A single task for a participant in which they must choose between lowering or raising a single distribution until they have deemed that it
  * has a correlation that is between that of two other distributions.
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
@@ -30,6 +30,7 @@ public class Task {
      */
     public double adjustCorrelation(double val) throws InvalidCorrelation{
         Validator.validateCorr(val);
+        
         this.adjustedCorr = val;
         return this.adjustedCorr;
     }
