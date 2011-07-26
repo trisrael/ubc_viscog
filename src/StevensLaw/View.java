@@ -16,7 +16,7 @@ public class View extends JFrame implements KeyListener{
 
     @Override
     public void keyTyped(KeyEvent ke) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported yet.");        
     }
 
     @Override
@@ -26,7 +26,9 @@ public class View extends JFrame implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent ke) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       switch(ke.getKeyCode()){
+           
+       }
     }
     
 }

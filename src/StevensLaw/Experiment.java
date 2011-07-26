@@ -8,13 +8,21 @@ package StevensLaw;
 public class Experiment{
     
     /** Members **/
-    private final ExperimentControl eCon;
-    private final ViewControl vCon;
+    private ExperimentControl eCon = null;
+    private ViewControl vCon = null;
     
     public Experiment(){
         this.vCon = new ViewControl();
-        this.eCon = new ExperimentControl();
+        this.eCon = new ExperimentControl();  
+        vCon.addListener(eCon);
+    }  
+    
+    public ViewControl getViewControl(){
+        return vCon;
     }
     
+    public ExperimentControl getExperimentControl(){
+        return eCon;
+    }
 
 }
