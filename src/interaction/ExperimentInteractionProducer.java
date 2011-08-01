@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package interaction;
 
 import java.util.ArrayList;
@@ -52,7 +48,7 @@ public abstract class ExperimentInteractionProducer implements Observable{
      */
     public void notifyListeners(ExperimentInteractionEvent in){         
         
-        for (ExperimentInteractionListener lis : listeners) {
+        for (ExperimentInteractionListener lis : getListeners()) {
             lis.interactionOccured(in);
         }
     }

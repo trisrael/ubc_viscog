@@ -31,7 +31,7 @@ public class ViewControl extends ExperimentInteractionProducer implements Experi
         //Experiment Interactions are all enum types... if it is not then an Exception will be thrown
     }
 
-    boolean addScreens(AbstractStrictScreen scr) {
+    boolean addScreen(AbstractStrictScreen scr) {
         //NOTE: Only allowing for one screen for each class to be added (singleon screens as you would) -- forcing update of pre-existing screen instead
         //of addition of new screen
         if (!screens.containsValue(scr)) {
@@ -45,7 +45,9 @@ public class ViewControl extends ExperimentInteractionProducer implements Experi
         return screens.values();
     }
     
-    AbstractStrictScreen getCurrentScreen(){
-        return currScreen;
+    void setScreen(Class<? extends AbstractStrictScreen> aClass) {
+        AbstractStrictScreen scr = screens.get(aClass);
+        if(scr == null){ throw new RuntimeException("Tried to switch to non-existen screen in ViewControl"); }                    
+        this.view.setScreen(scr);
     }
 }

@@ -73,6 +73,11 @@ public class ExperimentInteractionProducerTest {
 
         verify(obs).interactionOccured(ev);
     }
+    
+    @Test
+    public void notifyListenersAfterContruct() {
+        prod.notifyListeners(BasicInteraction.InvalidKeyPress);
+    }
 
     @Test
     public void getListenersNotNullAfterConstruct() {

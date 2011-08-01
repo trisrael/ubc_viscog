@@ -46,23 +46,21 @@ public class ViewControlTest {
 
     @Test
     public void isObservable(){
-        Observable.class.cast(new ViewControl());
-        
+        Observable.class.cast(new ViewControl());   
     }
     
     @Test 
     public void canAddScreens(){
         AbstractStrictScreen v = new TaskScreen();
-        cont.addScreens(v);
+        cont.addScreen(v);
         
         assertThat("Should have screen in ViewControl after addition", v, isIn(cont.getScreens()));        
     }
     
     @Test
-    public void hasNoCurrentScreenAfterConstruct(){
-        assertNull("Should wait until a set screen/update screene vent before adding a screen to show", cont.getCurrentScreen());
+    public void screenIsVisibleAfterSwitch(){        
+        canAddScreens();        
+        cont.setScreen(TaskScreen.class);
     }
-    
-    
             
 }
