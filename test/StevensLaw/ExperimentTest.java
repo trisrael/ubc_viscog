@@ -23,36 +23,49 @@ import static org.hamcrest.Matchers.*;
 @RunWith(Enclosed.class)
 public class ExperimentTest {
 
-   
-    
-    
-    public static class AfterConstruct{
-         private Experiment exp;
-        @Before        
-        public void setUp(){
-            exp = new Experiment();
-        }
-        
-        String instStr = " should be an instance";        
-        public String isInstance(String field){
-            return field + instStr;
-        }
-        
-        
-        @Test
-        public void HasExperimentControl(){            
-            assertThat(isInstance("ExperimentControl"), exp.getExperimentControl(), is(ExperimentControl.class));
-        }
-        
-        @Test
-        public void ExperimentControlIsListenerOfViewControl(){
-            HasExperimentControl();
-           
-                  
-           assertThat("ExperimentControl needs to listen to ViewControl but is not", exp.getExperimentControl(), isIn(exp.getExperimentControl().getViewControl().getListeners()));
-        }
-        
+    private static Experiment exp;
+
+    public static void setUp() {
+        exp = new Experiment();
     }
 
-    
+    public static class AfterConstruct {
+
+        @Before
+        public void setUp() {
+            ExperimentTest.setUp();
+        }
+        String instStr = " should be an instance";
+
+        public String isInstance(String field) {
+            return field + instStr;
+        }
+
+        @Test
+        public void HasExperimentControl() {
+            assertThat(isInstance("ExperimentControl"), exp.getExperimentControl(), is(ExperimentControl.class));
+        }
+
+        @Test
+        public void ExperimentControlIsListenerOfViewControl() {
+            HasExperimentControl();
+
+
+            assertThat("ExperimentControl needs to listen to ViewControl but is not", exp.getExperimentControl(), isIn(exp.getExperimentControl().getViewControl().getListeners()));
+        }
+    }
+
+    public static class RunExperiment {
+
+        @Before
+        public void setUp() {
+            ExperimentTest.setUp();
+        }
+        
+        
+        @Test
+        public void startsOnStartScreen(){
+            exp.run();
+        }
+    }
 }
