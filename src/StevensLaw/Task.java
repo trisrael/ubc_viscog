@@ -11,7 +11,7 @@ import StevensLaw.Validator.InvalidCorrelation;
  * has a correlation that is between that of two other distributions.
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class Task {
+public class Task extends HasState{
 
     //Member variables
     
@@ -33,6 +33,11 @@ public class Task {
         
         this.adjustedCorr = val;
         return this.adjustedCorr;
+    }
+
+    @Override
+    public State getState() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     

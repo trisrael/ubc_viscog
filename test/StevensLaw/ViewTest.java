@@ -42,23 +42,7 @@ public class ViewTest {
         comp = new JFrame();
     }
 
-    //HELPERS
-    /**
-     * @param id, type of KeyEvent
-     * @param keyCode, key press/typed/released (Type keyCode should away be VK_UNDEFINED)
-     * @return 
-     */
-    private static KeyEvent buildKeyEvent(int id, int keyCode) {
-        return buildKeyEvent(id, keyCode, comp);
-       
-    }
-    
-    private static KeyEvent buildKeyEvent(int id, int keyCode, Component src)
-    {
-         return new KeyEvent(src, id, 0, 0, keyCode);
-    }
-    
-    public static class ListeningClassReceives {
+    public static class Notifies {
 
         @Before
         public void setUp() {
@@ -118,6 +102,7 @@ public class ViewTest {
         }
 
         /**
+         * Ensure a particular key was released and received by View
          * @param keyCode, key press/typed/released (Type keyCode should away be VK_UNDEFINED)
          * @param shouldReceive, ExperimentInteraction that should be received by all observers
          */
@@ -143,6 +128,7 @@ public class ViewTest {
     }
 
     public static class PhysicalView {
+
         private Panel pane;
 
         public class TestFrame extends JFrame {
@@ -156,7 +142,7 @@ public class ViewTest {
         public void setUp() {
             ViewTest.setUp();
             spy.container = new TestFrame();
-            
+
             pane = new Panel();
             spy.container.add(pane);
             spy.container.addKeyListener(spy);
@@ -184,5 +170,20 @@ public class ViewTest {
         private void keyed(int id, int keyCode) {
             ((TestFrame) spy.container).processKey(buildKeyEvent(id, keyCode, pane));
         }
+    }
+
+    //HELPERS
+    /**
+     * @param id, type of KeyEvent
+     * @param keyCode, key press/typed/released (Type keyCode should away be VK_UNDEFINED)
+     * @return 
+     */
+    private static KeyEvent buildKeyEvent(int id, int keyCode) {
+        return buildKeyEvent(id, keyCode, comp);
+
+    }
+
+    private static KeyEvent buildKeyEvent(int id, int keyCode, Component src) {
+        return new KeyEvent(src, id, 0, 0, keyCode);
     }
 }

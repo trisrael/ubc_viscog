@@ -21,6 +21,13 @@ import static StevensLaw.GraphInteraction.*;
  */
 public class View extends ExperimentInteractionProducer implements KeyListener {
 
+    public enum States{
+        FULL,
+        MIN,
+        MAX,
+            
+    }
+    
     private AbstractStrictScreen currScreen = null;
     private Component screenComponent = null;
     protected JFrame container = new JFrame();

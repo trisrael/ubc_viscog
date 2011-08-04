@@ -47,7 +47,7 @@ public class ViewControl extends ExperimentInteractionProducer implements Experi
     
     void setScreen(Class<? extends AbstractStrictScreen> aClass) {
         AbstractStrictScreen scr = screens.get(aClass);
-        if(scr == null){ throw new RuntimeException("Tried to switch to non-existen screen in ViewControl"); }                    
+        if(scr == null){ throw new RuntimeException("Tried to switch to non-existing screen in ViewControl"); }                    
         this.view.setScreen(scr);
     }
 }
