@@ -45,16 +45,11 @@ public class ExperimentTest {
         }
         
         @Test
-        public void HasViewControl(){
-             assertThat(isInstance("ViewControl"), exp.getViewControl(), is(ViewControl.class));
-        }
-        
-        @Test
         public void ExperimentControlIsListenerOfViewControl(){
             HasExperimentControl();
-            HasViewControl();
+           
                   
-           assertThat("ExperimentControl needs to listen to ViewControl but is not", exp.getExperimentControl(), isIn(exp.getViewControl().getListeners()));
+           assertThat("ExperimentControl needs to listen to ViewControl but is not", exp.getExperimentControl(), isIn(exp.getExperimentControl().getViewControl().getListeners()));
         }
         
     }

@@ -4,7 +4,6 @@
  */
 package interaction;
 
-import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
