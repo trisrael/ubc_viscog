@@ -11,16 +11,15 @@ public class Experiment implements experiment.Experiment{
     
     /** Members **/
     private ExperimentControl eCon = null;
-    private ViewControl vCon = null;
+    
     
     public Experiment(){
-        this.vCon = new ViewControl();
-        this.eCon = new ExperimentControl();  
-        vCon.addListener(eCon);
-    }  
+       
+        this.eCon = new ExperimentControl();     
+    }
     
-    public ViewControl getViewControl(){
-        return vCon;
+    protected ViewControl getViewControl(){
+        return eCon.getViewControl();
     }
     
     public ExperimentControl getExperimentControl(){

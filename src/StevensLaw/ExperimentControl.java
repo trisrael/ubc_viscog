@@ -18,6 +18,7 @@ public class ExperimentControl extends HasState implements ExperimentInteraction
 
     ViewControl vCon;
     List<TaskRound> rounds;
+    private Sequence seq;
 
     //Has many TaskRounds (task within)
     public ExperimentControl() {
@@ -48,4 +49,11 @@ public class ExperimentControl extends HasState implements ExperimentInteraction
     public boolean addTaskRound(TaskRound rnd) {
         return getTaskRounds().add(rnd);
     }
+    
+    protected Sequence getSequence(){
+        if (seq == null){ seq = new Sequence(); };
+        return seq;
+    }
+    
+    
 }

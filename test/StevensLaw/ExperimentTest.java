@@ -64,8 +64,8 @@ public class ExperimentTest {
         
         
         @Test
-        public void startsOnStartScreen(){
-            exp.run();
+        public void shouldSeeStartScreen(){
+            
         }
     }
 }

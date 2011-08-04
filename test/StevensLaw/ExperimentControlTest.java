@@ -29,7 +29,7 @@ import static StevensLaw.State.*;
  * @author tristangoffman
  */
 @RunWith(Enclosed.class)
-public class ExperimentControlTest extends TestBase{
+public class ExperimentControlTest extends TestBase {
 
     public static ExperimentControl ex;
 
@@ -105,5 +105,38 @@ public class ExperimentControlTest extends TestBase{
         }
     }
 
- 
+    public static class Configuration {
+        
+    }
+
+    public static class SetupWithoutConfiguration {
+
+        @Before
+        public void setUp() {
+            ExperimentControlTest.setUp();
+        }
+
+        @Test
+        public void hasSequence() {
+            assertThat(ex.getSequence(), notNullValue());
+        }
+
+        @Test
+        public void startScreenFirstInSequence() {
+        }
+
+        @Test
+        public void endScreenLastInSequence() {
+        }
+    }
+
+    public static class SetupWithConfiguration extends SetupWithoutConfiguration {
+
+        @Before
+        public void setUp() {
+            ExperimentControlTest.setUp();
+        }
+        
+        
+    }
 }
