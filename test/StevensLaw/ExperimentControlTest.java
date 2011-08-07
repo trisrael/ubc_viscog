@@ -106,7 +106,11 @@ public class ExperimentControlTest extends TestBase {
     }
 
     public static class Configuration {
-        
+       
+        @Test
+        public void placeHolder(){
+            
+        } 
     }
 
     public static class SetupWithoutConfiguration {
@@ -114,6 +118,7 @@ public class ExperimentControlTest extends TestBase {
         @Before
         public void setUp() {
             ExperimentControlTest.setUp();
+            ex.setup();
         }
 
         @Test

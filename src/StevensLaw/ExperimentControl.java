@@ -14,12 +14,12 @@ import static StevensLaw.State.*;
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class ExperimentControl extends HasState implements ExperimentInteractionListener {
+public class ExperimentControl extends HasState implements ExperimentInteractionListener, Runnable {
 
     ViewControl vCon;
     List<TaskRound> rounds;
-    private Sequence seq;
-
+    protected Sequence seq;
+   
     //Has many TaskRounds (task within)
     public ExperimentControl() {
         vCon = new ViewControl();
@@ -50,10 +50,23 @@ public class ExperimentControl extends HasState implements ExperimentInteraction
         return getTaskRounds().add(rnd);
     }
     
+    //Get ExperimentControl ready for running
+    public void setup(){
+       
+        
+    }
+    
     protected Sequence getSequence(){
         if (seq == null){ seq = new Sequence(); };
         return seq;
     }
     
+    
+
+    //Run experiment
+    @Override
+    public void run() {
+        setup();
+    }
     
 }

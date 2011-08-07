@@ -4,6 +4,7 @@
  */
 package StevensLaw;
 
+import StevensLaw.screens.TaskScreen;
 import org.junit.runner.RunWith;
 import org.junit.experimental.runners.Enclosed;
 import StevensLaw.Task;
@@ -15,7 +16,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
 import static org.hamcrest.core.IsNull.*;
+import static org.hamcrest.core.Is.*;
+//import static org.hamcrest.CoreMatchers.*;
 
 /**
  *
@@ -48,6 +52,11 @@ public class TaskRoundTest {
         public void hasManyTasks() {
             
             assertThat(rnd.getTasks(), notNullValue());
+        }
+        
+        @Test
+        public void getScreenClassIsTaskScreen() throws InstantiationException, IllegalAccessException{
+            throw new RuntimeException(rnd.getScreenClass().getName());
         }
         
         
