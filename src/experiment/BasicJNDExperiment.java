@@ -5,7 +5,7 @@
 package experiment;
 
 import convergence.Convergence;
-import deploy.JND.ExperimentStartDialogue;
+import deploy.common.ExperimentStartDialogue;
 import deploy.JND.JNDExperimentConfFrame;
 import java.awt.Color;
 import java.awt.Cursor;

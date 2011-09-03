@@ -1,4 +1,5 @@
 build/*
 nbproject/*
 snakeyaml/target/*
-
+snakeyaml/*
+logs/*
