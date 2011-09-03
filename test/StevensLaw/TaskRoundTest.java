@@ -4,21 +4,15 @@
  */
 package StevensLaw;
 
-import StevensLaw.screens.TaskScreen;
+import StevensLaw.parts.Round;
 import org.junit.runner.RunWith;
 import org.junit.experimental.runners.Enclosed;
-import StevensLaw.Task;
-import java.lang.Iterable;
-import java.lang.reflect.Field;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import static org.hamcrest.core.IsNull.*;
-import static org.hamcrest.core.Is.*;
 //import static org.hamcrest.CoreMatchers.*;
 
 /**
@@ -28,13 +22,13 @@ import static org.hamcrest.core.Is.*;
 @RunWith(Enclosed.class)
 public class TaskRoundTest {
 
-    private static TaskRound rnd;
+    private static Round rnd;
 
     public TaskRoundTest() {
     }
 
     public static void setUp() {
-        rnd = new TaskRound(1.0, 0);
+        rnd = new Round(1.0, 0);
     }
 
     @After
@@ -51,7 +45,7 @@ public class TaskRoundTest {
         @Test
         public void hasManyTasks() {
             
-            assertThat(rnd.getTasks(), notNullValue());
+            assertThat(rnd.getTrials(), notNullValue());
         }
         
         @Test

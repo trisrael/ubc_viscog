@@ -8,14 +8,15 @@ import screens.ManyCorrelationScreen;
 import util.Util;
 
 /**
- *
+ *Screen which generates three correlation graphs as output. Each image is cached separately to avoid repeated work/calculations from being performed
+ * when it is possible to avoid extra work.
  * @author Tristan Goffman(tgoffman@gmail.com)
  */
 public class TaskScreen extends ManyCorrelationScreen {
-
+    
     enum Constants {
         HIGH,
-        MID,
+        USER_DEFINED,
         LOW
     }
 
@@ -40,3 +41,4 @@ public class TaskScreen extends ManyCorrelationScreen {
         return Util.toImage(bi);
     }
 }
+    

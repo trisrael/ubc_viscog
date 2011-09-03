@@ -43,11 +43,10 @@ public class TaskTest {
     public void testAdjustCorrelation() throws Exception {
         System.out.println("adjustCorrelation");
         double val = 0.0;
-        Task instance = null;
+        Trial instance = null;
         double expResult = 0.0;
         double result = instance.adjustCorrelation(val);
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+   
     }
 }

@@ -8,6 +8,7 @@ import java.io.File;
  * @author tristangoffman
  */
 public class Experiment implements experiment.Experiment{
+    private static Experiment exp;
     
     /** Members **/
     private ExperimentControl eCon = null;
@@ -28,7 +29,7 @@ public class Experiment implements experiment.Experiment{
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override

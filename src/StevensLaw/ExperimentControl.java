@@ -4,20 +4,25 @@
  */
 package StevensLaw;
 
+import StevensLaw.parts.BeginningPart;
+import StevensLaw.parts.EndingPart;
+import StevensLaw.parts.Round;
 import interaction.ExperimentInteractionEvent;
 import interaction.ExperimentInteractionListener;
 import java.util.ArrayList;
 import java.util.List;
+import screens.AbstractStrictScreen;
 import static StevensLaw.State.*;
+
 
 /**
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class ExperimentControl extends HasState implements ExperimentInteractionListener, Runnable {
+public class ExperimentControl extends WithStateImpl implements ExperimentInteractionListener, Runnable {
 
     ViewControl vCon;
-    List<TaskRound> rounds;
+    List<Round> rounds;
     protected Sequence seq;
    
     //Has many TaskRounds (task within)
@@ -39,21 +44,24 @@ public class ExperimentControl extends HasState implements ExperimentInteraction
         this.vCon = vCon;
     }
 
-    public List<TaskRound> getTaskRounds() {
+    public List<Round> getTaskRounds() {
         if (rounds == null) {
-            rounds = new ArrayList<TaskRound>();
+            rounds = new ArrayList<Round>();
         }
         return rounds;
     }
 
-    public boolean addTaskRound(TaskRound rnd) {
+    public boolean addTaskRound(Round rnd) {
         return getTaskRounds().add(rnd);
     }
     
     //Get ExperimentControl ready for running
     public void setup(){
+       addPart(new BeginningPart());
        
-        
+       //From configuration add in  middle bits
+       
+       addPart(new EndingPart());
     }
     
     protected Sequence getSequence(){
@@ -61,12 +69,30 @@ public class ExperimentControl extends HasState implements ExperimentInteraction
         return seq;
     }
     
-    
+    protected void setSequence(Sequence seq) {
+        this.seq = seq;
+    }
 
     //Run experiment
     @Override
     public void run() {
         setup();
     }
+
+    void addPart(ExperimentPart<?> part) {
+        Sequence loc_seq = getSequence();
+        
+        loc_seq.add(loc_seq.size(), part);
+        
+    }
+    
+    ExperimentPart getPart(Class<? extends AbstractStrictScreen> clazz){
+        for (ExperimentPart part : this.seq) {
+            if(part.getScreenClass() == clazz){ return part;}
+        }
+        return null;
+    }
+
+ 
     
 }
