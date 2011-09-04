@@ -12,7 +12,6 @@ import interaction.ExperimentInteractionListener;
 import java.util.ArrayList;
 import java.util.List;
 import screens.AbstractStrictScreen;
-import static StevensLaw.State.*;
 
 
 /**
@@ -44,15 +43,15 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
         this.vCon = vCon;
     }
 
-    public List<Round> getTaskRounds() {
+    public List<Round> getRounds() {
         if (rounds == null) {
             rounds = new ArrayList<Round>();
         }
         return rounds;
     }
 
-    public boolean addTaskRound(Round rnd) {
-        return getTaskRounds().add(rnd);
+    public boolean addRound(Round rnd) {
+        return getRounds().add(rnd);
     }
     
     //Get ExperimentControl ready for running
@@ -77,12 +76,13 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
     @Override
     public void run() {
         setup();
+        
     }
 
     void addPart(ExperimentPart<?> part) {
-        Sequence loc_seq = getSequence();
+        Sequence local_sequence = getSequence();
         
-        loc_seq.add(loc_seq.size(), part);
+        local_sequence.add(local_sequence.size(), part);
         
     }
     

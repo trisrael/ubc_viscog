@@ -1,0 +1,18 @@
+condition:
+    highCor: 1
+    lowCor: 0
+
+    rounds:
+        ordering: sequential
+      
+        trials:
+           design: SmallestCircle
+        trials:           
+           design: SemiCircles
+           
+     
+        
+        
+           
+            
+        

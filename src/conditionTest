@@ -1,0 +1,2 @@
+condition: (number of taskrounds automatically built from designs size())
+    designs: DotSize, SemiCircles

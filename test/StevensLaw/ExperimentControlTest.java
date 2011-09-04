@@ -89,7 +89,7 @@ public class ExperimentControlTest extends TestBase {
 
         @Test
         public void hasTaskRounds() {
-            assertThat(ex.getTaskRounds(), notNullValue());
+            assertThat(ex.getRounds(), notNullValue());
         }
         
           @Test
@@ -123,17 +123,17 @@ public class ExperimentControlTest extends TestBase {
         @Test
         public void addTaskRound() {
             Round rnd = new Round(1.0, 0);
-            ex.addTaskRound(rnd);
-            assertThat(ex.getTaskRounds(), contains(rnd));
+            ex.addRound(rnd);
+            assertThat(ex.getRounds(), contains(rnd));
         }
 
         @Test
         public void addTaskRoundisLast() {
             Round rnd = new Round(1.0, 0);
             Round rnd2 = new Round(1.0, 0);
-            ex.addTaskRound(rnd);
-            ex.addTaskRound(rnd2);
-            List<Round> rnds = ex.getTaskRounds();
+            ex.addRound(rnd);
+            ex.addRound(rnd2);
+            List<Round> rnds = ex.getRounds();
             assertThat(rnds.get(rnds.size() - 1), is(rnd2));
         }
     }

@@ -3,7 +3,6 @@ package deploy.common;
 
 import deploy.JND.GUIGlobals;
 import deploy.JND.SimpleHtmlHelpFrame;
-import experiment.BasicJNDExperiment;
 import experiment.Experiment;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -14,14 +13,42 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.text.html.HTMLEditorKit;
 
-/**
- *
- * @author Will
- */
-public class AbstractMainMenuFrame extends javax.swing.JFrame {
+public abstract class AbstractMainMenuFrame extends javax.swing.JFrame {
 
-    Experiment myExperiment = new BasicJNDExperiment();
+    
+    /**
+     * Subclasses should call this method from within their main methods.
+     * 
+     * 
+     * Example:
+     * public static void main(String[] args){
+     *      new ClassConstant().execute();
+     * }
+     * 
+     */
+    public void execute(){
+        final AbstractMainMenuFrame frm  = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                frm.setVisible(true);
+            }
+        });
+    }
+   
     SimpleHtmlHelpFrame helpFrame = new SimpleHtmlHelpFrame();
+    
+    
+    protected Experiment myExperiment = null;
+    
+    /**
+     * Function to populate myExperiment with an Experiment to run.
+     * @return 
+     */
+    protected abstract Experiment constructExperiment();
+    
+    protected Experiment getExperiment(){
+        return myExperiment;
+    }
     
     /** Creates new form MainMenu */
     public AbstractMainMenuFrame() {
@@ -167,7 +194,8 @@ public class AbstractMainMenuFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
-        myExperiment.run();
+        constructExperiment();
+        getExperiment().run();
 }//GEN-LAST:event_runButtonActionPerformed
 
     private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
@@ -175,27 +203,17 @@ public class AbstractMainMenuFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_quitButtonActionPerformed
 
     private void configureButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configureButtonActionPerformed
-        myExperiment.showConfigureFrame(true);
+        getExperiment().showConfigureFrame(true);
 }//GEN-LAST:event_configureButtonActionPerformed
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-        myExperiment.test();
+        getExperiment().test();
     }//GEN-LAST:event_testButtonActionPerformed
 
     private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
         helpFrame.setVisible(true);
     }//GEN-LAST:event_helpButtonActionPerformed
-
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AbstractMainMenuFrame().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton configureButton;

@@ -29,12 +29,13 @@ public class Experiment implements experiment.Experiment{
 
     @Override
     public void run() {
-        
+        getExperimentControl().run();
     }
 
     @Override
     public void test() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ExperimentControl ctrl = getExperimentControl();
+        
     }
 
     @Override
