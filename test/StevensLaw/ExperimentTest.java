@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import static org.hamcrest.MatcherAssert.*;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -55,7 +56,7 @@ public class ExperimentTest {
         }
     }
 
-    public static class RunExperiment {
+    public static class TestExperiment {
 
         @Before
         public void setUp() {
@@ -65,7 +66,9 @@ public class ExperimentTest {
         
         @Test
         public void shouldSeeStartScreen(){
+            exp.test();
             
+            assertTrue(exp.getViewControl().isVisible());
         }
     }
 }

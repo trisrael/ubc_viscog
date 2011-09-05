@@ -1,6 +1,0 @@
-Design('StevensLawDefaults'):
-    totalDots: 100
-    dotShape: FilledCircle #Other values => UnfilledCircle, WhiteDoughnut, BlackDonut, Mixed (all types)
-    dotHue: black
-    dotWidth: 0.5
-    pointShape: 7

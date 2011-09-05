@@ -1,6 +1,0 @@
-Design('StevensLawDefaults'):
-    totalDots: 100
-    dotShape: Object
-    dotHue: black
-    dotWidth: 0.5
-    pointShape: 7

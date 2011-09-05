@@ -50,4 +50,13 @@ public class ViewControl extends ExperimentInteractionProducer implements Experi
         if(scr == null){ throw new RuntimeException("Tried to switch to non-existing screen in ViewControl"); }                    
         this.view.setScreen(scr);
     }
+    
+    boolean isVisible(){
+        return getScreen() != null;
+    }
+    
+    protected AbstractStrictScreen getScreen(){
+        return currScreen;
+    }
 }
+

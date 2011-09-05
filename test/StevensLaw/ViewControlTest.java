@@ -61,6 +61,7 @@ public class ViewControlTest {
     public void screenIsVisibleAfterSwitch(){        
         canAddScreens();        
         cont.setScreen(TaskScreen.class);
+        assertTrue(cont.isVisible());
     }
             
 }

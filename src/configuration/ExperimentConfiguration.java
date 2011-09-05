@@ -49,12 +49,23 @@ public class ExperimentConfiguration {
      * what is available at the moment.
      */
     public void ready() {
+        if(designs.length == 0)
+            addDefaultDesign();
+        
         
         for (int i = 0; i < designs.length; i++) {
             TaskDesign des = designs[i];
             des.setBaseDesign(this.baseDesign);
         }
         
+        
+        
+    }
+    
+    private void addDefaultDesign(){
+        TaskDesign[] darr = new TaskDesign[1];
+        darr[0] =  new TaskDesign();
+        setDesigns(darr);
     }
     
 }

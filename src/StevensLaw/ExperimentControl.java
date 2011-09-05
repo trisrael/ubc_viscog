@@ -33,6 +33,7 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
     //Has many TaskRounds (task within)
     public ExperimentControl() {
         vCon = new ViewControl();
+        vCon.addListener(this);
         conf = new ExperimentConfiguration();
     }
 
