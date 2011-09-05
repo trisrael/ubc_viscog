@@ -19,4 +19,11 @@ public class MainMenuFrame extends AbstractMainMenuFrame{
         return new BasicJNDExperiment();
     }
     
+       /**
+    * @param args the command line arguments
+    */
+    public static void main(String args[]){
+        new MainMenuFrame().execute();
+    }
+    
 }

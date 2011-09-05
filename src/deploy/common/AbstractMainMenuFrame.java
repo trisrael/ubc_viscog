@@ -30,6 +30,7 @@ public abstract class AbstractMainMenuFrame extends javax.swing.JFrame {
         final AbstractMainMenuFrame frm  = this;
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                frm.setExperiment(frm.constructExperiment());
                 frm.setVisible(true);
             }
         });
@@ -225,5 +226,9 @@ public abstract class AbstractMainMenuFrame extends javax.swing.JFrame {
     private javax.swing.JButton runButton;
     private javax.swing.JButton testButton;
     // End of variables declaration//GEN-END:variables
+
+    private void setExperiment(Experiment constructExperiment) {
+       this.myExperiment = constructExperiment;
+    }
 
 }

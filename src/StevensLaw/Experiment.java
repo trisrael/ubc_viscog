@@ -1,5 +1,6 @@
 package StevensLaw;
 
+import configuration.ExperimentConfiguration;
 import java.io.File;
 
 
@@ -13,10 +14,19 @@ public class Experiment implements experiment.Experiment{
     /** Members **/
     private ExperimentControl eCon = null;
     
+    private ExperimentConfiguration experimentConfiguration = null;
+
+    /**
+     * Can't set a new experiment configuration publicly, can only manipulate pre-existing configuration (ExperimentControl is built with one)
+     * @return 
+     */
+    public ExperimentConfiguration getExperimentConfiguration() {
+        return getExperimentControl().getConfiguration();
+    }
     
     public Experiment(){
-       
         this.eCon = new ExperimentControl();     
+        this.experimentConfiguration = new ExperimentConfiguration();
     }
     
     protected ViewControl getViewControl(){
@@ -34,8 +44,9 @@ public class Experiment implements experiment.Experiment{
 
     @Override
     public void test() {
-        ExperimentControl ctrl = getExperimentControl();
-        
+        getExperimentControl().setConfiguration(new ExperimentConfiguration()); //Use default options found within ExperimentConfiguration
+        getExperimentControl().setStyle("startTitle", "StevensLevel Test" );
+        getExperimentControl().run();
     }
 
     @Override

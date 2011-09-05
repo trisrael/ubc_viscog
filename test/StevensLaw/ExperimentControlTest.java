@@ -80,6 +80,13 @@ public class ExperimentControlTest extends TestBase {
             assertThat(ex.getSequence(), notNullValue());
         }
          
+         @Test
+         public void styleSetGet(){
+            String title = "About to start stevens level test";
+             ex.setStyle("startTitle", title);
+             assertThat((String) ex.getStyle("startTitle"), equalTo(title));
+         }
+         
        
 
         @Test

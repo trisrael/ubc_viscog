@@ -1,0 +1,7 @@
+{
+    totalDots: 100,
+    dotShape: !shape FilledCircle,
+    dotHue: black,
+    dotWidth: 0.5,
+    pointShape: 7,
+}
