@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package configuration;
-
+import static util.InferenceUtil.*;
 /**
  * Experiment configuration sets up the entire experiment.
  * 
@@ -42,6 +42,19 @@ public class ExperimentConfiguration {
 
     public void setStyle(Style style) {
         this.style = style;
+    }
+
+    /**
+     * Configuration is about to be used in production. Ensure that it is cleaned based on
+     * what is available at the moment.
+     */
+    public void ready() {
+        
+        for (int i = 0; i < designs.length; i++) {
+            TaskDesign des = designs[i];
+            des.setBaseDesign(this.baseDesign);
+        }
+        
     }
     
 }

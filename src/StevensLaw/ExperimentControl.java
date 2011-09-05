@@ -65,7 +65,7 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
     public void setup(){
        addPart(new BeginningPart());
        
-       //From configuration add in  middle bits
+       addTasks();
        
        addPart(new EndingPart());
     }
@@ -83,6 +83,7 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
     @Override
     public void run() {
         setup();
+        getConfiguration().ready();
         
     }
 
@@ -170,6 +171,15 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
         } 
         
         return null;
+    }
+
+    /**
+     * Adds tasks to be performed by users
+     */
+    private void addTasks() {
+        ExperimentConfiguration ec = getConfiguration();
+        
+        ec.getDesigns();
     }
  
     
