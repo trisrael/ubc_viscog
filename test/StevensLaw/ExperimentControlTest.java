@@ -12,6 +12,7 @@ import java.util.List;
 
 import screens.AbstractStrictScreen;
 import StevensLaw.parts.Round;
+import configuration.TaskDesign;
 import org.junit.runner.RunWith;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.After;
@@ -129,15 +130,16 @@ public class ExperimentControlTest extends TestBase {
 
         @Test
         public void addTaskRound() {
-            Round rnd = new Round(1.0, 0);
+            Round rnd = new Round( new TaskDesign());
             ex.addRound(rnd);
             assertThat(ex.getRounds(), contains(rnd));
         }
 
         @Test
         public void addTaskRoundisLast() {
-            Round rnd = new Round(1.0, 0);
-            Round rnd2 = new Round(1.0, 0);
+            TaskDesign tsk = new TaskDesign();
+            Round rnd = new Round(tsk);
+            Round rnd2 = new Round(tsk);
             ex.addRound(rnd);
             ex.addRound(rnd2);
             List<Round> rnds = ex.getRounds();

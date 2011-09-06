@@ -4,17 +4,19 @@
  */
 package screens;
 
+import StevensLaw.UIEvent;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import StevensLaw.UIEventListener;
 
 /**
  * Class which forces implementation of generateImage method
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 16, 2011
  */
-public abstract class AbstractStrictScreen extends AbstractScreen {
+public abstract class AbstractStrictScreen extends AbstractScreen implements UIEventListener{
 
     @Override
     public Image getImage() {
@@ -44,4 +46,13 @@ public abstract class AbstractStrictScreen extends AbstractScreen {
         g2.setColor(Color.WHITE);
         g2.fill(new Rectangle.Float(0, 0, width, height));
     }
+
+    /**
+     * Different possible uiEvents occur which cause changes in the way a screen may look.  The screen itself should know how to deal with the 
+     * particular received UIEvents.
+     * @param uIEvent enum (UPDATE, etc)
+     * @param event 
+     */
+    public abstract void uiEventOccurred(UIEvent uIEvent, Object event);
+    
 }

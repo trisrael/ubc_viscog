@@ -4,6 +4,7 @@
  */
 package StevensLaw;
 
+import StevensLaw.screens.BeginScreen;
 import org.hamcrest.core.IsNull;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,6 +17,8 @@ import static org.hamcrest.MatcherAssert.*;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertTrue;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.spy;
 
 /**
  *
@@ -70,5 +73,11 @@ public class ExperimentTest {
             
             assertTrue(exp.getViewControl().isVisible());
         }
+        
+        @Test
+        public void shouldBeginWithStartScreen(){
+            exp.test();
+            assertThat(exp.getViewControl().getScreen(), is(instanceOf(BeginScreen.class)));
+        }        
     }
 }

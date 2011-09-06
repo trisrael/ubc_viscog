@@ -5,6 +5,7 @@
 package harness;
 
 import StevensLaw.parts.Round;
+import configuration.TaskDesign;
 import org.junit.Before;
 
 /**
@@ -15,7 +16,7 @@ public class ExtendableRoundTest extends TestHarness<Round> {
     
         @Before
         public void setUp() throws InstantiationException, IllegalAccessException {
-            setInstance(new Round(1, 0));
+            setInstance(new Round(new TaskDesign()));
         }
 
         public Class<?> getClazz() {

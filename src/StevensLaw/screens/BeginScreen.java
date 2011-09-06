@@ -4,6 +4,7 @@
  */
 package StevensLaw.screens;
 
+import StevensLaw.UIEvent;
 import java.awt.Image;
 import screens.AbstractStrictScreen;
 
@@ -16,6 +17,11 @@ public class BeginScreen  extends AbstractStrictScreen{
     @Override
     protected Image generateImage() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void uiEventOccurred(UIEvent uIEvent, Object event) {
+       //doesn't get updated
     }
     
 }

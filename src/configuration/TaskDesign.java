@@ -51,4 +51,26 @@ public class TaskDesign extends Design {
 
         return val;
     }
+    
+    
+    /** Additional properties **/
+    
+    private double highCorr = 1.0;
+    private double lowCorr = 0.0;
+
+    public double getHighCorr() {
+        return highCorr;
+    }
+
+    public void setHighCorr(double highCorr) {
+        this.highCorr = highCorr;
+    }
+
+    public double getLowCorr() {
+        return lowCorr;
+    }
+
+    public void setLowCorr(double lowCorr) {
+        this.lowCorr = lowCorr;
+    }
 }

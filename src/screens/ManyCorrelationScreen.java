@@ -23,7 +23,7 @@ public abstract class ManyCorrelationScreen extends AbstractStrictScreen {
         Class<?>[] classes = this.getClass().getClasses();
         for (Class<?> clazz : classes) {
             final String name = clazz.getName();
-            if (name.contains("Constant") && clazz.isEnum()) {
+            if (clazz.isEnum()) { //Build distributions for first enum found within a class
                 return (Class<Enum>) clazz;
             }
 

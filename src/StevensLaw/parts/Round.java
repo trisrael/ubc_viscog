@@ -5,6 +5,7 @@ import StevensLaw.State;
 import StevensLaw.StevensLevelTask;
 import StevensLaw.Trial;
 import StevensLaw.screens.TaskScreen;
+import configuration.TaskDesign;
 import java.util.ArrayList;
 import java.util.List;
 import screens.AbstractStrictScreen;
@@ -14,32 +15,48 @@ import screens.AbstractStrictScreen;
  * of the point on the distributions in question.
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class Round<TaskScreen> extends ExperimentPart {
+public class Round extends ExperimentPart {
 
     private final double lowCorr;
     private final double highCorr;
     private Integer numTrials = null;
-    private List<Trial> tasks;
+    private final double startCorr;
+    private List<Trial> trials;
     private Trial current; //Current task in progress (or null if out
+    private final TaskDesign des;
+    
+    
+    private int trialsPerformed = 0;
 
-    public Round(double highCorr, double lowCorr) {
-        this.highCorr = highCorr;
-        this.lowCorr = lowCorr;
+    public Round(TaskDesign des) {
+            this.des  = des;
+            this.lowCorr = (double) des.prop("lowCorr");
+            this.highCorr = (double) des.prop("highCorr");
+            this.numTrials = (Integer) des.prop("numTrials");
+            Object adjCorr = des.prop("startCorr");
+            
+            
+            if(adjCorr != null)
+                this.startCorr = (double) adjCorr;
+            else
+                this.startCorr = this.highCorr; //default to using highCorr when no specific low corr given
+            
+            
     }
 
     public List<Trial> getTrials() {
 
-        if (tasks == null) {
-            tasks = new ArrayList<Trial>();
+        if (trials == null) {
+            trials = new ArrayList<Trial>();
         }
         
-        return tasks;
+        return trials;
     }
 
     @Override
     public void run() {
         super.run();
-        this.current = getTrials().remove(0);
+        this.current = getTrial(trialsPerformed);
     }
 
     @Override
@@ -48,15 +65,26 @@ public class Round<TaskScreen> extends ExperimentPart {
     }
 
     void setup() {
-        
         if(getNumTrials() == null){throw new RuntimeException("Missing Trial Numbers");}
+        
+        for(int i = 0; i < getNumTrials(); i++){
+            new Trial(highCorr, lowCorr, startCorr);
+        }
     }
 
     public Integer getNumTrials() {
         return numTrials;
     }
     
-    public void setNumTrials(Integer num){
+    protected void setNumTrials(Integer num){
         numTrials = num;
+    }
+
+    private Trial getTrial(int ind) {
+        return getTrials().get(ind);
+    }
+    
+    private void nextTrial(){
+        trialsPerformed++; //increment trials performed
     }
 }

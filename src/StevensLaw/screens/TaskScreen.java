@@ -1,9 +1,11 @@
 package StevensLaw.screens;
 
+import StevensLaw.UIEvent;
 import correlation.Distribution2D;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.Map;
 import screens.ManyCorrelationScreen;
 import util.Util;
 
@@ -14,7 +16,45 @@ import util.Util;
  */
 public class TaskScreen extends ManyCorrelationScreen {
     
-    enum Constants {
+    private final double DEF_ERROR = 0.001;
+
+    public class StevensLawPayload {
+        public double corr;
+        public int numPoints;
+
+        public StevensLawPayload(double c, int pts) {
+            this.corr = c;
+            this.numPoints = pts;
+                   
+        }
+    }
+
+    @Override
+    public void uiEventOccurred(UIEvent uIEvent, Object payload) {
+        StevensLawPayload pay;
+        switch(uIEvent){
+            case UPDATE: //deal with an update event (cast the object into the appropriate type and update the screen associated with it)
+                Map<Screens, StevensLawPayload> incCorrs = (Map<Screens, StevensLawPayload>) payload;
+                if(!incCorrs.isEmpty()){
+                    for (Screens cons : incCorrs.keySet()) {
+                        pay = incCorrs.get(cons);
+                        updateDistribution(cons, pay); 
+                    }
+                    
+                }
+               
+            break;
+        }
+    }
+
+    private void updateDistribution(Screens screens, StevensLawPayload payload) {
+        Distribution2D dist = getDistribution(screens);
+        if(dist != null){
+            dist.turnIntoTransformedCorrelatedGaussian(payload.corr, payload.numPoints, DEF_ERROR); //update distribution (re-calculate points)
+        }
+    }
+    
+    public enum Screens {
         HIGH,
         USER_DEFINED,
         LOW
@@ -24,9 +64,7 @@ public class TaskScreen extends ManyCorrelationScreen {
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = bi.createGraphics();
 
-        final Distribution2D mydist = getDistribution(Constants.HIGH);
-
-        mydist.turnIntoTransformedCorrelatedGaussian(0.7, 500, 0.001);
+        final Distribution2D mydist = getDistribution(Screens.HIGH);
         setGraphicDefaults(g2);
 
         // Draw the distribution in the centre of the screen

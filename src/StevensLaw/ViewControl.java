@@ -16,7 +16,7 @@ import screens.AbstractStrictScreen;
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class ViewControl extends ExperimentInteractionProducer implements ExperimentInteractionListener {
+public class ViewControl extends ExperimentInteractionProducer implements ExperimentInteractionListener, UIEventListener {
 
     private final View view;
     private Map<Class, AbstractStrictScreen> screens = new HashMap<Class, AbstractStrictScreen>();
@@ -57,6 +57,21 @@ public class ViewControl extends ExperimentInteractionProducer implements Experi
     
     protected AbstractStrictScreen getScreen(){
         return currScreen;
+    }
+
+
+    /**
+     * ViewControl deals with two types of possible uiEvents, a screen switch and all other events get passed directly to the screen to be dealt with.
+     * @param event
+     * @param payload 
+     */
+    public void uiEventOccurred(UIEvent event, Object payload) {
+        switch(event){
+            case SCREEN_CHANGE:
+                break;
+            default:
+                currScreen.uiEventOccurred(event, payload);
+        }
     }
 }
 

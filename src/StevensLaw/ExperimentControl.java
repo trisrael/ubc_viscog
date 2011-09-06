@@ -9,6 +9,7 @@ import StevensLaw.parts.EndingPart;
 import StevensLaw.parts.Round;
 import configuration.ExperimentConfiguration;
 import configuration.Style;
+import configuration.TaskDesign;
 import interaction.ExperimentInteractionEvent;
 import interaction.ExperimentInteractionListener;
 import java.lang.reflect.Method;
@@ -83,8 +84,15 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
     //Run experiment
     @Override
     public void run() {
+        setState(State.WAITING); //waiting for first part to begin
+        
         setup();
         getConfiguration().ready();
+        
+        
+        nextPart();
+        
+        setState(State.IN_PROGRESS);
         
     }
 
@@ -180,7 +188,17 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
     private void addTasks() {
         ExperimentConfiguration ec = getConfiguration();
         
-        ec.getDesigns();
+        for (TaskDesign design: ec.getDesigns()) {
+            addPart(new Round(design));
+        }
+        
+    }
+
+    /**
+     * Run the next part in the sequence, listen to events from it and pass on messages to the view control
+     */
+    private void nextPart() {
+        
     }
  
     

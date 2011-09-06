@@ -5,6 +5,7 @@
 package StevensLaw;
 
 import StevensLaw.parts.Round;
+import configuration.TaskDesign;
 import org.junit.runner.RunWith;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.After;
@@ -28,7 +29,7 @@ public class TaskRoundTest {
     }
 
     public static void setUp() {
-        rnd = new Round(1.0, 0);
+        rnd = new Round(new TaskDesign());
     }
 
     @After

@@ -23,6 +23,11 @@ public class Trial extends WithStateImpl{
         this.highCorr = highCorr;
         this.lowCorr = lowCorr;
     }
+
+    public Trial(double highCorr, double lowCorr, double startCorr) {
+        this(highCorr, lowCorr);
+        this.adjustedCorr = startCorr;
+    }
     
     /**
      * Set adjusted correlation to new value, when an invalid correlation is supplied throw an exception (invalid correlation should never be supplied)
@@ -34,11 +39,5 @@ public class Trial extends WithStateImpl{
         this.adjustedCorr = val;
         return this.adjustedCorr;
     }
-
-    @Override
-    public State getState() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
     
 }

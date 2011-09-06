@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package StevensLaw;
 
 import java.lang.reflect.TypeVariable;
@@ -14,6 +10,8 @@ import screens.AbstractStrictScreen;
  * @author Tristan Goffman(tgoffman@gmail.com) Aug 4, 2011
  */
 public abstract class ExperimentPart<ScreenClass extends AbstractScreen> extends WithStateImpl implements Runnable{
+    
+    private UIEventListener uiListener = null;
     
     public abstract Class<ScreenClass> getScreenClass();
     
