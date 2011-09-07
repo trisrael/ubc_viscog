@@ -37,7 +37,7 @@ public class TaskDesign extends Design {
         try {
             val = InferenceUtil.prop(this, memberName);
         } catch (Exception ex) {
-            Logger.getLogger(TaskDesign.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaskDesign.class.getName()).log(Level.WARNING, null, ex);
         }
 
         if (val == null) {

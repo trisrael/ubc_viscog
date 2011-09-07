@@ -121,10 +121,7 @@ public class ViewTest {
             ViewTest.setUp();
         }
 
-        @Test
-        public void hasNoCurrentScreen() {
-            assertNull("Should wait until a set screen/update screene vent before adding a screen to show", instance.getScreen());
-        }
+     
     }
 
     public static class PhysicalView {
@@ -141,7 +138,7 @@ public class ViewTest {
         @Before
         public void setUp() {
             ViewTest.setUp();
-            spy.container = new TestFrame();
+            
 
             pane = new Panel();
             spy.container.add(pane);
@@ -168,7 +165,7 @@ public class ViewTest {
 
         /** Touch key within 'Frame' **/
         private void keyed(int id, int keyCode) {
-            ((TestFrame) spy.container).processKey(buildKeyEvent(id, keyCode, pane));
+          
         }
     }
 

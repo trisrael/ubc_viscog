@@ -24,4 +24,14 @@ public abstract class WithStateImpl implements WithState{
         this.state = state;
     }
     
+    /** State checking helpers **/
+    
+    public boolean inState(State state){
+        return state == getState();
+    }
+
+    public boolean isWaiting() {
+        return inState(State.WAITING);
+    }
+    
 }

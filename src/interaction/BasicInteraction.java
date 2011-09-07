@@ -11,5 +11,6 @@ package interaction;
 public enum BasicInteraction implements ExperimentInteraction {
     Exit,
     TaskCompleted, 
-    InvalidKeyPress
+    InvalidKeyPress, 
+    Continue
 }

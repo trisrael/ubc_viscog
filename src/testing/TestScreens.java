@@ -24,7 +24,7 @@ import convergence.ModifiedBasicPEST;
 import experiment.ExperimentControl;
 
 import screens.Screen;
-import screens.TestBeginScreen;
+import screens.BeginScreen;
 import screens.TestCorrectScreen;
 import screens.TestIncorrectScreen;
 import screens.TestLeftScreen;
@@ -65,7 +65,7 @@ public class TestScreens extends JFrame implements KeyListener {
     // Experiment state machine
     ExperimentControl expCtrl = new ExperimentControl();
     // Screens
-    Screen beginScreen = new TestBeginScreen();
+    Screen beginScreen = new BeginScreen();
     Screen correctScreen = new TestCorrectScreen();
     Screen incorrectScreen = new TestIncorrectScreen();
     Screen currentStimuliScreen = new TestRightScreen();

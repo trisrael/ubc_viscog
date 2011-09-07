@@ -4,7 +4,7 @@
  */
 package StevensLaw;
 
-import StevensLaw.screens.BeginScreen;
+import screens.BeginScreen;
 import org.hamcrest.core.IsNull;
 import org.junit.After;
 import org.junit.AfterClass;

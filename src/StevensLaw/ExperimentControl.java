@@ -10,6 +10,7 @@ import StevensLaw.parts.Round;
 import configuration.ExperimentConfiguration;
 import configuration.Style;
 import configuration.TaskDesign;
+import interaction.BasicInteraction;
 import interaction.ExperimentInteractionEvent;
 import interaction.ExperimentInteractionListener;
 import java.lang.reflect.Method;
@@ -24,12 +25,16 @@ import screens.AbstractStrictScreen;
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class ExperimentControl extends WithStateImpl implements ExperimentInteractionListener, Runnable {
+public class ExperimentControl extends WithStateImpl implements ExperimentInteractionListener, Runnable{
 
     ViewControl vCon;
     List<Round> rounds;
     protected Sequence seq;
     private ExperimentConfiguration conf;
+    private ExperimentPart currPart;
+    
+    /** Simple counter for keeping track how many parts have been played so far **/
+    private int partsComplete = 0;
    
     //Has many TaskRounds (task within)
     public ExperimentControl() {
@@ -40,7 +45,13 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
 
     @Override
     public void interactionOccured(ExperimentInteractionEvent ev) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       Enum e  = ev.getType();
+       
+       if(e == BasicInteraction.Continue && isWaiting()){
+           this.nextPart();
+       }
+       
+       
     }
 
     //JavaBeans methods
@@ -86,13 +97,11 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
     public void run() {
         setState(State.WAITING); //waiting for first part to begin
         
-        setup();
         getConfiguration().ready();
-        
+        setup();
+      
         
         nextPart();
-        
-        setState(State.IN_PROGRESS);
         
     }
 
@@ -119,6 +128,10 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
     
     ExperimentConfiguration getConfiguration() {
         return this.conf;
+    }
+
+    private ExperimentPart getPart() {
+        return this.currPart;
     }
     
     
@@ -191,15 +204,35 @@ public class ExperimentControl extends WithStateImpl implements ExperimentIntera
         for (TaskDesign design: ec.getDesigns()) {
             addPart(new Round(design));
         }
-        
     }
+    
+    
+    
 
     /**
      * Run the next part in the sequence, listen to events from it and pass on messages to the view control
      */
     private void nextPart() {
+        if(getPart() != null){
+            getPart().stop();
+        }
+        setPart(getSequence().get(this.partsComplete));
+        getPart().run();
+        setState(getPart().getState()); //ExperimentControl has the same state as the current part running. Logic should prevail as each part finishes and a new one
+        //starts the control should take the state from the incoming part.. only as the final part completes will ExperimentControl complete as well.
         
+        partsComplete++;//One more part complete
     }
+
+    private void setPart(ExperimentPart get) {
+        if(getPart() != null)
+            getPart().removeUIListener();
+        this.currPart = get;
+        getPart().setUIListener(getViewControl());
+    }
+    
+    
+
  
     
 }

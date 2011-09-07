@@ -10,22 +10,22 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
+
 import util.Globals;
 import util.Util;
 
 
-public class ExperimentEndScreen extends AbstractStrictScreen{
+public class BeginScreen extends AbstractStrictScreen{
 	
-	private String myStr = "End of experiment.";
+	private String myStr = "Please press spacebar to begin.";
 	private Font myFon = Globals.FONT_FEEDBACK;
 	
-	public ExperimentEndScreen(){
-		this.correctKey = KeyEvent.VK_ESCAPE;
+	public BeginScreen(){
+		this.correctKey = KeyEvent.VK_SPACE;
 		this.timeout = -1;
 		this.currentImage = generateImage();
 	}
 	
-    
 	protected Image generateImage(){
 		BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2 = bi.createGraphics();
@@ -46,6 +46,6 @@ public class ExperimentEndScreen extends AbstractStrictScreen{
 
     @Override
     public void uiEventOccurred(UIEvent uIEvent, Object event) {
-        //
+       //
     }
 }

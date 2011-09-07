@@ -33,7 +33,7 @@ import javax.swing.JFrame;
 import log.LogfileRow;
 import screens.ExperimentEndScreen;
 import screens.Screen;
-import screens.TestBeginScreen;
+import screens.BeginScreen;
 import screens.TestCorrectScreen;
 import screens.TestIncorrectScreen;
 import screens.TestRightScreen;
@@ -120,7 +120,7 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
     // counterbalancing
     Vector latinSquare = null;
     // Screens
-    Screen beginScreen = new TestBeginScreen();
+    Screen beginScreen = new BeginScreen();
     Screen correctScreen = new TestCorrectScreen();
     Screen incorrectScreen = new TestIncorrectScreen();
     Screen currentStimuliScreen = new TestRightScreen();

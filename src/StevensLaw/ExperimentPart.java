@@ -18,5 +18,18 @@ public abstract class ExperimentPart<ScreenClass extends AbstractScreen> extends
     public void run(){
         if(getState() == State.COMPLETE){ throw new RuntimeException("Attempted to run ExperimentPart in complete stage");}  
         setState(State.IN_PROGRESS);
+        if(uiListener != null)
+            uiListener.uiEventOccurred(UIEvent.SCREEN_CHANGE, getScreenClass());
+    }
+
+    void stop() {
+        setState(State.COMPLETE);
+    }
+    void setUIListener(UIEventListener aThis) {
+        uiListener = aThis;
+    }
+
+    void removeUIListener() {
+        uiListener = null;
     }
 }

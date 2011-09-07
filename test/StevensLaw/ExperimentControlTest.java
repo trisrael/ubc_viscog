@@ -29,8 +29,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-
-
 /**
  *
  * @author tristangoffman
@@ -75,20 +73,18 @@ public class ExperimentControlTest extends TestBase {
         public void hasViewControl() {
             hasFieldWith(ViewControl.class);
         }
-        
-         @Test
+
+        @Test
         public void hasSequence() {
             assertThat(ex.getSequence(), notNullValue());
         }
-         
-         @Test
-         public void styleSetGet(){
+
+        @Test
+        public void styleSetGet() {
             String title = "About to start stevens level test";
-             ex.setStyle("startTitle", title);
-             assertThat((String) ex.getStyle("startTitle"), equalTo(title));
-         }
-         
-       
+            ex.setStyle("startTitle", title);
+            assertThat((String) ex.getStyle("startTitle"), equalTo(title));
+        }
 
         @Test
         public void viewControlInstantiated() {
@@ -99,24 +95,23 @@ public class ExperimentControlTest extends TestBase {
         public void hasTaskRounds() {
             assertThat(ex.getRounds(), notNullValue());
         }
-        
-          @Test
-        public void addPart(){
+
+        @Test
+        public void addPart() {
             ex.addPart(new BeginningPart());
         }
     }
-    
-    public static class addPartExtras extends SetupWithoutConfiguration{
-       
-        
+
+    public static class addPartExtras extends SetupWithoutConfiguration {
+
         @Test
-        public void addPartOrderering(){
+        public void addPartOrderering() {
             BeginningPart add1 = new BeginningPart();
             EndingPart add2 = new EndingPart();
             ex.setSequence(new Sequence()); //Clean slate for order testing
             ex.addPart(add1);
             ex.addPart(add2);
-            assertEquals(ex.getSequence().last(), add2 );
+            assertEquals(ex.getSequence().last(), add2);
             assertEquals(ex.getSequence().first(), add1);
         }
     }
@@ -130,7 +125,7 @@ public class ExperimentControlTest extends TestBase {
 
         @Test
         public void addTaskRound() {
-            Round rnd = new Round( new TaskDesign());
+            Round rnd = new Round(new TaskDesign());
             ex.addRound(rnd);
             assertThat(ex.getRounds(), contains(rnd));
         }
@@ -148,99 +143,98 @@ public class ExperimentControlTest extends TestBase {
     }
 
     public static class Configuration {
-       
+
         @Test
-        public void placeHolder(){
-            
-        } 
+        public void placeHolder() {
+        }
     }
 
-    public static class SetupWithoutConfiguration extends AfterConstruct{
+    public static class SetupWithoutConfiguration extends AfterConstruct {
 
         @Before
         public void setUp() {
             ExperimentControlTest.setUp();
             ex.setup();
         }
-        
-        public Sequence setSeqAndSpy(ExperimentControl cont){
+
+        public Sequence setSeqAndSpy(ExperimentControl cont) {
             Sequence seq = new Sequence();
             Sequence spy = spy(seq);
             cont.setSequence(spy);
             return spy;
         }
-        
+
         @Test
-        public void canSetSequence(){
+        public void canSetSequence() {
             hasSequence();
             Sequence spy = setSeqAndSpy(ex);
-            
+
             assertThat(ex.getSequence(), is(spy));
         }
-        
-        public class TestPart extends ExperimentPart<AbstractStrictScreen>{
+
+        public class TestPart extends ExperimentPart<AbstractStrictScreen> {
 
             @Override
             public Class<AbstractStrictScreen> getScreenClass() {
                 return AbstractStrictScreen.class;
             }
-            
         }
-        
+
         @Test
-        public void addToSequence(){
+        public void addToSequence() {
             hasSequence();
             canSetSequence();
             Sequence spy = setSeqAndSpy(ex);
             TestPart part = new TestPart();
             ex.addPart(part);
-            verify(spy , times(1)).add(ex.getSequence().size(), part);
+            verify(spy, times(1)).add(ex.getSequence().size(), part);
         }
-        
+
         @Test
-        public void getPartByScreen(){
+        public void getPartByScreen() {
             addToSequence();
             ex.setSequence(new Sequence());
-            
+
             TestPart part = new TestPart();
             ex.addPart(part);
             assertEquals(part, ex.getPart(AbstractStrictScreen.class));
         }
-        
+
         @Test
-        public void getPartByScreenNullWithNoCorrespondingPart(){
+        public void getPartByScreenNullWithNoCorrespondingPart() {
             getPartByScreen();
-            
+
             ex.setSequence(new Sequence());
             assertEquals(null, ex.getPart(AbstractStrictScreen.class));
         }
-        
-        public void containsClass(Class<? extends ExperimentPart> clazz){
+
+        public void containsClass(Class<? extends ExperimentPart> clazz) {
             boolean contains = false;
-            for (ExperimentPart obj :  ex.getSequence()) {
-                try {
-                    clazz.cast(obj);
+            for (ExperimentPart obj : ex.getSequence()) {
+                if(obj.getClass() == clazz){
                     contains = true;
-                } catch (Exception e) {
                 }
-                
             }
            assertTrue(contains);
         }
-        
+
         @Test
-        public void hasStartScreenInSequence(){
-            containsClass(BeginningPart.class);        
+        public void hasStartScreenInSequence() throws Exception {
+            // throw new Exception(ex.getSequence().toString());
+            
+            assertThat(ex.getSequence(), contains(instanceOf(BeginningPart.class)));
         }
 
         @Test
         public void startScreenFirstInSequence() {
-            assertTrue(ex.getSequence().first() instanceof BeginningPart);
+            assertThat(ex.getSequence(), contains(instanceOf(BeginningPart.class)));
+            //assertTrue(ex.getSequence().first() instanceof BeginningPart);
         }
 
         @Test
-        public void endScreenLastInSequence() {             
-             assertTrue(ex.getSequence().last() instanceof EndingPart);
+        public void endScreenLastInSequence() {
+             assertThat(ex.getSequence(), contains(instanceOf(EndingPart.class)));
+            
         }
     }
 
@@ -250,7 +244,5 @@ public class ExperimentControlTest extends TestBase {
         public void setUp() {
             ExperimentControlTest.setUp();
         }
-        
-        
     }
 }

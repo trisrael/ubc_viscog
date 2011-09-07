@@ -14,7 +14,7 @@ public class Experiment implements experiment.Experiment{
     /** Members **/
     private ExperimentControl eCon = null;
     
-    private ExperimentConfiguration experimentConfiguration = null;
+   
 
     /**
      * Can't set a new experiment configuration publicly, can only manipulate pre-existing configuration (ExperimentControl is built with one)
@@ -25,8 +25,7 @@ public class Experiment implements experiment.Experiment{
     }
     
     public Experiment(){
-        this.eCon = new ExperimentControl();     
-        this.experimentConfiguration = new ExperimentConfiguration();
+        this.eCon = new ExperimentControl();
     }
     
     protected ViewControl getViewControl(){
