@@ -4,6 +4,8 @@ import StevensLaw.ExperimentPart;
 import StevensLaw.State;
 import StevensLaw.StevensLevelTask;
 import StevensLaw.Trial;
+import StevensLaw.UIEvent;
+import StevensLaw.UIEventListener;
 import StevensLaw.screens.TaskScreen;
 import configuration.TaskDesign;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import screens.AbstractStrictScreen;
  * of the point on the distributions in question.
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class Round extends ExperimentPart {
+public class Round extends ExperimentPart implements UIEventListener{
 
     private final double lowCorr;
     private final double highCorr;
@@ -57,6 +59,7 @@ public class Round extends ExperimentPart {
     public void run() {
         super.run();
         this.current = getTrial(trialsPerformed);
+        runTrial();
     }
 
     @Override
@@ -68,7 +71,7 @@ public class Round extends ExperimentPart {
         if(getNumTrials() == null){throw new RuntimeException("Missing Trial Numbers");}
         
         for(int i = 0; i < getNumTrials(); i++){
-            new Trial(highCorr, lowCorr, startCorr);
+            pushTrial(new Trial(highCorr, lowCorr, startCorr));
         }
     }
 
@@ -86,5 +89,18 @@ public class Round extends ExperimentPart {
     
     private void nextTrial(){
         trialsPerformed++; //increment trials performed
+    }
+
+    private void pushTrial(Trial trial) {
+        trials.add(trial);
+    }
+
+    private void runTrial() {
+       this.current.run();
+    }
+
+    @Override
+    public void uiEventOccurred(UIEvent event, Object payload) {
+        
     }
 }

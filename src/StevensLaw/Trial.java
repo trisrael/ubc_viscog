@@ -39,5 +39,9 @@ public class Trial extends WithStateImpl{
         this.adjustedCorr = val;
         return this.adjustedCorr;
     }
+
+    public void run() {
+        
+    }
     
 }
