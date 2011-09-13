@@ -32,7 +32,7 @@ public class WithStateTest extends TestBase {
     public static void tearDownClass() throws Exception {
     }
 
-    public class StateLike extends WithStateImpl {
+    public class StateLike extends WithStateWithInteractionReactorImpl {
     }
 
     @Before

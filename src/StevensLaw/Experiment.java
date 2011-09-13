@@ -14,8 +14,6 @@ public class Experiment implements experiment.Experiment{
     /** Members **/
     private ExperimentControl eCon = null;
     
-   
-
     /**
      * Can't set a new experiment configuration publicly, can only manipulate pre-existing configuration (ExperimentControl is built with one)
      * @return 
@@ -44,7 +42,7 @@ public class Experiment implements experiment.Experiment{
     @Override
     public void test() {
         getExperimentControl().setConfiguration(new ExperimentConfiguration()); //Use default options found within ExperimentConfiguration
-        getExperimentControl().setStyle("startTitle", "StevensLevel Test" );
+        //getExperimentControl().getConfiguration().getBaseDesign().p"startTitle", "StevensLevel Test" );
         getExperimentControl().run();
     }
 

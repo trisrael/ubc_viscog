@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package StevensLaw;
 
 import StevensLaw.Validator.InvalidCorrelation;
@@ -11,7 +7,7 @@ import StevensLaw.Validator.InvalidCorrelation;
  * has a correlation that is between that of two other distributions.
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class Trial extends WithStateImpl{
+public class Trial extends WithStateWithInteractionReactorImpl{
 
     //Member variables
     

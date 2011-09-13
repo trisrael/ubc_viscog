@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package StevensLaw.parts;
 
 import StevensLaw.ExperimentPart;
@@ -18,6 +14,7 @@ public class BeginningPart extends ExperimentPart<BeginScreen> {
     public Class<BeginScreen> getScreenClass() {
         return BeginScreen.class;
     }
+    
     @Override
             public void run(){
         super.run();

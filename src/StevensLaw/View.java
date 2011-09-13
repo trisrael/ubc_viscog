@@ -25,13 +25,13 @@ import javax.swing.JFrame;
 import screens.AbstractStrictScreen;
 import static java.awt.event.KeyEvent.*;
 import static interaction.BasicInteraction.*;
-import static StevensLaw.GraphInteraction.*;
+import static StevensLaw.StevensLawInteraction.*;
 
 /**
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 20, 2011
  */
-public class View extends ExperimentInteractionProducer implements KeyListener {
+public class View extends WithInterationReactorImpl implements KeyListener {
 
     /** default member variables **/
     private int width = 1024;
@@ -116,7 +116,7 @@ public class View extends ExperimentInteractionProducer implements KeyListener {
                 notifier = CorrelationUp;
                 break;
             case VK_ENTER:
-                notifier = TaskCompleted;
+                notifier = Complete;
                 break;
             case VK_SPACE:
                 notifier = Continue;
@@ -125,7 +125,7 @@ public class View extends ExperimentInteractionProducer implements KeyListener {
                 notifier = InvalidKeyPress;
                 break;
         }
-        notifyListeners(notifier);
+       sendReaction(notifier);
     }
 
     public void start() {

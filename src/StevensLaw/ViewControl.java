@@ -1,13 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package StevensLaw;
 
 import interaction.BasicInteraction;
 import interaction.ExperimentInteractionEvent;
 import interaction.ExperimentInteractionListener;
 import interaction.ExperimentInteractionProducer;
+import interaction.InteractionReactor;
+import interaction.ReactTo;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.lang.Class;
@@ -24,7 +22,7 @@ import sun.tools.tree.ContinueStatement;
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class ViewControl extends ExperimentInteractionProducer implements ExperimentInteractionListener, UIEventListener {
+public class ViewControl extends WithInterationReactorImpl implements InteractionReactor {
 
     private final View view;
     private Map<Class, AbstractStrictScreen> screens = new HashMap<Class, AbstractStrictScreen>();
@@ -33,18 +31,11 @@ public class ViewControl extends ExperimentInteractionProducer implements Experi
 
     public ViewControl() {
         this.view = new View(); //Single Jframe where viewable portions of experiment will be rendered     
-        this.view.addListener(this);
+        this.view.setInteractionReactor(this);
         //this.view.start();
     }
 
-    @Override
-    public void interactionOccured(ExperimentInteractionEvent ev) {
-        //Experiment Interactions are all enum types... if it is not then an Exception will be thrown
-        for (ExperimentInteractionListener lis : this.getListeners()) {
-            lis.interactionOccured(ev);
-        }
-    }
-
+  
     boolean addScreen(AbstractStrictScreen scr) {
         //NOTE: Only allowing for one screen for each class to be added (singleon screens as you would) -- forcing update of pre-existing screen instead
         //of addition of new screen
@@ -81,6 +72,7 @@ public class ViewControl extends ExperimentInteractionProducer implements Experi
      * @param event
      * @param payload 
      */
+    @ReactTo(UIEvent.class)
     public void uiEventOccurred(UIEvent event, Object payload) {
         switch (event) {
             case SCREEN_CHANGE:

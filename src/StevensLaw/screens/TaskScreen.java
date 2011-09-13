@@ -27,6 +27,10 @@ public class TaskScreen extends ManyCorrelationScreen {
     private int gHeight = gWidth;
     private int offTop = (height - gHeight) / 2;
 
+    /**
+     * Data object to hold update information for a point graph which draws different correlation levels.
+     * Members(correlation value, number of points to draw)
+     */
     public class StevensLawPayload {
 
         public double corr;
@@ -44,9 +48,9 @@ public class TaskScreen extends ManyCorrelationScreen {
         StevensLawPayload pay;
         switch (uIEvent) {
             case UPDATE: //deal with an update event (cast the object into the appropriate type and update the screen associated with it)
-                Map<Screens, StevensLawPayload> incCorrs = (Map<Screens, StevensLawPayload>) payload;
+                Map<Graphs, StevensLawPayload> incCorrs = (Map<Graphs, StevensLawPayload>) payload;
                 if (!incCorrs.isEmpty()) {
-                    for (Screens cons : incCorrs.keySet()) {
+                    for (Graphs cons : incCorrs.keySet()) {
                         pay = incCorrs.get(cons);
                         updateDistribution(cons, pay);
                     }
@@ -57,14 +61,22 @@ public class TaskScreen extends ManyCorrelationScreen {
         }
     }
 
-    private void updateDistribution(Screens screens, StevensLawPayload payload) {
-        Distribution2D dist = getDistribution(screens);
+    /**
+     * Takes an id (enum) of a graph within this screen and updates the distribution with the information held within.
+     * @param graph
+     * @param payload 
+     */
+    private void updateDistribution(Graphs graph, StevensLawPayload payload) {
+        Distribution2D dist = getDistribution(graph);
         if (dist != null) {
             dist.turnIntoTransformedCorrelatedGaussian(payload.corr, payload.numPoints, DEF_ERROR); //update distribution (re-calculate points)
         }
     }
 
-    public enum Screens {
+    /**
+     * Enum to describe the different graphs painted on this particular screen.
+     */
+    public enum Graphs {
         HIGH,
         USER_DEFINED,
         LOW
@@ -74,13 +86,11 @@ public class TaskScreen extends ManyCorrelationScreen {
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = bi.createGraphics();
 
-
-       
         setGraphicDefaults(g2);
 
-        drawImage(Screens.HIGH, g2);
-        drawImage(Screens.USER_DEFINED, g2);
-        drawImage(Screens.LOW, g2);
+        drawImage(Graphs.HIGH, g2);
+        drawImage(Graphs.USER_DEFINED, g2);
+        drawImage(Graphs.LOW, g2);
 
         //System.out.println("R = " + mydist.getPearsonCorrelation());
 
@@ -89,14 +99,19 @@ public class TaskScreen extends ManyCorrelationScreen {
         return Util.toImage(bi);
     }
 
-    private void drawImage(Screens screen, Graphics2D g) {
-        Distribution2D dist = getDistribution(screen);
+    /**
+     * Draws a single distrubtion into its spot on the Graphics2D object given.
+     * @param graph
+     * @param g 
+     */
+    private void drawImage(Graphs graph, Graphics2D g) {
+        Distribution2D dist = getDistribution(graph);
         
         // Draw the distribution in the centre of the screen
         Image im = dist.getImage(gWidth, gHeight, dist.size(), 1, 1, 1, 1);
         
         int x=0;int y=0; 
-        switch (screen) {
+        switch (graph) {
             case HIGH: //Right
                 x = offsetLeft + 2*(gWidth + padInner);
             break;

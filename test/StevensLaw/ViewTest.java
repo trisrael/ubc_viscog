@@ -79,17 +79,17 @@ public class ViewTest {
 
         @Test
         public void correlationUpKeyReleased() {
-            testKeyReleased(VK_Z, GraphInteraction.CorrelationDown);
+            testKeyReleased(VK_Z, StevensLawInteraction.CorrelationDown);
         }
 
         @Test
         public void correlationDownKeyReleased() {
-            testKeyReleased(VK_M, GraphInteraction.CorrelationUp);
+            testKeyReleased(VK_M, StevensLawInteraction.CorrelationUp);
         }
 
         @Test
         public void finishedTaskReleased() {
-            testKeyReleased(VK_ENTER, TaskCompleted);
+            testKeyReleased(VK_ENTER, Complete);
         }
 
         //HELPERS

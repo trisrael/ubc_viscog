@@ -11,7 +11,7 @@ import util.InferenceUtil;
 /**
  * The design for a single Round/TaskRound (all these things), wanna change the numTrials for a particular Round do it, need to change what 
  * point drawing is being performed? Do it.  If props are asked for that are not directly set on task design, then the BaseDesign check BaseDesign for default..
- * BaseDesign can also be overwritten by yaml.
+ * BaseDesign can also be overwritten by YAML.
  * 
  * @author Tristan Goffman(tgoffman@gmail.com) Sep 4, 2011
  */
@@ -57,6 +57,15 @@ public class TaskDesign extends Design {
     
     private double highCorr = 1.0;
     private double lowCorr = 0.0;
+    private double stepLevel = 0.03; //Level that user will cause correlation to jump up/down
+
+    public double getStepLevel() {
+        return stepLevel;
+    }
+
+    public void setStepLevel(double stepLevel) {
+        this.stepLevel = stepLevel;
+    }
 
     public double getHighCorr() {
         return highCorr;
@@ -73,4 +82,5 @@ public class TaskDesign extends Design {
     public void setLowCorr(double lowCorr) {
         this.lowCorr = lowCorr;
     }
+    
 }

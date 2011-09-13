@@ -55,7 +55,7 @@ public abstract class ExperimentInteractionProducerTest<List, Prod> {
         ExperimentInteractionListener obs = (ExperimentInteractionListener) mock(listenerClass());
         prod().addListener(obs);
 
-        ExperimentInteractionEvent ev = new ExperimentInteractionEvent(BasicInteraction.TaskCompleted);
+        ExperimentInteractionEvent ev = new ExperimentInteractionEvent(BasicInteraction.Complete);
         prod().notifyListeners(ev);
 
         verify(obs).interactionOccured(ev);
