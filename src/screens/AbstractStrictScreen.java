@@ -1,10 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package screens;
 
-import StevensLaw.UIEvent;
+import StevensLaw.parts.ScreenInteraction;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -16,7 +12,7 @@ import StevensLaw.UIEventListener;
  * Class which forces implementation of generateImage method
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 16, 2011
  */
-public abstract class AbstractStrictScreen extends AbstractScreen implements UIEventListener{
+public abstract class AbstractStrictScreen extends AbstractScreen{
 
     @Override
     public Image getImage() {
@@ -47,12 +43,4 @@ public abstract class AbstractStrictScreen extends AbstractScreen implements UIE
         g2.fill(new Rectangle.Float(0, 0, width, height));
     }
 
-    /**
-     * Different possible uiEvents occur which cause changes in the way a screen may look.  The screen itself should know how to deal with the 
-     * particular received UIEvents.
-     * @param uIEvent enum (UPDATE, etc)
-     * @param event 
-     */
-    public abstract void uiEventOccurred(UIEvent uIEvent, Object event);
-    
 }

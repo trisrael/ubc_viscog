@@ -17,6 +17,11 @@ public class Validator {
         }
     }   
     
+    /**
+     * Valid correlations fall within 0 > 1 (double)
+     * @param corrVal
+     * @return 
+     */
     public static boolean isValidCorr(double corrVal){
          return corrVal < 1.0 && corrVal > 0.0;
     }

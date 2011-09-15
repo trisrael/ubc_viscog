@@ -1,22 +1,16 @@
 package StevensLaw;
 
-import interaction.BasicInteraction;
-import interaction.ExperimentInteractionEvent;
-import interaction.ExperimentInteractionListener;
-import interaction.ExperimentInteractionProducer;
+import StevensLaw.View.ViewInteraction;
+import interaction.ExperimentInteraction;
 import interaction.InteractionReactor;
 import interaction.ReactTo;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.lang.Class;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import screens.AbstractStrictScreen;
-import sun.tools.tree.ContinueStatement;
 
 /**
  *
@@ -24,10 +18,18 @@ import sun.tools.tree.ContinueStatement;
  */
 public class ViewControl extends WithInterationReactorImpl implements InteractionReactor {
 
-    private final View view;
+    protected View view;
+
+    public static enum UIInteraction implements ExperimentInteraction {
+
+        Screen, Close
+    }
+
+    public View getView() {
+        return view;
+    }
     private Map<Class, AbstractStrictScreen> screens = new HashMap<Class, AbstractStrictScreen>();
     private AbstractStrictScreen currScreen = null; //The screen currently showing to the testee/participant
-   
 
     public ViewControl() {
         this.view = new View(); //Single Jframe where viewable portions of experiment will be rendered     
@@ -35,7 +37,6 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
         //this.view.start();
     }
 
-  
     boolean addScreen(AbstractStrictScreen scr) {
         //NOTE: Only allowing for one screen for each class to be added (singleon screens as you would) -- forcing update of pre-existing screen instead
         //of addition of new screen
@@ -68,30 +69,35 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
     }
 
     /**
-     * ViewControl deals with two types of possible uiEvents, a screen switch and all other events get passed directly to the screen to be dealt with.
+     * ViewControl deals with one possible type of interaction, a screen switch and all other events get passed directly to the screen to be dealt with.
      * @param event
      * @param payload 
      */
-    @ReactTo(UIEvent.class)
-    public void uiEventOccurred(UIEvent event, Object payload) {
-        switch (event) {
-            case SCREEN_CHANGE:
+    @ReactTo(UIInteraction.class)
+    void viewInteraction(UIInteraction in, Object payload) {
+        switch (in) {
+            case Screen:
                 Class<? extends AbstractStrictScreen> scrClazz = (Class<? extends AbstractStrictScreen>) payload;
                 try {
                     currScreen = scrClazz.newInstance();
                     view.setScreen(currScreen);
+                    view.update();
                 } catch (InstantiationException ex) {
                     Logger.getLogger(ViewControl.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IllegalAccessException ex) {
                     Logger.getLogger(ViewControl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-               
                 break;
-            default:
-                currScreen.uiEventOccurred(event, payload);
+                
+            case Close:
+                sendReaction(ViewInteraction.Close);
+                break;
         }
-        
-        view.update();
+
+
+
+
+
+
     }
 }

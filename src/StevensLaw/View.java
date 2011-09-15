@@ -4,6 +4,7 @@
  */
 package StevensLaw;
 
+import interaction.ReactTo;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Graphics;
@@ -16,22 +17,28 @@ import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import interaction.ExperimentInteraction;
 import interaction.ExperimentInteractionProducer;
+import interaction.PartInteraction;
 import java.awt.Component;
 import java.awt.GraphicsDevice;
 import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
 import screens.AbstractStrictScreen;
 import static java.awt.event.KeyEvent.*;
 import static interaction.BasicInteraction.*;
-import static StevensLaw.StevensLawInteraction.*;
+import static StevensLaw.StevensLevelInteraction.*;
 
 /**
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 20, 2011
  */
 public class View extends WithInterationReactorImpl implements KeyListener {
+
+  
 
     /** default member variables **/
     private int width = 1024;
@@ -59,8 +66,19 @@ public class View extends WithInterationReactorImpl implements KeyListener {
     private void checkForEsc(int keyCode) {
             // always close this window when ESC is pressed
         if (keyCode == KeyEvent.VK_ESCAPE) {
-            container.getToolkit().getSystemEventQueue().postEvent(new WindowEvent(container, WindowEvent.WINDOW_CLOSING));
+            postCloseEvent();
         }
+    }
+    
+    public static enum ViewInteraction implements ExperimentInteraction{
+        Close
+    }
+
+    /**
+     * Get the window closing event to be added to some queue (:calling the handleWindowEvent function eventually)
+     */
+    private void postCloseEvent() {
+        container.getToolkit().getSystemEventQueue().postEvent(new WindowEvent(container, WindowEvent.WINDOW_CLOSING));
     }
 
     public enum States {
@@ -190,6 +208,7 @@ public class View extends WithInterationReactorImpl implements KeyListener {
      * What to do when the experiment window is closed.
      */
     private void handleWindowClose() {
+        scrdev().getFullScreenWindow().removeAll();
         container.setVisible(false);
         container.dispose();
         container.removeKeyListener(this);

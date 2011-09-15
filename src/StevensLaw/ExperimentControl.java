@@ -4,18 +4,13 @@ import StevensLaw.parts.BeginningPart;
 import StevensLaw.parts.EndingPart;
 import StevensLaw.parts.Round;
 import configuration.ExperimentConfiguration;
-import configuration.Style;
 import configuration.TaskDesign;
 import interaction.BasicInteraction;
-import interaction.ExperimentInteractionEvent;
-import interaction.ExperimentInteractionListener;
 import interaction.InteractionReactor;
+import interaction.PartInteraction;
 import interaction.ReactTo;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import screens.AbstractStrictScreen;
 
 /**
@@ -35,7 +30,7 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
     //Has many TaskRounds (task within)
     public ExperimentControl() {
         vCon = new ViewControl();
-        vCon.setInteractionReactor(this);
+        vCon.setInteractionReactor(this);   
         conf = new ExperimentConfiguration();
     }
 
@@ -134,7 +129,7 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
     private void nextPart() {
         if (getPart() != null) {
             getPart().stop();
-            
+
         }
         setPart(getSequence().get(this.partsComplete));
         getPart().run();
@@ -151,18 +146,22 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
         this.currPart = get;
         getPart().setInteractionReactor(this);
     }
-    
+
     //Interaction reactions.
     @ReactTo(BasicInteraction.class)
-    private void basicInteractionOccurred(Enum e) {
+    public void basicInteractionOccurred(BasicInteraction e, Object payload) {
+        
+        //Reaction should already have hit part if it defined that it dealt with these types of interactions
         try {
-            switch ((BasicInteraction) e) {
+            switch (e) {
                 case Continue:
-                     
-                    break;
-                case Complete:
+                    nextPart();
                     break;
                 case Exit:
+                    //log as much information and continue exiting
+                    getViewControl().sendReaction(ViewControl.UIInteraction.Close);
+                    sendReaction(PartInteraction.Complete);
+                    setState(State.COMPLETE); //Should ensure no more parts are played
                     break;
             }
         } catch (Exception ex) {

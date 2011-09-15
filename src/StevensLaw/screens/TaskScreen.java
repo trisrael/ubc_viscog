@@ -1,7 +1,8 @@
 package StevensLaw.screens;
 
-import StevensLaw.UIEvent;
+import StevensLaw.parts.ScreenInteraction;
 import correlation.Distribution2D;
+import interaction.ReactTo;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -31,23 +32,25 @@ public class TaskScreen extends ManyCorrelationScreen {
      * Data object to hold update information for a point graph which draws different correlation levels.
      * Members(correlation value, number of points to draw)
      */
-    public class StevensLawPayload {
+    public static class StevensLawPayload {
 
         public double corr;
         public int numPoints;
+        public Graphs graph;
 
-        public StevensLawPayload(double c, int pts) {
+        public StevensLawPayload(double c, int pts, Graphs graph) {
             this.corr = c;
             this.numPoints = pts;
+            this.graph = graph;
 
         }
     }
 
-    @Override
-    public void uiEventOccurred(UIEvent uIEvent, Object payload) {
+    @ReactTo(ScreenInteraction.class)
+    public void update(ScreenInteraction uIEvent, Object payload) {
         StevensLawPayload pay;
         switch (uIEvent) {
-            case UPDATE: //deal with an update event (cast the object into the appropriate type and update the screen associated with it)
+            case Update: //deal with an update event (cast the object into the appropriate type and update the screen associated with it)
                 Map<Graphs, StevensLawPayload> incCorrs = (Map<Graphs, StevensLawPayload>) payload;
                 if (!incCorrs.isEmpty()) {
                     for (Graphs cons : incCorrs.keySet()) {

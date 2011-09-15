@@ -1,7 +1,10 @@
 package StevensLaw;
 
+import StevensLaw.parts.ScreenInteraction;
 import com.sun.tools.hat.internal.model.ReachableExcludes;
+import interaction.BasicInteraction;
 import interaction.InteractionReactorReflection;
+import interaction.PartInteraction;
 import java.lang.reflect.TypeVariable;
 import screens.AbstractScreen;
 import screens.AbstractStrictScreen;
@@ -20,11 +23,13 @@ public abstract class ExperimentPart<ScreenClass extends AbstractScreen> extends
         if(getState() == State.COMPLETE){ throw new RuntimeException("Attempted to run ExperimentPart in complete stage");}  
         setState(State.IN_PROGRESS);
         
-        sendReaction(UIEvent.SCREEN_CHANGE, getScreenClass());
+        sendReaction(ScreenInteraction.Update, getScreenClass());
     }
 
     void stop() {
         setState(State.COMPLETE);
     }
+    
+   
  
 }

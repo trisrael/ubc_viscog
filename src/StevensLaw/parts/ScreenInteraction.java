@@ -2,14 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package StevensLaw;
-
-import StevensLaw.parts.ScreenInteraction;
+package StevensLaw.parts;
 
 /**
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Sep 5, 2011
  */
-public interface UIEventListener {
-    public void uiEventOccurred(ScreenInteraction event, Object payload);
+public enum ScreenInteraction implements interaction.ExperimentInteraction{
+    Update
 }

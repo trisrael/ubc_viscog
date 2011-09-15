@@ -11,6 +11,15 @@ package configuration;
 public class BaseDesign extends Design{
     private int numTrials = 4;
     private int numRounds = 1;
+    private int numPoints = 200; //Number of points to draw on graphs (if a graph is available)
+
+    public int getNumPoints() {
+        return numPoints;
+    }
+
+    public void setNumPoints(int numPoints) {
+        this.numPoints = numPoints;
+    }
 
     public int getNumRounds() {
         return numRounds;

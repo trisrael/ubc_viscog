@@ -1,7 +1,7 @@
 package screens;
 
 
-import StevensLaw.UIEvent;
+import StevensLaw.parts.ScreenInteraction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -45,7 +45,7 @@ public class ExperimentEndScreen extends AbstractStrictScreen{
 	}
 
     @Override
-    public void uiEventOccurred(UIEvent uIEvent, Object event) {
+    public void uiEventOccurred(ScreenInteraction uIEvent, Object event) {
         //
     }
 }

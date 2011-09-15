@@ -1,23 +1,20 @@
 package StevensLaw.parts;
 
 import StevensLaw.ExperimentPart;
-import StevensLaw.State;
-import StevensLaw.StevensLevelTask;
 import StevensLaw.Trial;
-import StevensLaw.UIEvent;
-import StevensLaw.UIEventListener;
-import StevensLaw.screens.TaskScreen;
 import configuration.TaskDesign;
+import interaction.BasicInteraction;
+import interaction.PartInteraction;
+import interaction.ReactTo;
 import java.util.ArrayList;
 import java.util.List;
-import screens.AbstractStrictScreen;
 
 /**
  * Round explains a number of Trials where each contains the same level of high and low correlation, simply the 'output' is different as in the randomization pattern
  * of the point on the distributions in question.
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class Round extends ExperimentPart implements UIEventListener{
+public class Round extends ExperimentPart {
 
     private final double lowCorr;
     private final double highCorr;
@@ -26,24 +23,26 @@ public class Round extends ExperimentPart implements UIEventListener{
     private List<Trial> trials;
     private Trial current; //Current task in progress (or null if out
     private final TaskDesign des;
-    
-    
     private int trialsPerformed = 0;
+    private final int numPoints; // Number of points to draw on each graph (to build each correlation graph with)
+    private final double stepSize;
 
     public Round(TaskDesign des) {
-            this.des  = des;
-            this.lowCorr = (double) des.prop("lowCorr");
-            this.highCorr = (double) des.prop("highCorr");
-            this.numTrials = (Integer) des.prop("numTrials");
-            Object adjCorr = des.prop("startCorr");
-            
-            
-            if(adjCorr != null)
-                this.startCorr = (double) adjCorr;
-            else
-                this.startCorr = this.highCorr; //default to using highCorr when no specific low corr given
-            
-            
+        this.des = des;
+        this.lowCorr = (double) des.prop("lowCorr");
+        this.highCorr = (double) des.prop("highCorr");
+        this.numTrials = (Integer) des.prop("numTrials");
+        this.numPoints = (int) des.prop("numPoints");
+        this.stepSize = (double) des.prop("stepLevel");
+        Object adjCorr = des.prop("startCorr");
+
+
+        if (adjCorr != null) {
+            this.startCorr = (double) adjCorr;
+        } else {
+            this.startCorr = this.highCorr; //default to using highCorr when no specific low corr given
+        }
+
     }
 
     public List<Trial> getTrials() {
@@ -51,44 +50,72 @@ public class Round extends ExperimentPart implements UIEventListener{
         if (trials == null) {
             trials = new ArrayList<Trial>();
         }
-        
+
         return trials;
     }
 
     @Override
     public void run() {
         super.run();
-        this.current = getTrial(trialsPerformed);
-        runTrial();
+        nextTrial();
+    }
+    
+     @ReactTo(BasicInteraction.class)
+     public void basicInteractionOccurred(BasicInteraction in, Object payload){
+        switch(in){
+            case Complete:
+                
+                if(hasNextTrial())
+                    nextTrial();
+                else
+                    afterTrial();
+                    sendReaction(PartInteraction.Complete);
+                
+            default:
+                break;
+        }
     }
 
-    @Override
-    public Class getScreenClass() {
-        return StevensLaw.screens.TaskScreen.class;
+    /**
+     * Setup the next trial as the current trial and start running it.
+     */
+    private void nextTrial() {
+        afterTrial();
+        
+        this.current = getTrial(trialsPerformed);
+        this.current.setInteractionReactor(this);
+        runTrial();
+        trialsPerformed++; //increment trials performed
+    }
+
+    private void afterTrial() {
+        //Log out results
+        
+        if(this.current != null){
+            this.current.setInteractionReactor(null);
+        }
     }
 
     void setup() {
-        if(getNumTrials() == null){throw new RuntimeException("Missing Trial Numbers");}
-        
-        for(int i = 0; i < getNumTrials(); i++){
-            pushTrial(new Trial(highCorr, lowCorr, startCorr));
+        if (getNumTrials() == null) {
+            throw new RuntimeException("Missing Trial Numbers");
+        }
+
+        for (int i = 0; i < getNumTrials(); i++) {
+            pushTrial(new Trial(highCorr, lowCorr, startCorr, numPoints, stepSize));
         }
     }
 
     public Integer getNumTrials() {
         return numTrials;
     }
-    
-    protected void setNumTrials(Integer num){
+
+    protected void setNumTrials(Integer num) {
         numTrials = num;
     }
 
     private Trial getTrial(int ind) {
         return getTrials().get(ind);
-    }
-    
-    private void nextTrial(){
-        trialsPerformed++; //increment trials performed
     }
 
     private void pushTrial(Trial trial) {
@@ -96,11 +123,15 @@ public class Round extends ExperimentPart implements UIEventListener{
     }
 
     private void runTrial() {
-       this.current.run();
+        this.current.run();
+    }
+    
+     @Override
+    public Class getScreenClass() {
+        return StevensLaw.screens.TaskScreen.class;
     }
 
-    @Override
-    public void uiEventOccurred(UIEvent event, Object payload) {
-        
+    private boolean hasNextTrial() {
+       return numTrials > trialsPerformed;
     }
 }

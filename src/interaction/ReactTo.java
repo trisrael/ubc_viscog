@@ -1,6 +1,8 @@
 package interaction;
 
-import StevensLaw.StevensLawInteraction;
+import StevensLaw.StevensLevelInteraction;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.text.Annotation;
 
 
@@ -13,6 +15,7 @@ import java.text.Annotation;
  * 
  * @author Tristan Goffman(tgoffman@gmail.com) Sep 8, 2011
  */
+@Retention(RetentionPolicy.RUNTIME)
 public @interface ReactTo{
     Class value();
 }
@@ -25,8 +28,8 @@ class ReactToExample{
     
     
     
-    @ReactTo(StevensLawInteraction.class)
-    public void corrReactions(StevensLawInteraction e){
+    @ReactTo(StevensLevelInteraction.class)
+    public void corrReactions(StevensLevelInteraction e){
         switch(e){
             case CorrelationUp:
                 //doSomething

@@ -79,12 +79,12 @@ public class ViewTest {
 
         @Test
         public void correlationUpKeyReleased() {
-            testKeyReleased(VK_Z, StevensLawInteraction.CorrelationDown);
+            testKeyReleased(VK_Z, StevensLevelInteraction.CorrelationDown);
         }
 
         @Test
         public void correlationDownKeyReleased() {
-            testKeyReleased(VK_M, StevensLawInteraction.CorrelationUp);
+            testKeyReleased(VK_M, StevensLevelInteraction.CorrelationUp);
         }
 
         @Test
@@ -97,8 +97,17 @@ public class ViewTest {
          * Ensure no notifications are sent out on interactions uninterested in
          * @param instance 
          */
-        private void shouldNotNotify(ExperimentInteractionProducer instance) {
-            verify(instance, times(0)).notifyListeners(Mockito.any(ExperimentInteraction.class));
+        private void shouldNotNotify(View instance) {
+            setNotify(instance, 0);
+        }
+        
+   
+        private void shouldNotify(View instance) {
+            setNotify(instance, 1);
+        }
+        
+        private void setNotify(View instance, int times){
+            verify(instance, times(times)).sendReaction(Mockito.any(ExperimentInteraction.class));
         }
 
         /**
@@ -110,7 +119,8 @@ public class ViewTest {
             System.out.println("keyReleased");
             spy.keyReleased(buildKeyEvent(KEY_RELEASED, keyCode));
 
-            verify(spy, times(1)).notifyListeners(shouldReceive);
+            
+            shouldNotify(spy);
         }
     }
 
