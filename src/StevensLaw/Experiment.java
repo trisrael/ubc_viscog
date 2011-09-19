@@ -26,10 +26,6 @@ public class Experiment implements experiment.Experiment{
         this.eCon = new ExperimentControl();
     }
     
-    protected ViewControl getViewControl(){
-        return eCon.getViewControl();
-    }
-    
     public ExperimentControl getExperimentControl(){
         return eCon;
     }

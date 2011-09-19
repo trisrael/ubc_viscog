@@ -29,17 +29,16 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
 
     //Has many TaskRounds (task within)
     public ExperimentControl() {
-        vCon = new ViewControl();
-        vCon.setInteractionReactor(this);   
         conf = new ExperimentConfiguration();
+        setViewControl(new ViewControl());
     }
 
     //JavaBeans methods
-    public ViewControl getViewControl() {
+    private ViewControl getViewControl() {
         return vCon;
     }
 
-    public void setViewControl(ViewControl vCon) {
+    private void setViewControl(ViewControl vCon) {
         this.vCon = vCon;
     }
 
@@ -56,6 +55,12 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
 
     //Get ExperimentControl ready for running
     public void setup() {
+
+        addInteractionReactor(getViewControl());
+        getViewControl().addInteractionReactor(this); 
+        getViewControl().setup();
+        
+        
         addPart(new BeginningPart());
 
         addTasks();
@@ -141,10 +146,13 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
 
     private void setPart(ExperimentPart get) {
         if (getPart() != null) {
-            getPart().setInteractionReactor(null); //
+            getPart().removeInteractionReactor(this); //
+            this.removeInteractionReactor(getPart());
         }
+        
         this.currPart = get;
-        getPart().setInteractionReactor(this);
+        getPart().addInteractionReactor(this);
+        this.addInteractionReactor(getPart());
     }
 
     //Interaction reactions.
@@ -152,7 +160,7 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
     public void basicInteractionOccurred(BasicInteraction e, Object payload) {
         
         //Reaction should already have hit part if it defined that it dealt with these types of interactions
-        try {
+    
             switch (e) {
                 case Continue:
                     nextPart();
@@ -164,7 +172,5 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
                     setState(State.COMPLETE); //Should ensure no more parts are played
                     break;
             }
-        } catch (Exception ex) {
-        }
     }
 }

@@ -197,6 +197,7 @@ public abstract class AbstractMainMenuFrame extends javax.swing.JFrame {
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
         constructExperiment();
         getExperiment().run();
+        this.setVisible(false);
 }//GEN-LAST:event_runButtonActionPerformed
 
     private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
@@ -209,6 +210,7 @@ public abstract class AbstractMainMenuFrame extends javax.swing.JFrame {
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
         getExperiment().test();
+        this.setVisible(false);
     }//GEN-LAST:event_testButtonActionPerformed
 
     private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed

@@ -83,7 +83,7 @@ public class Round extends ExperimentPart {
         afterTrial();
         
         this.current = getTrial(trialsPerformed);
-        this.current.setInteractionReactor(this);
+        this.current.addInteractionReactor(this);
         runTrial();
         trialsPerformed++; //increment trials performed
     }
@@ -92,7 +92,7 @@ public class Round extends ExperimentPart {
         //Log out results
         
         if(this.current != null){
-            this.current.setInteractionReactor(null);
+            this.current.addInteractionReactor(null);
         }
     }
 

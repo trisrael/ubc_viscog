@@ -55,7 +55,7 @@ public class ExperimentTest {
             HasExperimentControl();
 
 
-            assertThat("ExperimentControl needs to listen to ViewControl but is not", exp.getExperimentControl(), is(exp.getExperimentControl().getViewControl().getInteractionReactor()));
+            assertThat("ExperimentControl needs to listen to ViewControl but is not", exp.getExperimentControl(), isIn(exp.getExperimentControl().getViewControl().getInteractionReactors()));
         }
     }
 

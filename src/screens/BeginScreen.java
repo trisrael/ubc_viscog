@@ -21,7 +21,6 @@ public class BeginScreen extends AbstractStrictScreen{
 	private Font myFon = Globals.FONT_FEEDBACK;
 	
 	public BeginScreen(){
-		this.correctKey = KeyEvent.VK_SPACE;
 		this.timeout = -1;
 		this.currentImage = generateImage();
 	}
@@ -44,8 +43,5 @@ public class BeginScreen extends AbstractStrictScreen{
 		return Util.toImage(bi);
 	}
 
-    @Override
-    public void uiEventOccurred(ScreenInteraction uIEvent, Object event) {
-       //
-    }
+ 
 }

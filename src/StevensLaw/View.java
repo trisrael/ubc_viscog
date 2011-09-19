@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import interaction.ExperimentInteraction;
 import interaction.ExperimentInteractionProducer;
+import interaction.InteractionReactor;
 import interaction.PartInteraction;
 import java.awt.Component;
 import java.awt.GraphicsDevice;
@@ -166,7 +167,6 @@ public class View extends WithInterationReactorImpl implements KeyListener {
         container.setBackground(Color.BLACK);
         // switch to fullscreen mode
         scrdev().setFullScreenWindow(container);
-
     }
 
     private boolean isFullscreen() {

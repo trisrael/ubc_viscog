@@ -44,8 +44,5 @@ public class ExperimentEndScreen extends AbstractStrictScreen{
 		return Util.toImage(bi);
 	}
 
-    @Override
-    public void uiEventOccurred(ScreenInteraction uIEvent, Object event) {
-        //
-    }
+
 }

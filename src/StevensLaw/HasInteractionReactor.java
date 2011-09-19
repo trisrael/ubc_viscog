@@ -5,6 +5,7 @@
 package StevensLaw;
 
 import interaction.InteractionReactor;
+import java.util.List;
 
 /**
  *
@@ -13,5 +14,5 @@ import interaction.InteractionReactor;
 public interface HasInteractionReactor {
     public boolean hasInteractionReactor();
         
-    public InteractionReactor getInteractionReactor();
+    public List<InteractionReactor> getInteractionReactors();
 }

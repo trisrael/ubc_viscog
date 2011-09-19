@@ -1,6 +1,7 @@
 package StevensLaw;
 
 import StevensLaw.View.ViewInteraction;
+import StevensLaw.parts.ScreenInteraction;
 import interaction.ExperimentInteraction;
 import interaction.InteractionReactor;
 import interaction.ReactTo;
@@ -18,10 +19,9 @@ import screens.AbstractStrictScreen;
  */
 public class ViewControl extends WithInterationReactorImpl implements InteractionReactor {
 
-    protected View view;
+    protected View view;  
 
     public static enum UIInteraction implements ExperimentInteraction {
-
         Screen, Close
     }
 
@@ -33,8 +33,6 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
 
     public ViewControl() {
         this.view = new View(); //Single Jframe where viewable portions of experiment will be rendered     
-        this.view.setInteractionReactor(this);
-        //this.view.start();
     }
 
     boolean addScreen(AbstractStrictScreen scr) {
@@ -67,6 +65,16 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
     protected AbstractStrictScreen getScreen() {
         return currScreen;
     }
+    
+    
+    @ReactTo(ScreenInteraction.class)
+    public void screenInteraction(ScreenInteraction in, Object payload){
+        switch(in){
+            case Update:
+                setNewScreen(payload);
+                break;
+        }
+    }
 
     /**
      * ViewControl deals with one possible type of interaction, a screen switch and all other events get passed directly to the screen to be dealt with.
@@ -74,30 +82,41 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
      * @param payload 
      */
     @ReactTo(UIInteraction.class)
-    void viewInteraction(UIInteraction in, Object payload) {
+    public void viewInteraction(UIInteraction in, Object payload) {
         switch (in) {
             case Screen:
-                Class<? extends AbstractStrictScreen> scrClazz = (Class<? extends AbstractStrictScreen>) payload;
+                setNewScreen(payload);
+            case Close:
+                sendReaction(ViewInteraction.Close);
+                break;
+        }}
+        
+    /**
+     * Takes a payload attempts to cast to a class (AbstractStrictScreen class), creates a new instance if current screen is already of type supplied, and then updates the screen
+     *Otherwise does nothing.
+     * @param payload 
+     */
+    private void setNewScreen(Object payload) {
+        Class<? extends AbstractStrictScreen> scrClazz = (Class<? extends AbstractStrictScreen>) payload;
                 try {
-                    currScreen = scrClazz.newInstance();
-                    view.setScreen(currScreen);
-                    view.update();
+                    
+                    if (currScreen == null || !(scrClazz == currScreen.getClass())){
+                         currScreen = scrClazz.newInstance();
+                         view.setScreen(currScreen); 
+                        view.update();
+                    }
+                   
                 } catch (InstantiationException ex) {
                     Logger.getLogger(ViewControl.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IllegalAccessException ex) {
                     Logger.getLogger(ViewControl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                break;
+             
                 
-            case Close:
-                sendReaction(ViewInteraction.Close);
-                break;
-        }
-
-
-
-
-
-
     }
+    
+    public void setup(){
+          getView().addInteractionReactor(this);
+    }
+    
 }

@@ -45,7 +45,7 @@ public class TaskDesign extends Design {
                 val = InferenceUtil.prop(getBaseDesign(), memberName);
 
             } catch (Exception ex) {
-                Logger.getLogger(TaskDesign.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TaskDesign.class.getName()).log(Level.WARNING, null, ex);
             }
         }
 
@@ -58,6 +58,15 @@ public class TaskDesign extends Design {
     private double highCorr = 1.0;
     private double lowCorr = 0.0;
     private double stepLevel = 0.03; //Level that user will cause correlation to jump up/down
+    private Double startCorr = null;
+
+    public Double getStartCorr() {
+        return startCorr;
+    }
+
+    public void setStartCorr(Double startCorr) {
+        this.startCorr = startCorr;
+    }
 
     public double getStepLevel() {
         return stepLevel;
