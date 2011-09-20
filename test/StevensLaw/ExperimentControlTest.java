@@ -4,6 +4,7 @@
  */
 package StevensLaw;
 
+import StevensLaw.parts.ExperimentPart;
 import StevensLaw.parts.EndingPart;
 import StevensLaw.parts.BeginningPart;
 
@@ -134,22 +135,8 @@ public class ExperimentControlTest extends TestBase {
         }
         
         
-        @Test
-        public void interactsWithBasicInteraction(){
-            viewControlHasExpControlAsInteractionReactor();
-            final ViewControl viewControl = spy.getViewControl();
-            viewControl.removeInteractionReactor(ex);
-            viewControl.addInteractionReactor(spy);
+      
             
-            
-            View view = viewControl.getView();
-            
-            
-            view.sendReaction(BasicInteraction.Continue);
-            
-            verify(spy).basicInteractionOccurred(Mockito.any(BasicInteraction.class), Mockito.any());
-            
-        } 
                
     }
 
@@ -185,6 +172,7 @@ public class ExperimentControlTest extends TestBase {
         public void placeHolder() {
         }
     }
+    
 
     public static class SetupWithoutConfiguration extends AfterConstruct {
 

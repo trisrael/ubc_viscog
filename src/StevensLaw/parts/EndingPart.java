@@ -1,6 +1,5 @@
 package StevensLaw.parts;
 
-import StevensLaw.ExperimentPart;
 import screens.ExperimentEndScreen;
 
 /**

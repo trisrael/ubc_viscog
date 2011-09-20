@@ -1,6 +1,5 @@
 package StevensLaw.parts;
 
-import StevensLaw.ExperimentPart;
 import StevensLaw.Trial;
 import configuration.TaskDesign;
 import interaction.BasicInteraction;

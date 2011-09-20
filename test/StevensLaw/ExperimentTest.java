@@ -50,34 +50,6 @@ public class ExperimentTest {
             assertThat(isInstance("ExperimentControl"), exp.getExperimentControl(), is(ExperimentControl.class));
         }
 
-        @Test
-        public void ExperimentControlIsListenerOfViewControl() {
-            HasExperimentControl();
-
-
-            assertThat("ExperimentControl needs to listen to ViewControl but is not", exp.getExperimentControl(), isIn(exp.getExperimentControl().getViewControl().getInteractionReactors()));
-        }
     }
 
-    public static class TestExperiment {
-
-        @Before
-        public void setUp() {
-            ExperimentTest.setUp();
-        }
-        
-        
-        @Test
-        public void shouldSeeStartScreen(){
-            exp.test();
-            
-            assertTrue(exp.getViewControl().isVisible());
-        }
-        
-        @Test
-        public void shouldBeginWithStartScreen(){
-            exp.test();
-            assertThat(exp.getViewControl().getScreen(), is(instanceOf(BeginScreen.class)));
-        }        
-    }
 }

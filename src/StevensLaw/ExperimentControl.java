@@ -1,5 +1,6 @@
 package StevensLaw;
 
+import StevensLaw.parts.ExperimentPart;
 import StevensLaw.parts.BeginningPart;
 import StevensLaw.parts.EndingPart;
 import StevensLaw.parts.Round;
@@ -34,7 +35,7 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
     }
 
     //JavaBeans methods
-    private ViewControl getViewControl() {
+    protected ViewControl getViewControl() {
         return vCon;
     }
 
@@ -173,4 +174,6 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
                     break;
             }
     }
+    
+    
 }

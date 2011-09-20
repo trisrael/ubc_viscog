@@ -2,14 +2,22 @@ package StevensLaw;
 
 import configuration.ExperimentConfiguration;
 import java.io.File;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.bushe.swing.event.EventService;
+import org.bushe.swing.event.EventServiceExistsException;
+import org.bushe.swing.event.EventServiceLocator;
+import org.bushe.swing.event.ThreadSafeEventService;
 
 /**
  *
  * @author tristangoffman
  */
-public class Experiment implements experiment.Experiment{
+public class Experiment extends EventBusHelper implements experiment.Experiment{
     private static Experiment exp;
+   
+    
+    
     
     /** Members **/
     private ExperimentControl eCon = null;
@@ -22,7 +30,8 @@ public class Experiment implements experiment.Experiment{
         return getExperimentControl().getConfiguration();
     }
     
-    public Experiment(){
+    public Experiment() throws EventServiceExistsException{
+        EventBusHelper.setup();
         this.eCon = new ExperimentControl();
     }
     

@@ -4,6 +4,7 @@
  */
 package StevensLaw;
 
+import StevensLaw.parts.ExperimentPart;
 import screens.BeginScreen;
 import org.junit.Test;
 import static org.junit.Assert.*;

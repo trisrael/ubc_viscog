@@ -1,5 +1,6 @@
 package StevensLaw;
 
+import StevensLaw.parts.ExperimentPart;
 import java.util.ArrayList;
 
 /**

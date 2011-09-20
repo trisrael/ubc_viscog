@@ -1,6 +1,7 @@
 package StevensLaw;
 
 import StevensLaw.View.ViewInteraction;
+import StevensLaw.events.ScreenChange;
 import StevensLaw.parts.ScreenInteraction;
 import interaction.ExperimentInteraction;
 import interaction.InteractionReactor;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bushe.swing.event.annotation.EventSubscriber;
 import screens.AbstractStrictScreen;
 
 /**
@@ -55,7 +57,6 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
             throw new RuntimeException("Tried to switch to non-existing screen in ViewControl");
         }
         this.view.setScreen(scr);
-
     }
 
     boolean isVisible() {
@@ -67,13 +68,9 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
     }
     
     
-    @ReactTo(ScreenInteraction.class)
-    public void screenInteraction(ScreenInteraction in, Object payload){
-        switch(in){
-            case Update:
-                setNewScreen(payload);
-                break;
-        }
+    @EventSubscriber(eventClass=ScreenChange.class, eventServiceName= EventBusHelper.EVENT_SERVICE_NAME)
+    public void screenInteraction(ScreenChange scrChng){
+        setNewScreen(scrChng.getScreenClass());
     }
 
     /**
