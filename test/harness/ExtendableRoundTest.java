@@ -4,7 +4,7 @@
  */
 package harness;
 
-import StevensLaw.parts.Round;
+import StevensLevel.parts.Round;
 import configuration.TaskDesign;
 import org.junit.Before;
 

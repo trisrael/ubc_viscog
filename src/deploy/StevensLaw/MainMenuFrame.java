@@ -15,7 +15,7 @@ public class MainMenuFrame extends AbstractMainMenuFrame{
 
     @Override
     protected Experiment constructExperiment() {
-        return new StevensLaw.Experiment();
+        return new StevensLevel.Experiment();
     }
     
     /**

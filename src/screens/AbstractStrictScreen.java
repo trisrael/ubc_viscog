@@ -1,12 +1,10 @@
 package screens;
 
-import StevensLaw.parts.ScreenInteraction;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import StevensLaw.UIEventListener;
 
 /**
  * Class which forces implementation of generateImage method

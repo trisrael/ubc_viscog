@@ -1,6 +1,6 @@
 package interaction;
 
-import StevensLaw.StevensLevelInteraction;
+import StevensLevel.events.StevensLevelInteraction;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.text.Annotation;

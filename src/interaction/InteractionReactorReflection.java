@@ -1,6 +1,6 @@
 package interaction;
 
-import StevensLaw.HasInteractionReactor;
+import StevensLevel.HasInteractionReactor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
