@@ -1,10 +1,12 @@
-package StevensLevel;
+package StevensLevel.parts;
 
+import StevensLevel.EventBusHelper;
+import StevensLevel.State;
+import StevensLevel.Validator;
 import StevensLevel.events.StevensLevelInteraction;
 import StevensLevel.Validator.InvalidCorrelation;
 import StevensLevel.listeners.StevensLevelInteractionListener;
 import StevensLevel.listeners.StevensLevelViewListener;
-import StevensLevel.parts.ExperimentModel;
 import StevensLevel.screens.TaskScreen.Graphs;
 import StevensLevel.screens.TaskScreen.StevensLevelUpdateViewEvent;
 import java.util.Arrays;
@@ -28,7 +30,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
         return stepSize;
     }
 
-    public void setStepSize(double stepSize) {
+    private void setStepSize(double stepSize) {
         this.stepSize = stepSize;
     }
     private double stepSize;
@@ -37,7 +39,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
         return numPoints;
     }
 
-    public void setNumPoints(int numPoints) {
+    private void setNumPoints(int numPoints) {
         this.numPoints = numPoints;
     }
 
@@ -130,7 +132,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
         return adjustedCorr;
     }
 
-    public void setAdjustedCorr(double adjustedCorr) {
+    private void setAdjustedCorr(double adjustedCorr) {
         this.adjustedCorr = adjustedCorr;
     }
     

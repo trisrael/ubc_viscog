@@ -2,6 +2,7 @@ package StevensLevel;
 
 import StevensLevel.events.ScreenChange;
 import StevensLevel.listeners.ScreenChangeListener;
+import StevensLevel.listeners.ScreenNotificationListener;
 import interaction.ExperimentInteraction;
 import interaction.InteractionReactor;
 import java.lang.Class;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static StevensLevel.EventBusHelper.listen;
+import static StevensLevel.EventBusHelper.*;
 
 import screens.AbstractStrictScreen;
 
@@ -72,6 +73,7 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
     @Override
     public void changeScreen(ScreenChange chg) {
        setNewScreen(chg.getScreenClass());
+       pb(this, ScreenNotificationListener.class).screenIsReady(chg.getScreenClass());
     }
     
 
@@ -89,10 +91,7 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
                          view.setScreen(currScreen); 
                         view.update();
                     }
-                   
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(ViewControl.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
+                } catch (Exception ex) {
                     Logger.getLogger(ViewControl.class.getName()).log(Level.SEVERE, null, ex);
                 }
              

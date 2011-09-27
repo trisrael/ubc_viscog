@@ -51,7 +51,7 @@ public class EventBusHelper {
         eb().removeListener(clazz, listener);
     }
 
-    public static void setup() {
+    public static void setupEventBus() {
         if(eb == null)
             eb = new EventBus();
     }

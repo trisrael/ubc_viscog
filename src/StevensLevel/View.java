@@ -4,6 +4,7 @@
  */
 package StevensLevel;
 
+import StevensLevel.listeners.ScreenUpdateListener;
 import StevensLevel.listeners.StevensLevelInteractionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -24,28 +25,24 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import screens.AbstractStrictScreen;
 import static java.awt.event.KeyEvent.*;
-import static StevensLevel.EventBusHelper.pb;
+import static StevensLevel.EventBusHelper.*;
 
 /**
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 20, 2011
  */
-public class View extends WithInterationReactorImpl implements KeyListener {
-
-  
+public class View extends WithInterationReactorImpl implements KeyListener, ScreenUpdateListener {
 
     /** default member variables **/
     private int width = 1024;
     private int height = 768;
     private AbstractStrictScreen scr;
-    
-    
+
     /**
      * Might be an idea to use a dirty flag, one in which another thread is moving along looking for dirty, if dirty is seen than an update on the screen is run.
      * @param scr 
      */
-
-    void setScreen(AbstractStrictScreen scr) {
+    public void setScreen(AbstractStrictScreen scr) {
         this.scr = scr;
     }
 
@@ -58,13 +55,19 @@ public class View extends WithInterationReactorImpl implements KeyListener {
      * @param keyCode 
      */
     private void checkForEsc(int keyCode) {
-            // always close this window when ESC is pressed
+        // always close this window when ESC is pressed
         if (keyCode == KeyEvent.VK_ESCAPE) {
             postCloseEvent();
         }
     }
-    
-    public static enum ViewInteraction implements ExperimentInteraction{
+
+    @Override
+    public void screenUpdated() {
+        update();
+    }
+
+    public static enum ViewInteraction implements ExperimentInteraction {
+
         Close
     }
 
@@ -90,17 +93,19 @@ public class View extends WithInterationReactorImpl implements KeyListener {
         container.h = height;
         container.w = width;
         container.setSize(container.w, container.h);
-        
-        
+
+
         container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-         // Handle a closing window
+
+        // Handle a closing window
         container.addWindowListener(new WindowAdapter() {
 
             public void windowClosing(WindowEvent e) {
                 handleWindowClose();
             }
         });
+        
+        listen(this, ScreenUpdateListener.class);
     }
 
     @Override
@@ -116,8 +121,8 @@ public class View extends WithInterationReactorImpl implements KeyListener {
     public void keyReleased(KeyEvent ke) {
         final int currentKey = ke.getKeyCode();
         checkForEsc(currentKey);
-       
-        
+
+
         switch (currentKey) {
             case VK_Z:
                 pb(this, StevensLevelInteractionListener.class).correlationStepDown();
@@ -135,19 +140,19 @@ public class View extends WithInterationReactorImpl implements KeyListener {
                 pb(this, ExperimentInteractionListener.class).invalidInteraction();
                 break;
         }
-      
-        
+
+
     }
 
     public void start() {
-    //    doFullScreen();
+        //    doFullScreen();
         container.setVisible(true);
     }
 
     public void update(Image image) {
         this.currImage = image;
         container.img = this.currImage;
-        if (!isFullscreen()){
+        if (!isFullscreen()) {
             start();
         }
         container.update(container.getGraphics()); //getGraphics will return null until the jframe is visible
@@ -195,8 +200,8 @@ public class View extends WithInterationReactorImpl implements KeyListener {
             }
         }
     }
-    
-     /**
+
+    /**
      * What to do when the experiment window is closed.
      */
     private void handleWindowClose() {
@@ -205,6 +210,4 @@ public class View extends WithInterationReactorImpl implements KeyListener {
         container.dispose();
         container.removeKeyListener(this);
     }
-    
-    
 }

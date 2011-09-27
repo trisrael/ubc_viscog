@@ -12,7 +12,7 @@ import java.util.EventListener;
  * @author Tristan Goffman(tgoffman@gmail.com) Sep 21, 2011
  */
 public interface StevensLevelViewListener extends EventListener{
-    public void update();
+    
 
     public void update(StevensLevelUpdateViewEvent buildAdjustedPayload);
 }

@@ -34,10 +34,12 @@ public class TaskDesign extends Design {
      */
     public Object prop(String memberName) {
         Object val = null;
+        Exception x1 = null;
+        Exception x2 = null;
         try {
             val = InferenceUtil.prop(this, memberName);
         } catch (Exception ex) {
-            Logger.getLogger(TaskDesign.class.getName()).log(Level.WARNING, null, ex);
+            x1 = ex;
         }
 
         if (val == null) {
@@ -45,8 +47,12 @@ public class TaskDesign extends Design {
                 val = InferenceUtil.prop(getBaseDesign(), memberName);
 
             } catch (Exception ex) {
-                Logger.getLogger(TaskDesign.class.getName()).log(Level.WARNING, null, ex);
+               x2 = ex;
             }
+        }
+        
+        if(x1 != null && x2 != null){
+            Logger.getLogger(TaskDesign.class.getName()).log(Level.WARNING, null, x1);
         }
 
         return val;

@@ -36,7 +36,7 @@ public class EventBusHelperTest {
 
     @Before
     public void setUp() throws Exception {
-         setup();
+         setupEventBus();
     }
 
     @AfterClass
@@ -54,7 +54,7 @@ public class EventBusHelperTest {
    
     public void reset(){
         EventBus eb = eb();
-        setup();
+        setupEventBus();
         assertThat(eb, is(eb()));
     }
    

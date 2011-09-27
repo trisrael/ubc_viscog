@@ -139,6 +139,7 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
 
         }
         setPart(getSequence().get(this.partsComplete));
+      //  getPart().setup();
         getPart().run();
         setState(getPart().getState()); //ExperimentControl has the same state as the current part running. Logic should prevail as each part finishes and a new one
         //starts the control should take the state from the incoming part.. only as the final part completes will ExperimentControl complete as well.

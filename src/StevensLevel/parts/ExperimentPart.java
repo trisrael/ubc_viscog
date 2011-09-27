@@ -26,6 +26,14 @@ public abstract class ExperimentPart<ScreenClass extends AbstractScreen> extends
        super.run();
        pb(this, ScreenChangeListener.class).changeScreen(new ScreenChange(getScreenClass()));
      }
+
+    /**
+     * Items to setup before an ExperimentPart is run. setup gets called by ExperimentControl
+     * before run
+     */
+    public void setup() {
+       
+    }
    
  
 }

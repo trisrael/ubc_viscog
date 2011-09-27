@@ -1,19 +1,22 @@
 package StevensLevel.parts;
 
-import StevensLevel.Trial;
+import StevensLevel.events.StevensLevelInteraction;
+import StevensLevel.listeners.ScreenNotificationListener;
 import configuration.TaskDesign;
 import interaction.BasicInteraction;
 import interaction.PartInteraction;
 import interaction.ReactTo;
 import java.util.ArrayList;
 import java.util.List;
+import static StevensLevel.EventBusHelper.*;
+import screens.Screen;
 
 /**
  * Round explains a number of Trials where each contains the same level of high and low correlation, simply the 'output' is different as in the randomization pattern
  * of the point on the distributions in question.
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class Round extends ExperimentPart {
+public class Round extends ExperimentPart implements ScreenNotificationListener {
 
     private final double lowCorr;
     private final double highCorr;
@@ -25,7 +28,7 @@ public class Round extends ExperimentPart {
     private int trialsPerformed = 0;
     private final int numPoints; // Number of points to draw on each graph (to build each correlation graph with)
     private final double stepSize;
-
+   
     public Round(TaskDesign des) {
         this.des = des;
         this.lowCorr = (double) des.prop("lowCorr");
@@ -55,8 +58,11 @@ public class Round extends ExperimentPart {
 
     @Override
     public void run() {
-        super.run();
-        nextTrial();
+        //Listen for newScreenEvent of type TaskScreen
+        listen(this, ScreenNotificationListener.class); 
+        
+        super.run(); //Since this is an ExperimentPart, should cause 
+        // a new screen to be put in place
     }
     
      @ReactTo(BasicInteraction.class)
@@ -78,7 +84,8 @@ public class Round extends ExperimentPart {
     /**
      * Setup the next trial as the current trial and start running it.
      */
-    private void nextTrial() {
+    private synchronized void nextTrial() {
+        
         afterTrials();
         
         this.current = getTrial(trialsPerformed);
@@ -95,7 +102,8 @@ public class Round extends ExperimentPart {
         }
     }
 
-    void setup() {
+    @Override
+    public void setup() {
         if (getNumTrials() == null) {
             throw new RuntimeException("Missing Trial Numbers");
         }
@@ -132,5 +140,14 @@ public class Round extends ExperimentPart {
 
     private boolean hasNextTrial() {
        return numTrials > trialsPerformed;
+    }
+
+    @Override
+    public <T extends Screen> void screenIsReady(Class<T> screenClazz) {
+     if(getState() == StevensLevel.State.IN_PROGRESS){ //Send off first updates if running
+        nextTrial();
+       eb().removeListener(ScreenNotificationListener.class, this);
+     }
+       
     }
 }

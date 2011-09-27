@@ -28,7 +28,7 @@ public class Experiment extends EventBusHelper implements experiment.Experiment{
     }
     
     public Experiment(){
-        EventBusHelper.setup();
+        EventBusHelper.setupEventBus();
         this.eCon = new ExperimentControl();
     }
     
