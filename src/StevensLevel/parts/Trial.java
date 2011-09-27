@@ -60,7 +60,6 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
         this.adjustedCorr = highCorr;
         setNumPoints(numpts);
         setStepSize(stepsize);
-        EventBusHelper.listen(this, StevensLevelInteractionListener.class);
     }
 
     /**

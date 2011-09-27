@@ -2,6 +2,7 @@ package StevensLevel.parts;
 
 import StevensLevel.events.StevensLevelInteraction;
 import StevensLevel.listeners.ScreenNotificationListener;
+import StevensLevel.listeners.StevensLevelInteractionListener;
 import configuration.TaskDesign;
 import interaction.BasicInteraction;
 import interaction.PartInteraction;
@@ -89,6 +90,9 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
         afterTrials();
         
         this.current = getTrial(trialsPerformed);
+        listen(this.current, StevensLevelInteractionListener.class);//Current trial needs to listen
+        //to correlation events
+        
         this.current.addInteractionReactor(this);
         runTrial();
         trialsPerformed++; //increment trials performed
