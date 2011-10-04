@@ -37,6 +37,28 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
     private int width = 1024;
     private int height = 768;
     private AbstractStrictScreen scr;
+    
+        public View() {
+        container.addKeyListener(this);
+        invisibleCursor();
+        container.h = height;
+        container.w = width;
+        container.setSize(container.w, container.h);
+
+
+        container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Handle a closing window
+        container.addWindowListener(new WindowAdapter() {
+
+            public void windowClosing(WindowEvent e) {
+                handleWindowClose();
+            }
+        });
+        
+        listen(this, ScreenUpdateListener.class);
+        
+    }
 
     /**
      * Might be an idea to use a dirty flag, one in which another thread is moving along looking for dirty, if dirty is seen than an update on the screen is run.
@@ -87,26 +109,7 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
     private Image currImage;
     protected SingleImage container = new SingleImage();
 
-    public View() {
-        container.addKeyListener(this);
-        invisibleCursor();
-        container.h = height;
-        container.w = width;
-        container.setSize(container.w, container.h);
 
-
-        container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Handle a closing window
-        container.addWindowListener(new WindowAdapter() {
-
-            public void windowClosing(WindowEvent e) {
-                handleWindowClose();
-            }
-        });
-        
-        listen(this, ScreenUpdateListener.class);
-    }
 
     @Override
     public void keyTyped(KeyEvent ke) {

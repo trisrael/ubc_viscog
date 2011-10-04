@@ -5,6 +5,10 @@
 package StevensLevel;
 
 import StevensLevel.events.StevensLevelInteraction;
+import StevensLevel.listeners.ScreenUpdateListener;
+import StevensLevel.parts.Round;
+import StevensLevel.screens.TaskScreen;
+import configuration.TaskDesign;
 import java.awt.Panel;
 import interaction.ExperimentInteraction;
 import java.awt.Component;
@@ -18,6 +22,7 @@ import java.awt.event.KeyEvent;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 import static interaction.BasicInteraction.*;
+import static StevensLevel.EventBusHelper.*;
 
 /**
  *
@@ -31,9 +36,11 @@ public class ViewTest {
     private static View spy;
 
     public static void setUp() {
+        setupEventBus();
         instance = new View();
         spy = spy(instance);
         comp = new JFrame();
+     
     }
 
     public static class Notifies {
@@ -42,6 +49,22 @@ public class ViewTest {
         public void setUp() {
             ViewTest.setUp();
         }
+        
+        
+        @Test
+        public void screenUpdatedCalledAfterRoundIsRun(){
+           spy.setScreen(new TaskScreen());
+           eb().removeListener(instance);
+           listen(spy, ScreenUpdateListener.class);
+           
+            Round round = new Round(new TaskDesign());
+            
+            round.run();
+            
+            verify(spy, atMost(1)).screenUpdated();
+        }
+        
+       
 
         /**
          * Test of keyTyped method, of class View.

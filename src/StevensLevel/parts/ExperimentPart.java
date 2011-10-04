@@ -25,6 +25,7 @@ public abstract class ExperimentPart<ScreenClass extends AbstractScreen> extends
     public void run(){
        super.run();
        pb(this, ScreenChangeListener.class).changeScreen(new ScreenChange(getScreenClass()));
+       
      }
 
     /**

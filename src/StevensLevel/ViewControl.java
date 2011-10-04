@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import static StevensLevel.EventBusHelper.*;
 
 import screens.AbstractStrictScreen;
+import screens.Screen;
 
 /**
  *
@@ -72,8 +73,12 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
     
     @Override
     public void changeScreen(ScreenChange chg) {
-       setNewScreen(chg.getScreenClass());
-       pb(this, ScreenNotificationListener.class).screenIsReady(chg.getScreenClass());
+        changeScreen(chg.getScreenClass());
+    }
+    
+    public void changeScreen(Class<? extends Screen> clazz){
+        setNewScreen(clazz);
+       pb(this, ScreenNotificationListener.class).screenIsReady(clazz);
     }
     
 

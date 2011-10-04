@@ -5,6 +5,7 @@ import StevensLevel.State;
 import StevensLevel.Validator;
 import StevensLevel.events.StevensLevelInteraction;
 import StevensLevel.Validator.InvalidCorrelation;
+import StevensLevel.listeners.ScreenUpdateListener;
 import StevensLevel.listeners.StevensLevelInteractionListener;
 import StevensLevel.listeners.StevensLevelViewListener;
 import StevensLevel.screens.TaskScreen.Graphs;
@@ -60,6 +61,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
         this.adjustedCorr = highCorr;
         setNumPoints(numpts);
         setStepSize(stepsize);
+        listen(this, StevensLevelInteractionListener.class);
     }
 
     /**
@@ -83,7 +85,9 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
         }
         
         setAdjustedCorr(getAdjustedCorr() + toAdd);
+        
         pb(this, StevensLevelViewListener.class).update(buildAdjustedPayload());
+        pb(this,ScreenUpdateListener.class).screenUpdated();
     }
 
     public Trial(double highCorr, double lowCorr, double startCorr, int numpts, double stepsize) {
@@ -116,6 +120,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
         for (StevensLevelUpdateViewEvent payload : li) {
            pb(this, StevensLevelViewListener.class).update(payload);
         }
+        pb(this,ScreenUpdateListener.class).screenUpdated();
 
     }
 

@@ -55,5 +55,9 @@ public class EventBusHelper {
         if(eb == null)
             eb = new EventBus();
     }
+
+    public static void removeEventBus() { 
+       eb = null;
+    }
     
 }

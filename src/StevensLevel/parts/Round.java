@@ -66,34 +66,16 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
         // a new screen to be put in place
     }
     
-     @ReactTo(BasicInteraction.class)
-     public void basicInteractionOccurred(BasicInteraction in, Object payload){
-        switch(in){
-            case Complete:
-                
-                if(hasNextTrial())
-                    nextTrial();
-                else
-                    afterTrials();
-                    sendReaction(PartInteraction.Complete);
-                
-            default:
-                break;
-        }
-    }
 
     /**
      * Setup the next trial as the current trial and start running it.
      */
-    private synchronized void nextTrial() {
+    protected synchronized void nextTrial() {
         
         afterTrials();
         
         this.current = getTrial(trialsPerformed);
-        listen(this.current, StevensLevelInteractionListener.class);//Current trial needs to listen
-        //to correlation events
-        
-        this.current.addInteractionReactor(this);
+      
         runTrial();
         trialsPerformed++; //increment trials performed
     }
@@ -124,13 +106,17 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
     protected void setNumTrials(Integer num) {
         numTrials = num;
     }
+    
+    protected Trial getCurrentTrial(){
+        return this.current;
+    }
 
     private Trial getTrial(int ind) {
         return getTrials().get(ind);
     }
 
     private void pushTrial(Trial trial) {
-        trials.add(trial);
+        getTrials().add(trial);
     }
 
     private void runTrial() {
@@ -148,10 +134,21 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
 
     @Override
     public <T extends Screen> void screenIsReady(Class<T> screenClazz) {
-     if(getState() == StevensLevel.State.IN_PROGRESS){ //Send off first updates if running
+     if(getState() == StevensLevel.State.IN_PROGRESS && hasNextTrial()){ //Send off first updates if running
         nextTrial();
        eb().removeListener(ScreenNotificationListener.class, this);
      }
        
     }
+    
+   /**
+     * Default continueOn action simply sends out another event explaining of a larger continueOn.
+     */
+    public void continueOn(){
+       if(getState() == StevensLevel.State.IN_PROGRESS && hasNextTrial()){ //Send off first updates if running
+        nextTrial();
+            
+    }
+    
+}
 }

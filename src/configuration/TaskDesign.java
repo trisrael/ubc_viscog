@@ -16,6 +16,9 @@ import util.InferenceUtil;
  * @author Tristan Goffman(tgoffman@gmail.com) Sep 4, 2011
  */
 public class TaskDesign extends Design {
+    public TaskDesign(){
+        setBaseDesign(new BaseDesign());
+    }
 
     public BaseDesign getBaseDesign() {
         return baseDesign;

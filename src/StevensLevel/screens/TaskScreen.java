@@ -32,31 +32,11 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
     private int gHeight = gWidth;
     private int offTop = (height - gHeight) / 2;
     //Timer for sending off screen needs re-writing events
-    Timer deferredNotify = null;
+    protected Timer deferredNotify = null;
+    private boolean dirty;
 
     public TaskScreen() {
         listen(this, StevensLevelViewListener.class);
-    }
-
-    /**
-     * A method which explains that somehow the screen has become 'dirty', it's data has changed
-     * and thus and update is is in order. Signifies to the listeners of this state.
-     */
-    private void dirtyScreen() {
-        if (deferredNotify == null) {
-            deferredNotify = new Timer();
-        }
-
-        deferredNotify.cancel(); //Get rid of previously scheduled tasks (since we are only dealing with 
-        //update screen types
-        deferredNotify.schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                pb(this, ScreenUpdateListener.class).screenUpdated();
-            }
-        }, TIMERTASK_WAIT);
-
     }
 
     /**
@@ -92,8 +72,7 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
         if (dist != null) {
             dist.turnIntoTransformedCorrelatedGaussian(payload.corr, payload.numPoints, DEF_ERROR); //update distribution (re-calculate points)
         }
-
-        dirtyScreen();
+        this.dirty = true;
     }
 
     /**
@@ -123,6 +102,14 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
         return Util.toImage(bi);
     }
 
+    
+    public Image getImage(){
+        if(!dirty && currentImage != null)
+            return currentImage;
+        
+        dirty = false;
+        return generateImage();
+    }
     /**
      * Draws a single distrubtion into its spot on the Graphics2D object given.
      * @param graph
@@ -152,4 +139,6 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
         y = offTop;
         g.drawImage(im, x, y, null);
     }
+    
+    
 }

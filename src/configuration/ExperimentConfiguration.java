@@ -65,6 +65,7 @@ public class ExperimentConfiguration {
     private void addDefaultDesign(){
         TaskDesign[] darr = new TaskDesign[1];
         darr[0] =  new TaskDesign();
+        darr[0].setBaseDesign(getBaseDesign());
         setDesigns(darr);
     }
     
