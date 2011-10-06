@@ -2,9 +2,9 @@ package StevensLevel.parts;
 
 import StevensLevel.EventBusHelper;
 import StevensLevel.State;
-import StevensLevel.Validator;
+import StevensLevel.CorrelationEnsurer;
 import StevensLevel.events.StevensLevelInteraction;
-import StevensLevel.Validator.InvalidCorrelation;
+
 import StevensLevel.listeners.ScreenUpdateListener;
 import StevensLevel.listeners.StevensLevelInteractionListener;
 import StevensLevel.listeners.StevensLevelViewListener;
@@ -19,7 +19,7 @@ import static StevensLevel.EventBusHelper.*;
  * has a correlation that is between that of two other distributions.
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class Trial extends ExperimentModel implements StevensLevelInteractionListener{
+public class Trial extends ExperimentModel implements StevensLevelInteractionListener {
 
     //Member variables
     private final double highCorr;
@@ -73,38 +73,35 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
      * @param stepsize 
      */
     public void step(StevensLevelInteraction in) {
-        double toAdd = 0;
-        switch (in) {
+        if (isRunning()) {
 
-            case CorrelationUp:
-                toAdd += getStepSize();
-                break;
-            case CorrelationDown:
-                toAdd -= getStepSize();
-                break;
+
+            double toAdd = 0;
+            switch (in) {
+
+                case CorrelationUp:
+                    toAdd += getStepSize();
+                    break;
+                case CorrelationDown:
+                    toAdd -= getStepSize();
+                    break;
+            }
+
+            double prevCorr = getAdjustedCorr();
+            setAdjustedCorr(CorrelationEnsurer.ensureCorr(prevCorr + toAdd));
+
+            if (prevCorr != getAdjustedCorr()) { //Only send an update to the screen if value has changed to avoid user from getting confused
+                
+                pb(this, StevensLevelViewListener.class).update(buildAdjustedPayload());
+                pb(this, ScreenUpdateListener.class).screenUpdated();
+            }
         }
-        
-        setAdjustedCorr(getAdjustedCorr() + toAdd);
-        
-        pb(this, StevensLevelViewListener.class).update(buildAdjustedPayload());
-        pb(this,ScreenUpdateListener.class).screenUpdated();
     }
 
     public Trial(double highCorr, double lowCorr, double startCorr, int numpts, double stepsize) {
         this(highCorr, lowCorr, numpts, stepsize);
         this.adjustedCorr = startCorr;
 
-    }
-
-    /**
-     * Set adjusted correlation to new value, when an invalid correlation is supplied throw an exception (invalid correlation should never be supplied)
-     * @return 
-     */
-    public double adjustCorrelation(double val) throws InvalidCorrelation {
-        Validator.validateCorr(val);
-
-        this.adjustedCorr = val;
-        return this.adjustedCorr;
     }
 
     public void run() {
@@ -115,12 +112,12 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
                 buildAdjustedPayload(),
                 this.buildPayload(highCorr, Graphs.HIGH));
 
-        
+
         //Publish updates to be picked up by view for graphs and their points etc..
         for (StevensLevelUpdateViewEvent payload : li) {
-           pb(this, StevensLevelViewListener.class).update(payload);
+            pb(this, StevensLevelViewListener.class).update(payload);
         }
-        pb(this,ScreenUpdateListener.class).screenUpdated();
+        pb(this, ScreenUpdateListener.class).screenUpdated();
 
     }
 
@@ -139,9 +136,8 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     private void setAdjustedCorr(double adjustedCorr) {
         this.adjustedCorr = adjustedCorr;
     }
-    
-    //Events
 
+    //Events
     @Override
     public void correlationStepUp() {
         step(StevensLevelInteraction.CorrelationUp);
@@ -151,12 +147,10 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     public void correlationStepDown() {
         step(StevensLevelInteraction.CorrelationDown);
     }
-    
+
     @Override
-    public void stop(){
+    public void stop() {
         super.stop();
         stoplistening(this, StevensLevelInteractionListener.class);
     }
-    
-
 }

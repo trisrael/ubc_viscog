@@ -215,6 +215,8 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
         container.setVisible(false);
         container.dispose();
         container.removeKeyListener(this);
+        
+        //TODO: make a call to finish
         }
     }
 }

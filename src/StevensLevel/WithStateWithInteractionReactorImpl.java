@@ -34,5 +34,14 @@ public abstract class WithStateWithInteractionReactorImpl extends WithInteration
         return inState(State.WAITING);
     }
     
+    public boolean isRunning(){
+        return inState(State.IN_PROGRESS);
+    }
+    
+    public boolean isStopped(){
+        return inState(State.COMPLETE);
+    
+    }
+    
     
 }

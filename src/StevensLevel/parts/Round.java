@@ -147,7 +147,6 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
     public void continueOn(){
        if(getState() == StevensLevel.State.IN_PROGRESS && hasNextTrial()){ //Send off first updates if running
         nextTrial();
-            
     }
     
 }
