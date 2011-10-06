@@ -98,6 +98,7 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
      */
     private void postCloseEvent() {
         container.getToolkit().getSystemEventQueue().postEvent(new WindowEvent(container, WindowEvent.WINDOW_CLOSING));
+        
     }
 
     public enum States {
@@ -208,9 +209,12 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
      * What to do when the experiment window is closed.
      */
     private void handleWindowClose() {
-        scrdev().getFullScreenWindow().removeAll();
+        if (scrdev().getFullScreenWindow() != null)
+            scrdev().getFullScreenWindow().removeAll();
+        if (container != null){
         container.setVisible(false);
         container.dispose();
         container.removeKeyListener(this);
+        }
     }
 }
