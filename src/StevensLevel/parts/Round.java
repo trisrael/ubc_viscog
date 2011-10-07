@@ -1,16 +1,15 @@
 package StevensLevel.parts;
 
-import StevensLevel.events.StevensLevelInteraction;
 import StevensLevel.listeners.ScreenNotificationListener;
-import StevensLevel.listeners.StevensLevelInteractionListener;
 import configuration.TaskDesign;
-import interaction.BasicInteraction;
-import interaction.PartInteraction;
-import interaction.ReactTo;
 import java.util.ArrayList;
 import java.util.List;
 import static StevensLevel.EventBusHelper.*;
+import StevensLevel.events.ScreenChange;
+import StevensLevel.listeners.ScreenChangeListener;
 import screens.Screen;
+import screens.TestCorrectScreen;
+import screens.TestIncorrectScreen;
 
 /**
  * Round explains a number of Trials where each contains the same level of high and low correlation, simply the 'output' is different as in the randomization pattern
@@ -29,7 +28,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
     private int trialsPerformed = 0;
     private final int numPoints; // Number of points to draw on each graph (to build each correlation graph with)
     private final double stepSize;
-   
+
     public Round(TaskDesign des) {
         this.des = des;
         this.lowCorr = (double) des.prop("lowCorr");
@@ -60,30 +59,29 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
     @Override
     public void run() {
         //Listen for newScreenEvent of type TaskScreen
-        listen(this, ScreenNotificationListener.class); 
-        
+        listen(this, ScreenNotificationListener.class);
+
         super.run(); //Since this is an ExperimentPart, should cause 
         // a new screen to be put in place
     }
-    
 
     /**
      * Setup the next trial as the current trial and start running it.
      */
     protected synchronized void nextTrial() {
-        
+
         afterTrials();
-        
+
         this.current = getTrial(trialsPerformed);
-      
+
         runTrial();
         trialsPerformed++; //increment trials performed
     }
 
     private void afterTrials() {
         //Log out results
-        
-        if(this.current != null){
+
+        if (this.current != null) {
             this.current.addInteractionReactor(null);
         }
     }
@@ -106,8 +104,8 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
     protected void setNumTrials(Integer num) {
         numTrials = num;
     }
-    
-    protected Trial getCurrentTrial(){
+
+    protected Trial getCurrentTrial() {
         return this.current;
     }
 
@@ -122,32 +120,40 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
     private void runTrial() {
         this.current.run();
     }
-    
-     @Override
+
+    @Override
     public Class getScreenClass() {
         return StevensLevel.screens.TaskScreen.class;
     }
 
     private boolean hasNextTrial() {
-       return numTrials > trialsPerformed;
+        return numTrials > trialsPerformed;
     }
 
     @Override
     public <T extends Screen> void screenIsReady(Class<T> screenClazz) {
-     if(getState() == StevensLevel.State.IN_PROGRESS && hasNextTrial()){ //Send off first updates if running
-        nextTrial();
-       eb().removeListener(ScreenNotificationListener.class, this);
-     }
-       
+        if (getState() == StevensLevel.State.IN_PROGRESS && hasNextTrial()) { //Send off first updates if running
+            nextTrial();
+            eb().removeListener(ScreenNotificationListener.class, this);
+        }
+
     }
-    
-   /**
+
+    /**
      * Default continueOn action simply sends out another event explaining of a larger continueOn.
      */
-    public void continueOn(){
-       if(getState() == StevensLevel.State.IN_PROGRESS && hasNextTrial()){ //Send off first updates if running
-        nextTrial();
+    public void continueOn() {
+        if (getState() == StevensLevel.State.IN_PROGRESS && hasNextTrial()) { //Send off first updates if running
+            nextTrial();
+        }
     }
-    
-}
+
+    /**
+     * Moves between trials, showing a screen in between which explains if user was correct or not in there belief 
+     * of correlation (adjusted correlation within trial)
+     */
+    public void completeTask() {
+        getCurrentTrial().stop();    
+        pb(this, ScreenChangeListener.class).changeScreen(new ScreenChange(getCurrentTrial().isCorrect() ? TestCorrectScreen.class : TestIncorrectScreen.class));
+    }
 }

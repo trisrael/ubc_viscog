@@ -17,12 +17,12 @@ public interface ExperimentInteractionListener extends EventListener {
     /**
      * User wishes to finish
      */
-    public void exit();
+    public void exitExperiment();
     
     /**
      * Experiment Tast/Part is 'completed' as the user has deemed.
      */
-    public void complete();
+    public void completeTask();
     
     
     /** Interaction which is invalid or not associated with anything else has been pressed **/

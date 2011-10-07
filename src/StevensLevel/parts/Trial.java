@@ -13,6 +13,7 @@ import StevensLevel.screens.TaskScreen.StevensLevelUpdateViewEvent;
 import java.util.Arrays;
 import java.util.List;
 import static StevensLevel.EventBusHelper.*;
+import screens.Screen;
 
 /**
  *A single task for a participant in which they must choose between lowering or raising a single distribution until they have deemed that it
@@ -152,5 +153,16 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     public void stop() {
         super.stop();
         stoplistening(this, StevensLevelInteractionListener.class);
+    }
+
+    Boolean isCorrect() {
+        return isFuzzyEqual(getAdjustedCorr(), (highCorr - lowCorr)/ 2);
+    }
+
+    /*
+     * Checks whether two doubles are roughly equal using epsilon
+     */
+    private Boolean isFuzzyEqual(double val, double d) {
+        return Math.abs(val - d) <= 0.00001;
     }
 }

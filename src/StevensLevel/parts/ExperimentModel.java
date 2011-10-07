@@ -33,20 +33,24 @@ public class ExperimentModel extends WithStateWithInteractionReactorImpl impleme
      * Default continueOn action simply sends out another event explaining of a larger continueOn.
      */
     public void continueOn(){
-        complete();
+        completeTask();
     }
+    
+    
     
     /**
      * User wishes to finish
      */
-    public void exit(){
+    public void exitExperiment(){
         pb(this, PartInteractionListener.class).exit();
     }
     
     /**
-     * Experiment Tast/Part is 'completed' as the user has deemed.
+     * Experiment Tast/Part is 'completed' as the user has deemed. So tell whoever might be listening
+     * that this 'Part' is complete.
      */
-    public void complete(){
+    public void completeTask(){
+        
         pb(this, PartInteractionListener.class).partComplete();
     }
     

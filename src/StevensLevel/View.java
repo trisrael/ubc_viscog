@@ -135,7 +135,7 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
                 pb(this, StevensLevelInteractionListener.class).correlationStepUp();
                 break;
             case VK_ENTER:
-                pb(this, ExperimentInteractionListener.class).complete();
+                pb(this, ExperimentInteractionListener.class).completeTask();
                 break;
             case VK_SPACE:
                 pb(this, ExperimentInteractionListener.class).continueOn();

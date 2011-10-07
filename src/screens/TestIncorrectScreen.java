@@ -12,29 +12,16 @@ import util.Globals;
 import util.Util;
 
 
-public class TestIncorrectScreen extends AbstractScreen{
+public class TestIncorrectScreen extends SimpleTextScreen{
+
+    @Override
+    public String text() {
+       return "Incorrect";
+    }
+
+    @Override
+    public Color fontColor() {
+       return Color.RED;
+    }
 	
-	public TestIncorrectScreen(){
-		this.correctKey = KeyEvent.VK_SPACE;
-		this.timeout = -1;
-		this.currentImage = generateImage();
-	}
-	
-	private Image generateImage(){
-		BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2 = bi.createGraphics();
-		
-		// Background
-		g2.setColor(Color.WHITE);
-		g2.fill(new Rectangle.Float(0,0,width,height));
-		
-		// Text
-		g2.setColor(Color.BLACK);
-		g2.setFont(Globals.FONT_FEEDBACK);		
-		g2.drawString("Incorrect", width/2, height/2);
-		
-		// Free resources
-		g2.dispose();
-		return Util.toImage(bi);
-	}
 }

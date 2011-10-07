@@ -42,15 +42,7 @@ public class RoundTest {
         
     public static class AfterSetup extends ExtendableRoundTest{
    
-        
-        @Test
-        public void trialsCreated(){
-            spy().setNumTrials(4);
-            spy().setup();
-            
-            verify(spy(), null);
-            
-        }
+      
         
         
         @Test
@@ -66,6 +58,20 @@ public class RoundTest {
 
         }
                
+    }
+    
+    public static class Trials extends AfterSetup {
+        @Test
+        public void switchTrials(){
+            Round round = getInstance();
+            round.setup();
+            round.run();
+            Trial nextTrial = round.getTrials().get(1);
+            
+            round.completeTask();
+            round.continueOn();
+            assertEquals(round.getCurrentTrial(), nextTrial);
+        }
     }
     
 }
