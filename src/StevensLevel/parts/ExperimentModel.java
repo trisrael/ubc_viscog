@@ -3,8 +3,6 @@ package StevensLevel.parts;
 import StevensLevel.listeners.PartInteractionListener;
 import StevensLevel.State;
 import StevensLevel.WithStateWithInteractionReactorImpl;
-import StevensLevel.events.ScreenChange;
-import StevensLevel.listeners.ScreenChangeListener;
 import interaction.ExperimentInteractionListener;
 import static StevensLevel.EventBusHelper.*;
 
@@ -32,6 +30,7 @@ public class ExperimentModel extends WithStateWithInteractionReactorImpl impleme
     /**
      * Default continueOn action simply sends out another event explaining of a larger continueOn.
      */
+    @Override
     public void continueOn(){
         completeTask();
     }
@@ -41,6 +40,7 @@ public class ExperimentModel extends WithStateWithInteractionReactorImpl impleme
     /**
      * User wishes to finish
      */
+    @Override
     public void exitExperiment(){
         pb(this, PartInteractionListener.class).exit();
     }
@@ -49,6 +49,7 @@ public class ExperimentModel extends WithStateWithInteractionReactorImpl impleme
      * Experiment Tast/Part is 'completed' as the user has deemed. So tell whoever might be listening
      * that this 'Part' is complete.
      */
+    @Override
     public void completeTask(){
         
         pb(this, PartInteractionListener.class).partComplete();
@@ -56,6 +57,7 @@ public class ExperimentModel extends WithStateWithInteractionReactorImpl impleme
     
     
     /** Interaction which is invalid or not associated with anything else has been pressed **/
+    @Override
     public void invalidInteraction(){
         //does nothing
     }

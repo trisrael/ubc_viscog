@@ -151,6 +151,7 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
     public void start() {
         //    doFullScreen();
         container.setVisible(true);
+        doFullScreen();
     }
 
     public void update(Image image) {

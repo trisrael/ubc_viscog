@@ -1,5 +1,6 @@
 package StevensLevel.parts;
 
+import StevensLevel.State;
 import StevensLevel.listeners.ScreenNotificationListener;
 import configuration.TaskDesign;
 import java.util.ArrayList;
@@ -143,9 +144,16 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
      * Default continueOn action simply sends out another event explaining of a larger continueOn.
      */
     public void continueOn() {
-        if (getState() == StevensLevel.State.IN_PROGRESS && hasNextTrial()) { //Send off first updates if running
-            nextTrial();
+        if (isWaiting()) { //should be waiting from a completeTask call -> will either want to move on to nextTrack or call 
+
+            if (hasNextTrial()) { //Send off first updates if running
+                run(); //start running again (will start next trial automaticall)
+            } else {
+              super.completeTask();
+            }
+
         }
+
     }
 
     /**
@@ -153,7 +161,13 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
      * of correlation (adjusted correlation within trial)
      */
     public void completeTask() {
-        getCurrentTrial().stop();    
-        pb(this, ScreenChangeListener.class).changeScreen(new ScreenChange(getCurrentTrial().isCorrect() ? TestCorrectScreen.class : TestIncorrectScreen.class));
+
+        //TODO: Is it possible that current trial could be null?
+        if (isRunning()) {
+            getCurrentTrial().stop();
+            setState(State.WAITING); //wait for continueOn to go off before allowing completeTasks again
+            pb(this, ScreenChangeListener.class).changeScreen(new ScreenChange(getCurrentTrial().isCorrect() ? TestCorrectScreen.class : TestIncorrectScreen.class));
+           
+        }
     }
 }
