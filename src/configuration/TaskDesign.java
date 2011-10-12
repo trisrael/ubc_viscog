@@ -100,5 +100,13 @@ public class TaskDesign extends Design {
     public void setLowCorr(double lowCorr) {
         this.lowCorr = lowCorr;
     }
+
+    public Double doubprop(String string) {
+        return Double.class.cast(prop(string));
+    }
+    
+    public Integer intprop(String string) {
+        return Integer.class.cast(prop(string));
+    }
     
 }

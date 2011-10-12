@@ -4,6 +4,7 @@
  */
 package StevensLevel;
 
+import java.awt.Dimension;
 import StevensLevel.listeners.ScreenUpdateListener;
 import StevensLevel.listeners.StevensLevelInteractionListener;
 import java.awt.event.WindowAdapter;
@@ -43,7 +44,12 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
         invisibleCursor();
         container.h = height;
         container.w = width;
-        container.setSize(container.w, container.h);
+        
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); //get default screen size from user
+        
+        container.setSize(dim.width, dim.height);
+        // remove window borders, etc.
+        container.setUndecorated(true);
 
 
         container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

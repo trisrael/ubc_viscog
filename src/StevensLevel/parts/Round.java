@@ -32,16 +32,16 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
 
     public Round(TaskDesign des) {
         this.des = des;
-        this.lowCorr = (double) des.prop("lowCorr");
-        this.highCorr = (double) des.prop("highCorr");
-        this.numTrials = (Integer) des.prop("numTrials");
-        this.numPoints = (int) des.prop("numPoints");
-        this.stepSize = (double) des.prop("stepLevel");
-        Object adjCorr = des.prop("startCorr");
+        this.lowCorr = des.doubprop("lowCorr");
+        this.highCorr = des.doubprop("highCorr");
+        this.numTrials =  des.intprop("numTrials");
+        this.numPoints = des.intprop("numPoints");
+        this.stepSize =  des.doubprop("stepLevel");
+       
 
-
+ Double adjCorr = des.doubprop("startCorr");
         if (adjCorr != null) {
-            this.startCorr = (double) adjCorr;
+            this.startCorr = adjCorr;
         } else {
             this.startCorr = this.highCorr; //default to using highCorr when no specific low corr given
         }
