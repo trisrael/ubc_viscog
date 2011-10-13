@@ -561,81 +561,14 @@ public class Distribution2D implements XMLWriteable {
     // a method to fill the list of styles
     private void fillStyles(int type, int length) {
         switch (type) {
-            // types 1-5 are the dot styles condition
-            // 1: regular filled point
-            // 2: regular unfilled (white) point
-            // 3: white dot with black dot at center
-            // 4: black dot with white dot at center
-            case 1:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-
-            case 2:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-
-            case 3:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-
-            case 4:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-
             case 5:
                 for (int i = 0; i < length; i++) {
                     pointStyles[i] = (i % 4) + 1;
                 }
                 break;
-
-            // types 6-10 are the ring conditions
-            case 6:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 7:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 8:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 9:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
             case 10:
                 for (int l = 0; l < length; l++) {
                     pointStyles[l] = (l % 4) + 6;
-                }
-                break;
-            // types 11-15 are the T's and +'s
-            // 11: plusses
-            // 12: upright T's, geo center
-            // 13: rotated T's, geo center
-            // 14: rotated T's, centroid
-            // 15: T's and plusses, geo centers
-            case 11:
-                for (int l = 0; l < length; l++) {
-                    pointStyles[l] = type;
-                }
-                break;
-            case 12:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
                 }
                 break;
             // need a mix condition of 12, 13, 14, 15
@@ -656,33 +589,16 @@ public class Distribution2D implements XMLWriteable {
                     pointStyles[i] = (i % 5) + 11;
                 }
                 break;
-
-            // types 21-25 are the symmetric shapes
-            case 21:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 22:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 23:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 24:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
+       
             case 25:
                 for (int l = 0; l < length; l++) {
                     pointStyles[l] = (l % 4) + 21;
                 }
                 break;
+            default:
+                 for (int i = 0; i < length; i++) {
+                    pointStyles[i] = type;
+                }
 
         }
 
