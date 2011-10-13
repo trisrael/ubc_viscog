@@ -1,9 +1,7 @@
-package deploy.common;
+package experiment;
 
-import deploy.common.logging.DefSubjectFilenameBuilder;
-import deploy.common.logging.SubjectFilenameBuilder;
-import deploy.common.logging.ExperimentLogging;
-import deploy.common.logging.SubjectFilenameBuilderImpl;
+import common.logging.SubjectFilenameBuilder;
+import common.logging.SubjectFilenameBuilderImpl;
 import experiment.ExperimentType;
 
 /**

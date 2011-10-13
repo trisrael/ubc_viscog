@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package deploy.common.logging;
+package common.logging;
 
-import deploy.common.Subject;
+import experiment.Subject;
 /**
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Oct 13, 2011

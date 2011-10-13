@@ -27,7 +27,7 @@ public class TaskDesignTest {
     public void testProp() {
         String memberName = "";
         TaskDesign instance = new TaskDesign();
-        instance.setBaseDesign(new BaseDesign());
+        instance.setBaseDesign(new Design());
         assertThat((int) instance.prop("numTrials"), is(instance.getBaseDesign().getNumTrials()));
     }
 }

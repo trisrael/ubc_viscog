@@ -4,48 +4,60 @@
  */
 package configuration;
 
+import common.condition.DotHueType;
+import common.condition.DotStyleType;
+
 /**
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Sep 4, 2011
  */
-public class Design {
+public class Design{
+    protected int numTrials = 4;
+    private int numRounds = 1;
+    private int numPoints = 200; //Number of points to draw on graphs (if a graph is available)
+
+    public int getNumPoints() {
+        return numPoints;
+    }
+
+    public void setNumPoints(int numPoints) {
+        this.numPoints = numPoints;
+    }
+
+    public int getNumRounds() {
+        return numRounds;
+    }
+
+    public void setNumRounds(int numRounds) {
+        this.numRounds = numRounds;
+    }
+
+    public int getNumTrials() {
+        return numTrials;
+    }
+
+    public void setNumTrials(int numTrials) {
+        this.numTrials = numTrials;
+    }
     
-    // ** Member Variables
+    //Both of these return enum types to map to numbers using ConditionHelper
+    String dotStyle;
+    String dotHue;
+
+    public DotHueType getDotHue() {
+        return DotHueType.valueOf(dotHue);
+    }
+
+    public void setDotHue(String dotHue) {
+        this.dotHue = dotHue;
+    }
+
+    public DotStyleType getDotStyle() {
+        return DotStyleType.valueOf(dotStyle);
+    }
+
+    public void setDotStyle(String dotStyle) {
+        this.dotStyle = dotStyle;
+    }
     
-    private int totalDots;
-    private PointShapeDrawer[] dotShapes;
-    private String[] dotHues; // May be a string (e.g. "black" or a hex tag for a color)
-    private int[] dotWidths;
-
-    public String[] getDotHues() {
-        return dotHues;
-    }
-
-    public void setDotHues(String[] dotHues) {
-        this.dotHues = dotHues;
-    }
-
-    public PointShapeDrawer[] getDotShapes() {
-        return dotShapes;
-    }
-
-    public void setDotShapes(PointShapeDrawer[] dotShapes) {
-        this.dotShapes = dotShapes;
-    }
-
-    public int[] getDotWidths() {
-        return dotWidths;
-    }
-
-    public void setDotWidths(int[] dotWidths) {
-        this.dotWidths = dotWidths;
-    }
-
-    public int getTotalDots() {
-        return totalDots;
-    }
-
-    public void setTotalDots(int totalDots) {
-        this.totalDots = totalDots;
-    }
 }

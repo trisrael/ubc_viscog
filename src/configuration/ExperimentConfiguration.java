@@ -18,13 +18,13 @@ public class ExperimentConfiguration {
     
     private Style style = new Style();
     private TaskDesign[] designs = new TaskDesign[0];
-    private BaseDesign baseDesign = new BaseDesign();
+    private Design baseDesign = new Design();
 
-    public BaseDesign getBaseDesign() {
+    public Design getBaseDesign() {
         return baseDesign;
     }
 
-    public void setBaseDesign(BaseDesign baseDesign) {
+    public void setBaseDesign(Design baseDesign) {
         this.baseDesign = baseDesign;
     }
 

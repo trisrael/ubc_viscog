@@ -1,7 +1,7 @@
 
-package deploy.common.logging;
+package common.logging;
 
-import deploy.common.Subject;
+import experiment.Subject;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

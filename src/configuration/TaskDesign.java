@@ -17,18 +17,18 @@ import util.InferenceUtil;
  */
 public class TaskDesign extends Design {
     public TaskDesign(){
-        setBaseDesign(new BaseDesign());
+        setBaseDesign(new Design());
     }
 
-    public BaseDesign getBaseDesign() {
+    public Design getBaseDesign() {
         return baseDesign;
     }
 
-    public void setBaseDesign(BaseDesign baseDesign) {
+    public void setBaseDesign(Design baseDesign) {
         this.baseDesign = baseDesign;
     }
     
-    private BaseDesign baseDesign;
+    private Design baseDesign;
     
     /**
      * Get properties from TaskDesign (Notice that there is no method to set them, this is to deter later setting.  All setting of properties should have been completed

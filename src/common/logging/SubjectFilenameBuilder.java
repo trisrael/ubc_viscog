@@ -1,6 +1,6 @@
-package deploy.common.logging;
+package common.logging;
 
-import deploy.common.Subject;
+import experiment.Subject;
 
 /**
  *Define how a filename is to be printed out for the Logging utility class
