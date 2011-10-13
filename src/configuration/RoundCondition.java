@@ -1,19 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package configuration;
-
-import common.condition.DotHueType;
-import common.condition.DotStyleType;
 
 /**
  *Condition for a single round
  * @author Tristan Goffman(tgoffman@gmail.com) Oct 13, 2011
  */
-public class RoundCondition extends Design{
-    Design parent;
-    
+public class RoundCondition extends TaskDesign{
+    TaskDesign parent;
     
     
     public RoundCondition(){
@@ -28,7 +20,7 @@ public class RoundCondition extends Design{
         return parent;
     }
 
-    public void setParent(Design parent) {
+    public void setParent(TaskDesign parent) {
         this.parent = parent;
     }
     

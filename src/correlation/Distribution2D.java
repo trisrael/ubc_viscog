@@ -692,53 +692,10 @@ public class Distribution2D implements XMLWriteable {
     private void fillHues(int hue, int length) {
 
         switch (hue) {
-
-            case 1:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 2:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 3:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 4:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
             case 5:
                 for (int i = 0; i < length; i++) {
                     //pointHues[i] = 2;
                     pointHues[i] = (i % 4) + 1;
-                }
-                break;
-
-            // cases 6-10 are the colors
-            case 6:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 7:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 8:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 9:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
                 }
                 break;
             case 10:
@@ -746,7 +703,10 @@ public class Distribution2D implements XMLWriteable {
                     pointHues[i] = (i % 4) + 6;
                 }
                 break;
-
+            default:
+                for (int i = 0; i < length; i++) {
+                    pointHues[i] = hue;
+                }
         }
     }
 
