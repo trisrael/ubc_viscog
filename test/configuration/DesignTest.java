@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.mockito.internal.util.ArrayUtils;
 import org.yaml.snakeyaml.*;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
-import render.FilledCircle;
+import render.WithOuterCircle;
 import yaml.DesignConstructor;
 import static junit.framework.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -66,13 +66,13 @@ public class DesignTest {
    @Test
    public void dotShape(){
           Design bean = (Design) yaml.load("{dotShapes: [!shape render.FilledCircle] }");
-          assertThat(ls(bean.getDotShapes()).get(0), instanceOf(FilledCircle.class));
+          assertThat(ls(bean.getDotShapes()).get(0), instanceOf(WithOuterCircle.class));
    }   
    
     @Test
    public void defaultNamedotShape(){
           Design bean = (Design) yaml.load("{dotShapes: [!shape FilledCircle] }");
-          assertThat(ls(bean.getDotShapes()).get(0),instanceOf(FilledCircle.class));
+          assertThat(ls(bean.getDotShapes()).get(0),instanceOf(WithOuterCircle.class));
    } 
    
 }
