@@ -519,42 +519,20 @@ public class Distribution2D implements XMLWriteable {
 
     // a method to fill array with proper sizes
     private void fillSizes(double currSize, int length) {
-
-        switch ((int) currSize) {
-            case 1:
-                for (int i = 0; i < length; i++) {
-                    pointSizes[i] = (int) currSize;
-                }
-                break;
-            case 4:
-                for (int i = 0; i < length; i++) {
-                    pointSizes[i] = (int) currSize;
-                }
-                break;
-            case 8:
-                for (int i = 0; i < length; i++) {
-                    pointSizes[i] = (int) currSize;
-                }
-                break;
-            case 12:
-                for (int i = 0; i < length; i++) {
-                    pointSizes[i] = (int) currSize;
-                }
-                break;
-            case 16:
-                for (int i = 0; i < length; i++) {
-                    pointSizes[i] = (int) currSize;
-                }
-                break;
-            case 77:
-                for (int l = 0; l < length; l = l + 4) {
+        
+        if((int) currSize == 77){
+            for (int l = 0; l < length; l = l + 4) {
                     pointSizes[l] = 1;
                     pointSizes[l + 1] = 4;
                     pointSizes[l + 2] = 8;
                     pointSizes[l + 3] = 16;
                     //pointSizes[l] = (l % 4) + 1;
+                }}
+        else{
+            int intsize = (int) currSize;
+               for (int i = 0; i < length; i++) {
+                    pointSizes[i] = intsize;
                 }
-                break;
         }
     }
 
