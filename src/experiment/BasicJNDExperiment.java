@@ -7,7 +7,6 @@ package experiment;
 import convergence.Convergence;
 import deploy.common.ExperimentStartDialogue;
 import deploy.JND.JNDExperimentConfFrame;
-import common.logging.SubjectFilenameBuilder;
 import common.logging.SubjectFilenameBuilderImpl;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -26,7 +25,6 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Vector;
@@ -433,6 +431,7 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
 
         queueConditions(currentSubjectNumber);
         this.addKeyListener(this);
+        
         doFullscreen();
         this.update(this.getGraphics());
         this.setVisible(true);
@@ -490,11 +489,12 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
         this.setBackground(Color.BLACK);
 
         // switch to fullscreen mode
-        GraphicsEnvironment.getLocalGraphicsEnvironment().
-                getDefaultScreenDevice().setFullScreenWindow(this);
+       GraphicsEnvironment.getLocalGraphicsEnvironment().
+       getDefaultScreenDevice().setFullScreenWindow(this);
 
         w = this.getWidth();
         h = this.getHeight();
+        
 
     }
 

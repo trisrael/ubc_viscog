@@ -1,6 +1,6 @@
 package util;
 
-import common.condition.ConditionHelper;
+import common.condition.ConditionMaps;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -145,9 +145,9 @@ public class DrawUtil {
         data = data.x(x).y(y).xCenter(x_cent).yCenter(y_cent).size(size);
 
 
-        currColor = ConditionHelper.getDotColor(fillCol);
+        currColor = ConditionMaps.getDotColor(fillCol);
 
-        ConditionHelper.getPointShapeDrawer(pointStyle).drawPoint(data);
+        ConditionMaps.getPointShapeDrawer(pointStyle).drawPoint(data);
 
     }
 

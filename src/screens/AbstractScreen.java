@@ -9,7 +9,9 @@ package screens;
 import java.awt.Image;
 
 public abstract class AbstractScreen implements Screen{
-	protected int correctKey = -1;
+	//TODO: Remove reliance on correct key in future
+        protected int correctKey = 32; //space key still made use of by JND 
+        
 	protected Image currentImage = null;
 	protected float timeout = -1;
 	protected int width = 1280;

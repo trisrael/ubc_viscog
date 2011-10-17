@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import log.LogfileRow;
 import util.Util;
 
@@ -49,7 +51,7 @@ public class ExperimentLogging {
      * @return 
      */
     private static File getFile(Subject person, PathParts pathParts) {
-        return new File(FOLDER_LOGS + fp(pathParts, person));
+        return new File(fp(pathParts, person));
     }
     
     
@@ -77,7 +79,7 @@ public class ExperimentLogging {
         
         Object pull;
        synchronized(uniqueTimes){
-         pull =  uniqueTimes.get(part);
+         pull =  uniqueTimes.get(person);
          
        }
          String inFst  = "";
@@ -129,7 +131,8 @@ public class ExperimentLogging {
 
         // create logfile
         try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(fp(PathParts.Data, person), false));
+            
+            BufferedWriter out = new BufferedWriter(new FileWriter(createFile(PathParts.Data, person), false));
             out.write(LogfileRow.getTitle() + "\n");
             out.close();
         } catch (IOException e) {
@@ -139,7 +142,7 @@ public class ExperimentLogging {
 
         // create a summary of a subjects data
         try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(fp(PathParts.Summary, person), false));
+            BufferedWriter out = new BufferedWriter(new FileWriter(createFile(PathParts.Summary, person), false));
             out.write("level	above	JND	trials  scalingVal dotSize numPoints dotStyle dotHue" + "\n");
             out.close();
         } catch (IOException e) {
@@ -147,6 +150,18 @@ public class ExperimentLogging {
             System.exit(0);
         }
         }
+    }
+    
+    
+    public static File createFile(PathParts part, Subject person){
+        String path = fp(part, person);
+        File file = new File(path);
+        try {
+            file.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(ExperimentLogging.class.getName()).log(Level.SEVERE, "Can't create file at path: " + path , ex);
+        }
+        return file;
     }
     
     

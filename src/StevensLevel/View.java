@@ -168,7 +168,7 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
         // set background color
         container.setBackground(Color.BLACK);
         // switch to fullscreen mode
-        scrdev().setFullScreenWindow(container);
+       // scrdev().setFullScreenWindow(container);
     }
 
     private boolean isFullscreen() {
