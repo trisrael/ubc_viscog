@@ -1,24 +1,29 @@
 package configuration;
 
+import common.condition.DotHueType;
+import common.condition.DotStyleType;
+
 /**
  *Condition for a single round
  * @author Tristan Goffman(tgoffman@gmail.com) Oct 13, 2011
  */
 public class RoundCondition extends TaskDesign{
-    TaskDesign parent;
-    
-    
+    public TaskDesign parent;
+   
+
+    public TaskDesign getParent() {
+        return parent;
+    }
+
     public RoundCondition(){
         numTrials = -1;
     }
 
     /*
      * 
-     * Parent is normally the base design conditions for a given
+     * Parent is normally the base design conditions for a given experiment
      */
-    public Design getParent() {
-        return parent;
-    }
+  
 
     public void setParent(TaskDesign parent) {
         this.parent = parent;

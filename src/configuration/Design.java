@@ -18,8 +18,8 @@ public class Design{
     private boolean axisOn = true;
     private boolean labelsOn = false; //Axis label     
     //Both of these return enum types to map to numbers using ConditionHelper
-    String dotStyle;
-    String dotHue;
+    DotStyleType dotStyle;
+    DotHueType dotHue;
 
 
     public boolean isAxisOn() {
@@ -64,18 +64,18 @@ public class Design{
     }
    
     public DotHueType getDotHue() {
-        return DotHueType.valueOf(dotHue);
+        return dotHue;
     }
 
-    public void setDotHue(String dotHue) {
+    public void setDotHue(DotHueType dotHue) {
         this.dotHue = dotHue;
     }
 
     public DotStyleType getDotStyle() {
-        return DotStyleType.valueOf(dotStyle);
+        return dotStyle;
     }
 
-    public void setDotStyle(String dotStyle) {
+    public void setDotStyle(DotStyleType dotStyle) {
         this.dotStyle = dotStyle;
     }
     

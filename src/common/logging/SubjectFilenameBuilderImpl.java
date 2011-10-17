@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package common.logging;
 
 import experiment.Subject;
@@ -12,7 +8,7 @@ import experiment.Subject;
 public class SubjectFilenameBuilderImpl implements SubjectFilenameBuilder{
     @Override
     public String buildFileName(Subject person, String ending) {
-        return (Integer.toString(person.getNumber()) + SubjectFilenameBuilder.delimiter + person.getInitials() + SubjectFilenameBuilder.delimiter + ending);
+        return person.getType().toString() + SubjectFilenameBuilder.delimiter + (Integer.toString(person.getNumber()) + SubjectFilenameBuilder.delimiter + person.getInitials() + SubjectFilenameBuilder.delimiter + ending);
     }
 
 }

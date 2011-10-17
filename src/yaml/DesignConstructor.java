@@ -8,7 +8,6 @@ package yaml;
 import configuration.Design;
 import configuration.PointShapeFactory;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
-import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.ScalarNode;
@@ -27,8 +26,7 @@ public class DesignConstructor extends CustomClassLoaderConstructor{
             throw new NullPointerException("Loader must be provided.");
         }
         this.yamlConstructors.put(new Tag("!shape"), new Construct());
-        this.cloader = theLoader;
-        
+        this.cloader = theLoader;    
     }
      
      public DesignConstructor(ClassLoader cLoader) {

@@ -62,7 +62,7 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
 
         @Override
         public String buildFileName(Subject person, String fend) {
-            return mid + super.buildFileName(person, fend);
+            return mid + SubjectFilenameBuilderImpl.delimiter + super.buildFileName(person, fend);
         }
     }
 

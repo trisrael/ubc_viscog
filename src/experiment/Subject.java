@@ -37,10 +37,10 @@ public class Subject {
         setNumber(number);
         setInitials(initials);
         setType(type);
-//        if(builder == null){
+        if(builder != null){
             setBuilder(new SubjectFilenameBuilderImpl());
         }
-
+    }
 
     public String getInitials() {
         return initials;

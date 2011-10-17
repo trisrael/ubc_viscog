@@ -4,20 +4,18 @@
  */
 package configuration;
 
+import common.condition.DotHueType;
+import common.condition.DotStyleType;
 import java.util.List;
-import configuration.Design;
-import java.io.File;
 import java.util.Arrays;
 import org.junit.Test;
 import org.junit.Before;
-import org.mockito.internal.util.ArrayUtils;
 import org.yaml.snakeyaml.*;
-import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor;
-import render.WithOuterCircle;
-import yaml.DesignConstructor;
+import org.yaml.snakeyaml.constructor.Constructor;
 import static junit.framework.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+
 import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 /**
  *
@@ -26,29 +24,30 @@ import static org.hamcrest.MatcherAssert.*;
 public class DesignTest {
     private Yaml yaml;
     
-    @Before
-    public void before(){
-        Class<?> clazz = Design.class;
-    
-        yaml = new Yaml(new DesignConstructor( DesignTest.class.getClassLoader()));
-    }
+   @Before
+   public void before(){
+        Constructor cons = new Constructor(StevensLevelDesign.class);
+       
+       TypeDescription sequential = new TypeDescription(StevensLevelDesign.class);
+       sequential.putListPropertyType("sequential", RoundCondition.class);
+       
+       TypeDescription counterbalanced = new TypeDescription(StevensLevelDesign.class);
+       counterbalanced.putListPropertyType("counterbalanced", RoundCondition.class);
+       
+       
+       cons.addTypeDescription(sequential);
+       cons.addTypeDescription(counterbalanced);
+       yaml = new Yaml(cons);
+   }
     
     // , dotShape: Object, dotHue: black, dotWidth: 0.5, pointShape: 7
   
 
     @Test
     public void totalDots() throws ClassNotFoundException {
-          
-        Design bean = (Design) yaml.load("{totalDots: 100}");
-        assertEquals(100, bean.getTotalDots());
-    }
-    
-    @Test
-    public void hueString() throws ClassNotFoundException {
-          
-        Design bean = (Design) yaml.load("{dotHues: [black]}");
-        
-        assertThat(ls(bean.getDotHues()), hasItem("black"));
+       
+        StevensLevelDesign bean = (StevensLevelDesign) yaml.load("design:\n  numPoints: 250");
+        assertEquals(250, bean.getDesign().getNumPoints());
     }
     
     public <T extends Object> List<T> ls(T[] ts){
@@ -56,23 +55,37 @@ public class DesignTest {
     }
     
     
-   @Test //Doesn't deal well with hash tag for now leave as is.
-    public void hueHex() throws ClassNotFoundException {
-          
-        Design bean = (Design) yaml.load("{dotHues: [453234]}");
-        assertThat(ls(bean.getDotHues()), hasItem("453234"));
+      @Test
+    public void sequential() throws ClassNotFoundException {
+       
+        StevensLevelDesign bean = (StevensLevelDesign) yaml.load("sequential:\n  - {numTrials: 3}");
+        assertThat(bean.getSequential().size(), is(1) );
+        assertThat(bean.getSequential().get(0).getNumTrials(), is(3));
     }
-   
-   @Test
-   public void dotShape(){
-          Design bean = (Design) yaml.load("{dotShapes: [!shape render.FilledCircle] }");
-          assertThat(ls(bean.getDotShapes()).get(0), instanceOf(WithOuterCircle.class));
-   }   
-   
+    
     @Test
-   public void defaultNamedotShape(){
-          Design bean = (Design) yaml.load("{dotShapes: [!shape FilledCircle] }");
-          assertThat(ls(bean.getDotShapes()).get(0),instanceOf(WithOuterCircle.class));
-   } 
+    public void sequentialDots() throws ClassNotFoundException {
+       
+        StevensLevelDesign bean = (StevensLevelDesign) yaml.load("sequential:\n  - {dotStyle: Unfilled, dotHue: LightGray}");
+        assertThat(bean.getSequential().size(), is(1) );
+        assertThat(bean.getSequential().get(0).getDotHue(), is(DotHueType.LightGray));
+        assertThat(bean.getSequential().get(0).getDotStyle(), is(DotStyleType.Unfilled));
+    }
+    
+    
+        @Test
+    public void counterBalanced() throws ClassNotFoundException {
+       
+        StevensLevelDesign bean = (StevensLevelDesign) yaml.load("counterbalanced:\n  - {dotStyle: Unfilled, dotHue: LightGray, lowCorr: 0.1, highCorr: 0.8, axisOn: false, labelsOn: true}");
+        final List<RoundCondition> list = bean.getCounterbalanced();
+        assertThat(list.size(), is(1) );
+        assertThat(list.get(0).getDotHue(), is(DotHueType.LightGray));
+        assertThat(list.get(0).getDotStyle(), is(DotStyleType.Unfilled));
+        assertThat(list.get(0).getLowCorr(), is(0.1));
+        assertThat(list.get(0).getHighCorr(), is(0.8));
+        assertThat(list.get(0).isAxisOn(), is(false));
+        assertThat(list.get(0).isLabelsOn(), is(true));
+    }
+ 
    
 }

@@ -84,7 +84,7 @@ public class ExperimentLogging {
        }
          String inFst  = "";
          if(pull != null)
-            inFst = String.class.cast(pull);
+            inFst = String.class.cast(pull) + SubjectFilenameBuilder.delimiter;
          
          
          synchronized(descriptMap){desc = descriptMap.get(part);}

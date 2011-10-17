@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package experiment;
 
 /**
@@ -10,5 +7,6 @@ package experiment;
  */
 public enum ExperimentType {
     JND,
-    StevensLevel
+    StevensLevel, 
+    NotSpecified
 }
