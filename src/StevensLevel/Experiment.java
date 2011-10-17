@@ -38,7 +38,7 @@ public class Experiment extends EventBusHelper implements experiment.Experiment{
 
     @Override
     public void run() {
-        getExperimentControl().run();
+        getExperimentControl().setConfiguration(null);
     }
 
     @Override

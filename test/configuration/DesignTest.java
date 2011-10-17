@@ -29,10 +29,10 @@ public class DesignTest {
         Constructor cons = new Constructor(StevensLevelDesign.class);
        
        TypeDescription sequential = new TypeDescription(StevensLevelDesign.class);
-       sequential.putListPropertyType("sequential", RoundCondition.class);
+       sequential.putListPropertyType("sequential", RoundDesign.class);
        
        TypeDescription counterbalanced = new TypeDescription(StevensLevelDesign.class);
-       counterbalanced.putListPropertyType("counterbalanced", RoundCondition.class);
+       counterbalanced.putListPropertyType("counterbalanced", RoundDesign.class);
        
        
        cons.addTypeDescription(sequential);
@@ -77,7 +77,7 @@ public class DesignTest {
     public void counterBalanced() throws ClassNotFoundException {
        
         StevensLevelDesign bean = (StevensLevelDesign) yaml.load("counterbalanced:\n  - {dotStyle: Unfilled, dotHue: LightGray, lowCorr: 0.1, highCorr: 0.8, axisOn: false, labelsOn: true}");
-        final List<RoundCondition> list = bean.getCounterbalanced();
+        final List<RoundDesign> list = bean.getCounterbalanced();
         assertThat(list.size(), is(1) );
         assertThat(list.get(0).getDotHue(), is(DotHueType.LightGray));
         assertThat(list.get(0).getDotStyle(), is(DotStyleType.Unfilled));

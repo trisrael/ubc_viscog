@@ -1,5 +1,6 @@
 package StevensLevel;
 
+import configuration.RoundDesign;
 import StevensLevel.listeners.PartInteractionListener;
 import StevensLevel.parts.ExperimentPart;
 import StevensLevel.parts.BeginningPart;
@@ -125,7 +126,7 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
     private void addTasks() {
         ExperimentConfiguration ec = getConfiguration();
 
-        for (TaskDesign design : ec.getDesigns()) {
+        for (RoundDesign design : ec.getRoundDesigns()) {
             addPart(new Round(design));
         }
     }

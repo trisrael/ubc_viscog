@@ -8,6 +8,7 @@ import java.util.List;
 import static StevensLevel.EventBusHelper.*;
 import StevensLevel.events.ScreenChange;
 import StevensLevel.listeners.ScreenChangeListener;
+import configuration.RoundDesign;
 import screens.Screen;
 import screens.TestCorrectScreen;
 import screens.TestIncorrectScreen;
@@ -22,7 +23,6 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
     private final double lowCorr;
     private final double highCorr;
     private Integer numTrials = null;
-    private final double startCorr;
     private List<Trial> trials;
     private Trial current; //Current task in progress (or null if out
     private final TaskDesign des;
@@ -30,22 +30,13 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
     private final int numPoints; // Number of points to draw on each graph (to build each correlation graph with)
     private final double stepSize;
 
-    public Round(TaskDesign des) {
+    public Round(RoundDesign des) {
         this.des = des;
         this.lowCorr = (double) des.prop("lowCorr");
         this.highCorr = (double) des.prop("highCorr");
         this.numTrials = (Integer) des.prop("numTrials");
         this.numPoints = (int) des.prop("numPoints");
         this.stepSize = (double) des.prop("stepLevel");
-        Object adjCorr = des.prop("startCorr");
-
-
-        if (adjCorr != null) {
-            this.startCorr = (double) adjCorr;
-        } else {
-            this.startCorr = this.highCorr; //default to using highCorr when no specific low corr given
-        }
-
     }
 
     public List<Trial> getTrials() {
@@ -94,7 +85,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
         }
 
         for (int i = 0; i < getNumTrials(); i++) {
-            pushTrial(new Trial(highCorr, lowCorr, startCorr, numPoints, stepSize));
+            pushTrial(new Trial(highCorr, lowCorr, highCorr, numPoints, stepSize)); //starting middle correlation will always use highCorr (for now)
         }
     }
 

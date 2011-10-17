@@ -11,33 +11,31 @@ import java.util.List;
  * @author Tristan Goffman(tgoffman@gmail.com) Oct 13, 2011
  */
 public class StevensLevelDesign extends Design{
-   private List<RoundCondition> sequential; //RoundConditions that will keep their sequential ordering
-   private List<RoundCondition> counterbalanced; //Conditions which will be rearranged dependent on some factor
-  private  Design design;
+   private List<RoundDesign> sequential; //RoundConditions that will keep their sequential ordering
+   private List<RoundDesign> counterbalanced; //Conditions which will be rearranged dependent on some factor
+   private TaskDesign design;
 
-    public void setDesign(Design design) {
+    public void setDesign(TaskDesign design) {
         this.design = design;
     }
 
-    public List<RoundCondition> getCounterbalanced() {
+    public List<RoundDesign> getCounterbalanced() {
         return counterbalanced;
     }
 
-    public void setCounterbalanced(List<RoundCondition> counterbalanced) {
+    public void setCounterbalanced(List<RoundDesign> counterbalanced) {
         this.counterbalanced = counterbalanced;
     }
 
-    public List<RoundCondition> getSequential() {
+    public List<RoundDesign> getSequential() {
         return sequential;
     }
 
-    public void setSequential(List<RoundCondition> sequential) {
+    public void setSequential(List<RoundDesign> sequential) {
         this.sequential = sequential;
     }
-   
 
-
-    Design getDesign() {
+    TaskDesign getDesign() {
         return design;
     }
 }

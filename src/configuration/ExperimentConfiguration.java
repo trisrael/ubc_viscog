@@ -3,6 +3,10 @@
  * and open the template in the editor.
  */
 package configuration;
+import common.condition.DotHueType;
+import common.condition.DotStyleType;
+import java.util.List;
+import java.util.ArrayList;
 import static util.InferenceUtil.*;
 /**
  * Experiment configuration sets up the entire experiment.
@@ -17,23 +21,15 @@ public class ExperimentConfiguration {
     // All member variables start with defaults
     
     private Style style = new Style();
-    private TaskDesign[] designs = new TaskDesign[0];
-    private Design baseDesign = new Design();
+    private StevensLevelDesign design;
+    private TaskDesign baseDesign = new TaskDesign();
 
-    public Design getBaseDesign() {
+    private TaskDesign getBaseDesign() {
         return baseDesign;
     }
 
-    public void setBaseDesign(Design baseDesign) {
+    private void setBaseDesign(TaskDesign baseDesign) {
         this.baseDesign = baseDesign;
-    }
-
-    public TaskDesign[] getDesigns() {
-        return designs;
-    }
-
-    public void setDesigns(TaskDesign[] designs) {
-        this.designs = designs;
     }
 
     public Style getStyle() {
@@ -49,24 +45,29 @@ public class ExperimentConfiguration {
      * what is available at the moment.
      */
     public void ready() {
-        if(designs.length == 0)
-            addDefaultDesign();
-        
-        
-        for (int i = 0; i < designs.length; i++) {
-            TaskDesign des = designs[i];
-            des.setBaseDesign(this.baseDesign);
-        }
-        
-        
-        
+        if(design == null)
+            setDefaultDesign();
     }
     
-    private void addDefaultDesign(){
-        TaskDesign[] darr = new TaskDesign[1];
-        darr[0] =  new TaskDesign();
-        darr[0].setBaseDesign(getBaseDesign());
-        setDesigns(darr);
+    private void setDefaultDesign(){ //Used for testing
+        design = new StevensLevelDesign();
+        design.setDesign(getBaseDesign());
+        List<RoundDesign> li = new ArrayList<RoundDesign>();
+        RoundDesign cond = new RoundDesign();
+        cond.setLabelsOn(true);
+        cond.setLowCorr(0.0);
+        cond.setHighCorr(1.0);
+        cond.setDotHue(DotHueType.IsoBlue);
+        cond.setDotStyle(DotStyleType.Plus);
+        cond.setBaseDesign(baseDesign);
+        
+        li.add(cond);
+        
+        design.setSequential(li);
+    }
+
+    public Iterable<RoundDesign> getRoundDesigns() {
+        return design.getSequential();
     }
     
 }
