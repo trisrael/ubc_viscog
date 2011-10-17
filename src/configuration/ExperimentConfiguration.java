@@ -57,8 +57,8 @@ public class ExperimentConfiguration {
         cond.setLabelsOn(true);
         cond.setLowCorr(0.0);
         cond.setHighCorr(1.0);
-        cond.setDotHue(DotHueType.IsoBlue);
-        cond.setDotStyle(DotStyleType.Plus);
+        cond.setDotHue(DotHueType.IsoRed);
+        cond.setDotStyle(DotStyleType.MedRing);
         cond.setBaseDesign(baseDesign);
         
         li.add(cond);

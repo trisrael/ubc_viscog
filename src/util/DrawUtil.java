@@ -138,14 +138,14 @@ public class DrawUtil {
         Shape outerCircle = new Ellipse2D.Double(x, y, size, size); // the outer portion of the dot
         Shape innerCircle = new Ellipse2D.Double(x + (size / 4), y + (size / 4), size / 2, size / 2); // the inner portion, if there is one
 
-        Color empty = Color.white; // an extra color used to create the different styles
-        Color currColor = Color.black;
 
+        Color currColor = ConditionMaps.getDotColor(fillCol);
+        
         PointData data = PointData.builder().graphics(g2).pointColor(currColor);
         data = data.x(x).y(y).xCenter(x_cent).yCenter(y_cent).size(size);
 
 
-        currColor = ConditionMaps.getDotColor(fillCol);
+        
 
         ConditionMaps.getPointShapeDrawer(pointStyle).drawPoint(data);
 

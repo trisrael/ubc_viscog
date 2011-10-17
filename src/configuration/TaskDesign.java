@@ -57,6 +57,17 @@ public class TaskDesign extends Design {
         return val;
     }
     
+    /**
+     * Some versions of java complain when using implicit casting, using prop in this fashion makes use of class Cast options to get what one would like.
+     * @param <E>
+     * @param string
+     * @param aClass
+     * @return 
+     */
+     public <E> E prop(String string, Class<E> aClass) {
+        return aClass.cast(prop(string));
+    }
+    
     
     /** Additional properties **/
     

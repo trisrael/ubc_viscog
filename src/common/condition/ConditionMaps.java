@@ -292,4 +292,18 @@ public class ConditionMaps {
             return dotStyleDrawer.get(val);
         }
     }
+    
+    public static int getDotHueIndex(DotHueType type) {
+        synchronized (dotHueNumMap) {
+            return dotHueNumMap.get(type);
+        }
+    }
+    
+    public static int getDotStyleIndex(DotStyleType type) {
+        synchronized (dotStyleNumMap) {
+            return dotStyleNumMap.get(type);
+        }
+    }
+    
+ 
 }

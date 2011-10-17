@@ -22,7 +22,7 @@ public class Design{
     DotHueType dotHue;
 
 
-    public boolean isAxisOn() {
+    public boolean getAxisOn() {
         return axisOn;
     }
 
@@ -30,7 +30,7 @@ public class Design{
         this.axisOn = axisOn;
     }
 
-    public boolean isLabelsOn() {
+    public boolean getLabelsOn() {
         return labelsOn;
     }
 

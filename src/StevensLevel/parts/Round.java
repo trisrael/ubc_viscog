@@ -8,7 +8,10 @@ import java.util.List;
 import static StevensLevel.EventBusHelper.*;
 import StevensLevel.events.ScreenChange;
 import StevensLevel.listeners.ScreenChangeListener;
+import common.condition.DotHueType;
+import common.condition.DotStyleType;
 import configuration.RoundDesign;
+import render.GraphStyleSheet;
 import screens.Screen;
 import screens.TestCorrectScreen;
 import screens.TestIncorrectScreen;
@@ -29,14 +32,16 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
     private int trialsPerformed = 0;
     private final int numPoints; // Number of points to draw on each graph (to build each correlation graph with)
     private final double stepSize;
+  private GraphStyleSheet stylesheet;
 
     public Round(RoundDesign des) {
         this.des = des;
-        this.lowCorr = (double) des.prop("lowCorr");
-        this.highCorr = (double) des.prop("highCorr");
-        this.numTrials = (Integer) des.prop("numTrials");
-        this.numPoints = (int) des.prop("numPoints");
-        this.stepSize = (double) des.prop("stepLevel");
+        this.lowCorr = des.prop("lowCorr", Double.class);
+        this.highCorr = des.prop("highCorr", Double.class);
+        this.numTrials = des.prop("numTrials", Integer.class);
+        this.numPoints = des.prop("numPoints", Integer.class);
+        this.stepSize = des.prop("stepLevel", Double.class);
+        this.stylesheet  = new GraphStyleSheet(des);
     }
 
     public List<Trial> getTrials() {
@@ -85,7 +90,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
         }
 
         for (int i = 0; i < getNumTrials(); i++) {
-            pushTrial(new Trial(highCorr, lowCorr, highCorr, numPoints, stepSize)); //starting middle correlation will always use highCorr (for now)
+            pushTrial(new Trial(highCorr, lowCorr, numPoints, stepSize, stylesheet));
         }
     }
 

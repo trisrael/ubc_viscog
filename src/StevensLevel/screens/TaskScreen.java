@@ -1,14 +1,20 @@
 package StevensLevel.screens;
 
+import java.util.Map;
 import java.util.Timer;
 import StevensLevel.listeners.ScreenChangeListener;
 import StevensLevel.listeners.ScreenUpdateListener;
 import StevensLevel.listeners.StevensLevelViewListener;
+import common.condition.ConditionMaps;
+import common.condition.DotHueType;
+import common.condition.DotStyleType;
 import correlation.Distribution2D;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.TimerTask;
+import render.GraphStyleSheet;
 import screens.ManyCorrelationScreen;
 import util.Util;
 import static StevensLevel.EventBusHelper.*;
@@ -34,6 +40,7 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
     //Timer for sending off screen needs re-writing events
     protected Timer deferredNotify = null;
     private boolean dirty;
+    private Map<Graphs, GraphStyleSheet> latestUpdates = new HashMap<Graphs, GraphStyleSheet>(3);
 
     public TaskScreen() {
         listen(this, StevensLevelViewListener.class);
@@ -48,13 +55,13 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
         public double corr;
         public int numPoints;
         public Graphs graph;
+        public GraphStyleSheet stylesheet;
 
-        public StevensLevelUpdateViewEvent(double c, int pts, Graphs graph) {
+        public StevensLevelUpdateViewEvent(double c, int pts, Graphs graph, GraphStyleSheet sheet) {
             this.corr = c;
             this.numPoints = pts;
             this.graph = graph;
-
-
+            this.stylesheet = sheet;
         }
     }
 
@@ -72,6 +79,9 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
         if (dist != null) {
             dist.turnIntoTransformedCorrelatedGaussian(payload.corr, payload.numPoints, DEF_ERROR); //update distribution (re-calculate points)
         }
+
+        latestUpdates.put(payload.graph, payload.stylesheet);
+
         this.dirty = true;
     }
 
@@ -102,14 +112,15 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
         return Util.toImage(bi);
     }
 
-    
-    public Image getImage(){
-        if(!dirty && currentImage != null)
+    public Image getImage() {
+        if (!dirty && currentImage != null) {
             return currentImage;
-        
+        }
+
         dirty = false;
         return generateImage();
     }
+
     /**
      * Draws a single distrubtion into its spot on the Graphics2D object given.
      * @param graph
@@ -117,9 +128,20 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
      */
     private void drawImage(Graphs graph, Graphics2D g) {
         Distribution2D dist = getDistribution(graph);
-
+        GraphStyleSheet styles = latestUpdates.get(graph);
         // Draw the distribution in the centre of the screen
-        Image im = dist.getImage(gWidth, gHeight, dist.size(), 1, 1, 1, 1);
+        Image im;
+        if (styles != null) {
+            dist.setDrawAxis(styles.isAxisOn());
+            dist.setDrawLabels(styles.isLabelsOn());
+
+            im = dist.getImage(gWidth, gHeight, dist.size(), 1, 1, styles.getDotStyle(), styles.getDotHue());
+
+        } else { //backup drawing when map is missing stylesheets
+            im = dist.getImage(gWidth, gHeight, dist.size(), 1, 1, DotStyleType.Filled, DotHueType.Black);
+        }
+
+
 
         int x = 0;
         int y = 0;
@@ -139,6 +161,4 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
         y = offTop;
         g.drawImage(im, x, y, null);
     }
-    
-    
 }

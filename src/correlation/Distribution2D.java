@@ -1,5 +1,8 @@
 package correlation;
 
+import common.condition.ConditionMaps;
+import common.condition.DotHueType;
+import common.condition.DotStyleType;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
@@ -651,6 +654,11 @@ public class Distribution2D implements XMLWriteable {
         return Util.toImage(bi);
 
     }
+    
+    
+    public Image getImage(int width, int height, int numPoints, double scaling, double dpointSize, DotStyleType dotStyleType, DotHueType dotHueType) {
+        return getImage( width,  height,  numPoints,  scaling,  dpointSize, ConditionMaps.getDotStyleIndex(dotStyleType), ConditionMaps.getDotHueIndex(dotHueType));
+    }
 
     public Image getImage(int width, int height, int numPoints, double scaling, double dpointSize, int iPointStyle, int idotHue) {
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -743,4 +751,6 @@ public class Distribution2D implements XMLWriteable {
         System.out.println(myDist.toString());
         System.out.println(myDist.getXMLString());
     }
+
+    
 }
