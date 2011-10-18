@@ -1,9 +1,16 @@
 package StevensLevel;
 
+import StevensLevel.filesystem.FileSystemConstants;
 import configuration.ExperimentConfiguration;
+import configuration.StevensLevelDesign;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.yaml.snakeyaml.Yaml;
+import yaml.StevensLevelDesignConstructor;
 
 
 /**
@@ -11,12 +18,8 @@ import java.util.logging.Logger;
  * @author tristangoffman
  */
 public class Experiment extends EventBusHelper implements experiment.Experiment{
-    private static Experiment exp;
-   
-    
-    
-    
     /** Members **/
+    private static Experiment exp;
     private ExperimentControl eCon = null;
     
     /**
@@ -38,7 +41,23 @@ public class Experiment extends EventBusHelper implements experiment.Experiment{
 
     @Override
     public void run() {
-        getExperimentControl().setConfiguration(null);
+        ExperimentConfiguration conf = new ExperimentConfiguration(); 
+        
+        File confFile = configuration.ConfigurationHelper.retrieveConfFile(FileSystemConstants.CONF_FILENAME);
+        BufferedReader stream = null;
+        
+        try {
+            stream = new BufferedReader(new FileReader(confFile));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Experiment.class.getName()).log(Level.SEVERE, "No file: '" + FileSystemConstants.CONF_FILENAME + "' found in configuration directory. Needed to run StevensLevel experiment." , ex);
+        }
+        
+        Yaml yaml = new Yaml(new StevensLevelDesignConstructor());
+        conf.setDesign(StevensLevelDesign.class.cast(yaml.load(stream)));
+        
+        getExperimentControl().setConfiguration(conf);
+        
+        getExperimentControl().run();
     }
 
     @Override

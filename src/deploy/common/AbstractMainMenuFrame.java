@@ -195,7 +195,7 @@ public abstract class AbstractMainMenuFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
-        constructExperiment();
+        
         getExperiment().run();
         this.setVisible(false);
 }//GEN-LAST:event_runButtonActionPerformed

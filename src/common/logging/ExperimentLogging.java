@@ -1,6 +1,7 @@
 
 package common.logging;
 
+import common.filesystem.FileSystem;
 import experiment.Subject;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,7 +19,7 @@ import util.Util;
  * @author Tristan Goffman(tgoffman@gmail.com) Oct 12, 2011
  */
 public class ExperimentLogging {
-    static final String FOLDER_LOGS = "./logs/";
+    static final String FOLDER_LOGS = FileSystem.FOLDER_LOGS;
     private static final String DELI = "_";
     private static String BACKSLASH = "/";
     

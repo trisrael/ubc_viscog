@@ -30,9 +30,7 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
 
     //Has many TaskRounds (task within)
     public ExperimentControl() {
-        conf = new ExperimentConfiguration();
         setViewControl(new ViewControl());
-        
     }
 
     //JavaBeans methods
@@ -59,9 +57,7 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
     public void setup() {
         listen(this, PartInteractionListener.class);
         
-        addInteractionReactor(getViewControl());
-        getViewControl().addInteractionReactor(this); 
-        getViewControl().setup();
+        
         
         
         addPart(new BeginningPart());

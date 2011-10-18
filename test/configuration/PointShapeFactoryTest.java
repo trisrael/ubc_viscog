@@ -4,24 +4,17 @@
  */
 package configuration;
 
-import configuration.PointShapeFactory;
 import harness.TestHarness;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 /**
- *
  * @author tristangoffman
  */
 public class PointShapeFactoryTest extends TestHarness<PointShapeFactory> {
-    
-
     
     @Before
     public void setUp() {

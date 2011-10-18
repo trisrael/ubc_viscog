@@ -36,14 +36,19 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
     /** default member variables **/
     private int width = 1024;
     private int height = 768;
+    
+    private Image currImage;
+    protected SingleImage container;
+    
     private AbstractStrictScreen scr;
     
         public View() {
+            container =  new SingleImage();
         container.addKeyListener(this);
         invisibleCursor();
         container.h = height;
         container.w = width;
-        container.setSize(container.w, container.h);
+        container.setSize(container.w, container.h); //TODO: Remove this line for fullScreen action
 
 
         container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,8 +112,7 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
         MIN,
         MAX
     }
-    private Image currImage;
-    protected SingleImage container = new SingleImage();
+   
 
 
 
@@ -168,7 +172,7 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
         // set background color
         container.setBackground(Color.BLACK);
         // switch to fullscreen mode
-       // scrdev().setFullScreenWindow(container);
+       // scrdev().setFullScreenWindow(container); //TODO:: Uncomment this line for fullscreen again
     }
 
     private boolean isFullscreen() {

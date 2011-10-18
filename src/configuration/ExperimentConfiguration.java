@@ -3,10 +3,14 @@
  * and open the template in the editor.
  */
 package configuration;
+import StevensLevel.filesystem.FileSystemConstants;
 import common.condition.DotHueType;
 import common.condition.DotStyleType;
+import common.filesystem.FileSystem;
+import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import static util.InferenceUtil.*;
 /**
  * Experiment configuration sets up the entire experiment.
@@ -22,6 +26,14 @@ public class ExperimentConfiguration {
     
     private Style style = new Style();
     private StevensLevelDesign design;
+
+    public StevensLevelDesign getDesign() {
+        return design;
+    }
+
+    public void setDesign(StevensLevelDesign design) {
+        this.design = design;
+    }
     private TaskDesign baseDesign = new TaskDesign();
 
     private TaskDesign getBaseDesign() {
@@ -69,5 +81,8 @@ public class ExperimentConfiguration {
     public Iterable<RoundDesign> getRoundDesigns() {
         return design.getSequential();
     }
+    
+    
+   
     
 }

@@ -99,12 +99,6 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
                 } catch (Exception ex) {
                     Logger.getLogger(ViewControl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-             
-                
-    }
-    
-    public void setup(){
-          getView().addInteractionReactor(this);
     }
     
 }
