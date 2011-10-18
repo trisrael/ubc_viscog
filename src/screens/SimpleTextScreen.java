@@ -22,6 +22,7 @@ public abstract class SimpleTextScreen extends AbstractStrictScreen{
     	
 	public SimpleTextScreen(){
 		this.timeout = -1;
+                setDirty(true); //these screens are always 'dirty'
 		this.currentImage = generateImage();
 	}
         

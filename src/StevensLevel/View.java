@@ -31,7 +31,7 @@ import static StevensLevel.EventBusHelper.*;
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 20, 2011
  */
-public class View extends WithInterationReactorImpl implements KeyListener, ScreenUpdateListener {
+public class View extends WithStateImpl implements KeyListener, ScreenUpdateListener, UserKeyInteractionListener {
 
     /** default member variables **/
     private int width = 1024;
@@ -43,13 +43,13 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
     private AbstractStrictScreen scr;
     
         public View() {
-            container =  new SingleImage();
+        container =  new SingleImage();
         container.addKeyListener(this);
         invisibleCursor();
         container.h = height;
         container.w = width;
         container.setSize(container.w, container.h); //TODO: Remove this line for fullScreen action
-
+        
 
         container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -62,6 +62,7 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
         });
         
         listen(this, ScreenUpdateListener.class);
+        listen(this, UserKeyInteractionListener.class);
         
     }
 
@@ -74,7 +75,8 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
     }
 
     void update() {
-        update(scr.getImage());
+        if(scr.isDirty())
+            update(scr.getImage());
     }
 
     /**
@@ -93,10 +95,6 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
         update();
     }
 
-    public static enum ViewInteraction implements ExperimentInteraction {
-
-        Close
-    }
 
     /**
      * Get the window closing event to be added to some queue (:calling the handleWindowEvent function eventually)
@@ -106,12 +104,6 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
         
     }
 
-    public enum States {
-
-        FULL,
-        MIN,
-        MAX
-    }
    
 
 
@@ -127,6 +119,8 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
 
     @Override
     public void keyReleased(KeyEvent ke) {
+        if(isRunning()){ //Avoid multiple key strokes by simply waiting for a update 
+        
         final int currentKey = ke.getKeyCode();
         checkForEsc(currentKey);
 
@@ -145,25 +139,30 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
                 pb(this, ExperimentInteractionListener.class).continueOn();
                 break;
             default:
-                pb(this, ExperimentInteractionListener.class).invalidInteraction();
+                pb(this, ExperimentInteractionListener.class).invalidInteraction(); 
                 break;
         }
 
-
+     }
     }
 
+    
     public void start() {
         //    doFullScreen();
         container.setVisible(true);
+        
         doFullScreen();
     }
 
     public void update(Image image) {
+
+        setState(State.IN_PROGRESS);
         this.currImage = image;
         container.img = this.currImage;
         if (!isFullscreen()) {
             start();
         }
+     
         container.update(container.getGraphics()); //getGraphics will return null until the jframe is visible
     }
 
@@ -191,6 +190,16 @@ public class View extends WithInterationReactorImpl implements KeyListener, Scre
     private GraphicsDevice scrdev() {
         return GraphicsEnvironment.getLocalGraphicsEnvironment().
                 getDefaultScreenDevice();
+    }
+
+    @Override
+    public void userInteractionDealtWith() {
+        setState(State.IN_PROGRESS);
+    }
+
+    @Override
+    public void ignoreUserInteractions() {
+       setState(State.WAITING);
     }
 
     /** Classes **/

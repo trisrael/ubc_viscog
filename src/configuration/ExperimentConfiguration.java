@@ -22,6 +22,10 @@ import static util.InferenceUtil.*;
  */
 public class ExperimentConfiguration {
     
+    public ExperimentConfiguration(){
+       
+    }
+    
     // All member variables start with defaults
     
     private Style style = new Style();
@@ -61,16 +65,20 @@ public class ExperimentConfiguration {
             setDefaultDesign();
     }
     
-    private void setDefaultDesign(){ //Used for testing
+    public void setDefaultDesign(){ //Used for testing
         design = new StevensLevelDesign();
         design.setDesign(getBaseDesign());
         List<RoundDesign> li = new ArrayList<RoundDesign>();
         RoundDesign cond = new RoundDesign();
-        cond.setLabelsOn(true);
+        cond.setLabelsOn("true");
         cond.setLowCorr(0.0);
         cond.setHighCorr(1.0);
         cond.setDotHue(DotHueType.IsoRed);
         cond.setDotStyle(DotStyleType.MedRing);
+        cond.setNumPoints(200);
+        cond.setNumTrials(4);
+        cond.setAxisOn("true");
+        cond.setStepLevel(0.03);
         cond.setBaseDesign(baseDesign);
         
         li.add(cond);
@@ -79,7 +87,12 @@ public class ExperimentConfiguration {
     }
 
     public Iterable<RoundDesign> getRoundDesigns() {
-        return design.getSequential();
+        List<RoundDesign> seqs = design.getSequential();
+        for (RoundDesign roundDesign : seqs) {
+            roundDesign.setBaseDesign(design.getDesign());
+        }
+        
+        return seqs;
     }
     
     

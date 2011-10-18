@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import render.GraphStyleSheet;
 import static StevensLevel.EventBusHelper.*;
+import StevensLevel.UserKeyInteractionListener;
 import screens.Screen;
 
 /**
@@ -100,7 +101,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
             setAdjustedCorr(CorrelationEnsurer.ensureCorr(prevCorr + toAdd));
 
             if (prevCorr != getAdjustedCorr()) { //Only send an update to the screen if value has changed to avoid user from getting confused
-                
+                eb().getPublisher(this, UserKeyInteractionListener.class).ignoreUserInteractions(); //upcoming change to screen ignore interactions
                 pb(this, StevensLevelViewListener.class).update(buildAdjustedPayload());
                 pb(this, ScreenUpdateListener.class).screenUpdated();
             }

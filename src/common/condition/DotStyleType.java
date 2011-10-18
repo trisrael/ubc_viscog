@@ -30,4 +30,4 @@ public enum DotStyleType {
     Triangle,
     X,
     Plus
-}
+,   Uninitialized}

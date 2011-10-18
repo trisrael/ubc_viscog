@@ -19,4 +19,4 @@ public enum DotHueType {
     IsoGreen,
     IsoBlue
     
-}
+,   Uninitialized}

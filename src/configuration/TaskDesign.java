@@ -1,7 +1,5 @@
 package configuration;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import util.InferenceUtil;
 
 /**
@@ -36,25 +34,11 @@ public class TaskDesign extends Design {
         Exception x1 = null;
         Exception x2 = null;
         try {
-            val = InferenceUtil.prop(this, memberName);
+          return  val = InferenceUtil.prop(this, memberName);
         } catch (Exception ex) {
             x1 = ex;
         }
-
-        if (val == null) {
-            try {
-                val = InferenceUtil.prop(getBaseDesign(), memberName);
-
-            } catch (Exception ex) {
-               x2 = ex;
-            }
-        }
-        
-        if(x1 != null && x2 != null){
-            Logger.getLogger(TaskDesign.class.getName()).log(Level.WARNING, null, x1);
-        }
-
-        return val;
+        return null;
     }
     
     /**
@@ -65,15 +49,17 @@ public class TaskDesign extends Design {
      * @return 
      */
      public <E> E prop(String string, Class<E> aClass) {
+        if(aClass == Boolean.class)
+            return aClass.cast(Boolean.parseBoolean(String.class.cast(prop(string))));
         return aClass.cast(prop(string));
     }
     
     
     /** Additional properties **/
     
-    private double highCorr = 1.0;
-    private double lowCorr = 0.0;
-    private double stepLevel = 0.03; //Level that user will cause correlation to jump up/down
+    private double highCorr = DEFAULT_DOUBLE;
+    private double lowCorr = DEFAULT_DOUBLE;
+    private double stepLevel =  DEFAULT_DOUBLE; //Level that user will cause correlation to jump up/down
     
     public double getStepLevel() {
         return stepLevel;

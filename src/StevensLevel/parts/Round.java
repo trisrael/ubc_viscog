@@ -6,6 +6,7 @@ import configuration.TaskDesign;
 import java.util.ArrayList;
 import java.util.List;
 import static StevensLevel.EventBusHelper.*;
+import StevensLevel.UserKeyInteractionListener;
 import StevensLevel.events.ScreenChange;
 import StevensLevel.listeners.ScreenChangeListener;
 import common.condition.DotHueType;
@@ -66,22 +67,13 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
      * Setup the next trial as the current trial and start running it.
      */
     protected synchronized void nextTrial() {
-
-        afterTrials();
-
+        //log out here (after trial stuff)
         this.current = getTrial(trialsPerformed);
 
         runTrial();
         trialsPerformed++; //increment trials performed
     }
 
-    private void afterTrials() {
-        //Log out results
-
-        if (this.current != null) {
-            this.current.addInteractionReactor(null);
-        }
-    }
 
     @Override
     public void setup() {
@@ -143,6 +135,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
         if (isWaiting()) { //should be waiting from a completeTask call -> will either want to move on to nextTrack or call 
 
             if (hasNextTrial()) { //Send off first updates if running
+                eb().getPublisher(this, UserKeyInteractionListener.class).ignoreUserInteractions(); //new trial just about to start 
                 run(); //start running again (will start next trial automaticall)
             } else {
               super.completeTask();
@@ -157,11 +150,11 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
      * of correlation (adjusted correlation within trial)
      */
     public void completeTask() {
-
         //TODO: Is it possible that current trial could be null?
         if (isRunning()) {
             getCurrentTrial().stop();
             setState(State.WAITING); //wait for continueOn to go off before allowing completeTasks again
+            eb().getPublisher(this, UserKeyInteractionListener.class).ignoreUserInteractions(); //new screen coming in
             pb(this, ScreenChangeListener.class).changeScreen(new ScreenChange(getCurrentTrial().isCorrect() ? TestCorrectScreen.class : TestIncorrectScreen.class));
            
         }

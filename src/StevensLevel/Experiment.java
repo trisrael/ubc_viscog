@@ -62,7 +62,10 @@ public class Experiment extends EventBusHelper implements experiment.Experiment{
 
     @Override
     public void test() {
-        getExperimentControl().setConfiguration(new ExperimentConfiguration()); //Use default options found within ExperimentConfiguration
+        ExperimentConfiguration conf = new ExperimentConfiguration();
+        conf.setDefaultDesign();
+        
+        getExperimentControl().setConfiguration(conf); //Use default options found within ExperimentConfiguration
         //getExperimentControl().getConfiguration().getBaseDesign().p"startTitle", "StevensLevel Test" );
         getExperimentControl().run();
     }

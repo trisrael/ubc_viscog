@@ -12,29 +12,33 @@ import common.condition.DotStyleType;
  * @author Tristan Goffman(tgoffman@gmail.com) Sep 4, 2011
  */
 public class Design{
-    protected int numTrials = 4;
-    private int numRounds = 1;
-    private int numPoints = 200; //Number of points to draw on graphs (if a graph is available)
-    private boolean axisOn = true;
-    private boolean labelsOn = false; //Axis label     
+    //defaults used for values
+    public static int DEFAULT_INT = -1;
+    public static double DEFAULT_DOUBLE = -1.0;
+    public static String DEFAULT_STRING = "placeholder";
+    
+    protected int numTrials = DEFAULT_INT;
+    private int numPoints = DEFAULT_INT; //Number of points to draw on graphs (if a graph is available)
+    private String axisOn = DEFAULT_STRING;
+    private String labelsOn=  DEFAULT_STRING; //Axis label     
     //Both of these return enum types to map to numbers using ConditionHelper
-    DotStyleType dotStyle;
-    DotHueType dotHue;
+    DotStyleType dotStyle = DotStyleType.Uninitialized;
+    DotHueType dotHue = DotHueType.Uninitialized;
 
 
-    public boolean getAxisOn() {
+    public String getAxisOn() {
         return axisOn;
     }
 
-    public void setAxisOn(boolean axisOn) {
+    public void setAxisOn(String axisOn) {
         this.axisOn = axisOn;
     }
 
-    public boolean getLabelsOn() {
+    public String getLabelsOn() {
         return labelsOn;
     }
 
-    public void setLabelsOn(boolean labelsOn) {
+    public void setLabelsOn(String labelsOn) {
         this.labelsOn = labelsOn;
     }
 
@@ -47,13 +51,6 @@ public class Design{
         this.numPoints = numPoints;
     }
 
-    public int getNumRounds() {
-        return numRounds;
-    }
-
-    public void setNumRounds(int numRounds) {
-        this.numRounds = numRounds;
-    }
 
     public int getNumTrials() {
         return numTrials;

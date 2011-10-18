@@ -2,7 +2,7 @@ package StevensLevel.parts;
 
 import StevensLevel.listeners.PartInteractionListener;
 import StevensLevel.State;
-import StevensLevel.WithStateWithInteractionReactorImpl;
+import StevensLevel.WithStateImpl;
 import interaction.ExperimentInteractionListener;
 import static StevensLevel.EventBusHelper.*;
 
@@ -11,7 +11,7 @@ import static StevensLevel.EventBusHelper.*;
  * a Trial which is a component found within the ExperimentPart Round
  * @author Tristan Goffman(tgoffman@gmail.com) Sep 21, 2011
  */
-public class ExperimentModel extends WithStateWithInteractionReactorImpl implements Runnable, interaction.InteractionReactor, ExperimentInteractionListener  {
+public class ExperimentModel extends WithStateImpl implements Runnable, interaction.InteractionReactor, ExperimentInteractionListener  {
     
     public void run(){
         if(getState() == State.COMPLETE){ throw new RuntimeException("Attempted to run ExperimentPart in complete stage");}  
@@ -51,7 +51,6 @@ public class ExperimentModel extends WithStateWithInteractionReactorImpl impleme
      */
     @Override
     public void completeTask(){
-        
         pb(this, PartInteractionListener.class).partComplete();
     }
     

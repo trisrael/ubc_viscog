@@ -657,6 +657,7 @@ public class Distribution2D implements XMLWriteable {
     
     
     public Image getImage(int width, int height, int numPoints, double scaling, double dpointSize, DotStyleType dotStyleType, DotHueType dotHueType) {
+
         return getImage( width,  height,  numPoints,  scaling,  dpointSize, ConditionMaps.getDotStyleIndex(dotStyleType), ConditionMaps.getDotHueIndex(dotHueType));
     }
 

@@ -19,6 +19,7 @@ public class ExperimentEndScreen extends AbstractStrictScreen{
 	private Font myFon = Globals.FONT_FEEDBACK;
 	
 	public ExperimentEndScreen(){
+            setDirty(true);
 		this.correctKey = KeyEvent.VK_ESCAPE;
 		this.timeout = -1;
 		this.currentImage = generateImage();

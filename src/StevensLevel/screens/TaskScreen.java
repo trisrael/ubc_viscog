@@ -39,7 +39,7 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
     private int offTop = (height - gHeight) / 2;
     //Timer for sending off screen needs re-writing events
     protected Timer deferredNotify = null;
-    private boolean dirty;
+    
     private Map<Graphs, GraphStyleSheet> latestUpdates = new HashMap<Graphs, GraphStyleSheet>(3);
 
     public TaskScreen() {
@@ -82,7 +82,7 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
 
         latestUpdates.put(payload.graph, payload.stylesheet);
 
-        this.dirty = true;
+        setDirty(true);
     }
 
     /**
@@ -113,11 +113,11 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
     }
 
     public Image getImage() {
-        if (!dirty && currentImage != null) {
+        if (!isDirty() && currentImage != null) {
             return currentImage;
         }
 
-        dirty = false;
+        setDirty(false);
         return generateImage();
     }
 

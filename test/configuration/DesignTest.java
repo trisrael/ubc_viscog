@@ -26,6 +26,7 @@ public class DesignTest {
     
    @Before
    public void before(){
+        TaskDesign des = new TaskDesign();
         Constructor cons = new Constructor(StevensLevelDesign.class);
        
        TypeDescription sequential = new TypeDescription(StevensLevelDesign.class);
@@ -85,6 +86,16 @@ public class DesignTest {
         assertThat(list.get(0).getHighCorr(), is(0.8));
         assertThat(list.get(0).getAxisOn(), is(false));
         assertThat(list.get(0).getLabelsOn(), is(true));
+    }
+        
+        
+              @Test
+    public void multi() throws ClassNotFoundException {
+       
+        StevensLevelDesign bean = (StevensLevelDesign) yaml.load("sequential:\n  - {dotStyle: Unfilled, dotHue: LightGray, lowCorr: 0.1, highCorr: 0.8, axisOn: false, labelsOn: true}\n  - {dotStyle: Unfilled, dotHue: LightGray, lowCorr: 0.1, highCorr: 0.8, axisOn: false, labelsOn: true}");
+        final List<RoundDesign> list = bean.getSequential();
+        assertThat(list.size(), is(2));
+        
     }
  
    
