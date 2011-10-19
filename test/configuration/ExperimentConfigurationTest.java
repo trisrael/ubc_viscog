@@ -4,13 +4,17 @@
  */
 package configuration;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import common.filesystem.FileSystem;
+import experiment.ExperimentType;
+import experiment.Subject;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.yaml.snakeyaml.Yaml;
+import yaml.StevensLevelDesignConstructor;
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 /**
  *
@@ -18,17 +22,19 @@ import static org.hamcrest.CoreMatchers.*;
  */
 public class ExperimentConfigurationTest {
 
-    /**
-     * Test of ready method, of class ExperimentConfiguration.
-     */
     @Test
-    public void testReady() {
-        System.out.println("ready");
-        ExperimentConfiguration instance = new ExperimentConfiguration();
-        assertThat(instance.getDesigns().length, is(0));
+    public void counterbalance() throws FileNotFoundException {
+        Yaml yaml = new Yaml(new StevensLevelDesignConstructor());
+
+        String currentDir = new File(".").getAbsolutePath();
+        Object res = yaml.load(new FileReader(new File(currentDir.substring(0,currentDir.length() - 1) + "test/configuration/multi_counterbalance.conf")));
+        StevensLevelDesign des = StevensLevelDesign.class.cast(res);
+
+        ExperimentConfiguration conf =
+                new ExperimentConfiguration();
+        conf.setDesign(des);
         
-        instance.ready();
-        assertThat(instance.getDesigns()[0], is(TaskDesign.class));
-    
+        conf.counterbalance(new Subject(3, "TG", ExperimentType.JND));
+        assertThat(conf.getRoundDesigns().size(), is(des.getSequential().size()) );
     }
 }

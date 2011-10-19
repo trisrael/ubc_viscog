@@ -5,7 +5,7 @@
 package harness;
 
 import StevensLevel.parts.Round;
-import configuration.BaseDesign;
+import configuration.Design;
 import configuration.TaskDesign;
 import org.junit.Before;
 import static StevensLevel.EventBusHelper.*;
@@ -18,7 +18,7 @@ public class ExtendableRoundTest extends TestHarness<Round> {
         @Before
         public void setUp() throws InstantiationException, IllegalAccessException {
         TaskDesign tsk = new TaskDesign();
-                    tsk.setBaseDesign(new BaseDesign());
+                    tsk.setBaseDesign(new Design());
                      setupEventBus();
         Round obj = new Round(tsk);
         

@@ -1,12 +1,12 @@
 package StevensLevel;
 
+import configuration.RoundDesign;
 import StevensLevel.listeners.PartInteractionListener;
 import StevensLevel.parts.ExperimentPart;
 import StevensLevel.parts.BeginningPart;
 import StevensLevel.parts.EndingPart;
 import StevensLevel.parts.Round;
 import configuration.ExperimentConfiguration;
-import configuration.TaskDesign;
 import interaction.InteractionReactor;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import static StevensLevel.EventBusHelper.*;
  *
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class ExperimentControl extends WithStateWithInteractionReactorImpl implements InteractionReactor, Runnable, PartInteractionListener {
+public class ExperimentControl extends WithStateImpl implements InteractionReactor, Runnable, PartInteractionListener {
 
     ViewControl vCon;
     List<Round> rounds;
@@ -29,9 +29,7 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
 
     //Has many TaskRounds (task within)
     public ExperimentControl() {
-        conf = new ExperimentConfiguration();
         setViewControl(new ViewControl());
-        
     }
 
     //JavaBeans methods
@@ -58,9 +56,7 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
     public void setup() {
         listen(this, PartInteractionListener.class);
         
-        addInteractionReactor(getViewControl());
-        getViewControl().addInteractionReactor(this); 
-        getViewControl().setup();
+        
         
         
         addPart(new BeginningPart());
@@ -125,7 +121,7 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
     private void addTasks() {
         ExperimentConfiguration ec = getConfiguration();
 
-        for (TaskDesign design : ec.getDesigns()) {
+        for (RoundDesign design : ec.getRoundDesigns()) {
             addPart(new Round(design));
         }
     }
@@ -134,6 +130,8 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
      * Run the next part in the sequence, listen to events from it and pass on messages to the view control
      */
     private void nextPart() {
+
+        eb().getPublisher(this, UserKeyInteractionListener.class).ignoreUserInteractions(); 
         if (getPart() != null) {
             getPart().stop();
 
@@ -143,19 +141,12 @@ public class ExperimentControl extends WithStateWithInteractionReactorImpl imple
         getPart().run();
         setState(getPart().getState()); //ExperimentControl has the same state as the current part running. Logic should prevail as each part finishes and a new one
         //starts the control should take the state from the incoming part.. only as the final part completes will ExperimentControl complete as well.
-
+        
         partsComplete++;//One more part complete
     }
 
     private void setPart(ExperimentPart get) {
-        if (getPart() != null) {
-            getPart().removeInteractionReactor(this); //
-            this.removeInteractionReactor(getPart());
-        }
-        
         this.currPart = get;
-        getPart().addInteractionReactor(this);
-        this.addInteractionReactor(getPart());
     }
 
     @Override

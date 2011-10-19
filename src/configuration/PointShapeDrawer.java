@@ -4,7 +4,9 @@
  */
 package configuration;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import util.PointData;
 
 /**
  *
@@ -13,5 +15,5 @@ import java.awt.Graphics2D;
 public interface PointShapeDrawer {
     
     /** draws a point given coordinates and an object to draw on **/
-    void draw(Graphics2D g2, double size, double x, double y);
+    void drawPoint(PointData data);
 }

@@ -7,6 +7,7 @@ package experiment;
 import convergence.Convergence;
 import deploy.common.ExperimentStartDialogue;
 import deploy.JND.JNDExperimentConfFrame;
+import common.logging.SubjectFilenameBuilderImpl;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -24,9 +25,7 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JFrame;
@@ -39,6 +38,8 @@ import screens.TestIncorrectScreen;
 import screens.TestRightScreen;
 import screens.TestTwoCorrScreen;
 import util.Globals;
+import static common.logging.ExperimentLogging.*;
+
 import util.LatinSquareGenerator;
 import util.Util;
 
@@ -47,6 +48,23 @@ import util.Util;
  * @author Will
  */
 public class BasicJNDExperiment extends JFrame implements Experiment, KeyListener {
+    private Subject currentSubject; //subject being tested
+    private String NEXTLINE = "\n";
+
+    
+
+    private static class JNDFilenameBuilder extends SubjectFilenameBuilderImpl{
+        private final String mid;
+
+        public JNDFilenameBuilder(String expCond) {
+            this.mid = expCond;
+        }
+
+        @Override
+        public String buildFileName(Subject person, String fend) {
+            return mid + SubjectFilenameBuilderImpl.delimiter + super.buildFileName(person, fend);
+        }
+    }
 
 // Ben 4/8/11 to make this program handle various design conditions
 //    final private String expCond = "ScalingCond";
@@ -95,7 +113,7 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
     private boolean bIsFilterKeys = false;
     final private String bIsFilterKeysLabel = "bIsFilterKeys";
     static final String FOLDER_CONF = "./conf/";
-    static final String FOLDER_LOGS = "./logs/";
+    
     static final String CONF_COND_NAME = "BasicJND.cond";
     static final String CONF_EXP_NAME = "BasicJND.conf";
     static final String CONF_WARNING = "# Generated file. Don't edit by hand.";
@@ -326,48 +344,13 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
         return confString + var + CONF_DELIMITER + value + "\n";
     }
 
-    /**
-     * Creates the log file and folder for this experiment.
-     */
-    private void createLogfileAndFolder() {
-
-        // create log folder (to dump distributions, other data, etc.)
-        try {
-            File myFolder = new File(FOLDER_LOGS + dataFolder);
-            myFolder.mkdir();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-
-        // create logfile
-        try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(FOLDER_LOGS + dataFilename, false));
-            out.write(LogfileRow.getTitle() + "\n");
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-
-        // create a summary of a subjects data
-        try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(FOLDER_LOGS + summaryFilename, false));
-            out.write("level	above	JND	trials  scalingVal dotSize numPoints dotStyle dotHue" + "\n");
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-
-    }
 
     /**
      * Backs up the current configuration (in case we'd like to check that things were ok)
      */
-    private void backupConfiguration() {
-        Util.safeCopyFile(new File(this.sCondConfFile), new File(FOLDER_LOGS + dataFolder + "/" + CONF_COND_NAME));
-        Util.safeCopyFile(new File(this.sExpConfFile), new File(FOLDER_LOGS + dataFolder + "/" + CONF_EXP_NAME));
+    private void backupConfiguration(Subject person) {
+        Util.safeCopyFile(new File(this.sCondConfFile), getCustomDataFile(person, CONF_COND_NAME));
+        Util.safeCopyFile(new File(this.sExpConfFile), getCustomDataFile(person, CONF_EXP_NAME));
     }
 
     /**
@@ -375,10 +358,10 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
      *
      * @param subjectID
      */
-    public void run(String subjectID) {
+    public void run(Subject person) {
         this.loadConfiguration();
-        createLogfileAndFolder();
-        backupConfiguration();
+        createLogfileAndFolder(person);
+        backupConfiguration(person);
         setVisibleAndRun();
     }
 
@@ -448,49 +431,19 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
 
         queueConditions(currentSubjectNumber);
         this.addKeyListener(this);
+        
         doFullscreen();
         this.update(this.getGraphics());
         this.setVisible(true);
     }
 
-    /**
-     * Shows a dialogue to get some user input, sets up some experiment
-     * parameters and runs the experiment.
-     */
-    public void run() {
+    public void run(int subjectNum, String initials) {
 
-        // TODO: figure out how to start animated loading frame in its own
-        //       thread
-        //Globals.ANIMATED_LOADING_FRAME.setVisible(true);
-
+        this.currentSubject = new Subject(subjectNum, initials, ExperimentType.JND, new JNDFilenameBuilder(expCond));
+        
         this.setupExperiment();
-
-        //Globals.ANIMATED_LOADING_FRAME.setVisible(false);
-
-        // dialogue to get subject number and initials/ID/etc.
-        StringBuffer initials = new StringBuffer(ExperimentStartDialogue.MAX_CHARS);
-        StringBuffer subjectNumber = new StringBuffer(ExperimentStartDialogue.MAX_DIGITS);
-
-        boolean isStart = ExperimentStartDialogue.showDialogue(this, initials, subjectNumber);
-
-        // don't start experiment if we hit 'cancel'
-        if (isStart == false) {
-            return;
-        }
-
-        subjectNumber.trimToSize();
-        initials.trimToSize();
-
-        dataFilename = Util.getNow("yyyy-MM-dd_HHmmss") + "_" + expCond + "_" + subjectNumber.toString() + "_" + initials.toString() + ".txt";
-        summaryFilename = Util.getNow("yyyy-MM-dd_HHmmss") + "_" + "_" + expCond + "_" + subjectNumber.toString() + "_" + initials.toString() + "_summary" + ".txt";
-        XMLFilename = Util.getNow("yyyy-MM-dd_HHmmss") + "_" + "_" + expCond + "_" + subjectNumber.toString() + "_" + initials.toString() + "_XML" + ".xml";
-        dataFolder = Util.getNow("yyyy-MM-dd_HHmmss") + "_" + expCond + "_" + subjectNumber.toString() + "_" + initials.toString();
-        if (isDebug) {
-            System.out.println(dataFilename);
-        }
-
-        this.currentSubjectNumber = Integer.parseInt(subjectNumber.toString());
-        run(subjectNumber.toString());
+        this.currentSubjectNumber = currentSubject.getNumber();
+        run(currentSubject);
     }
 
     /**
@@ -511,11 +464,12 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
         this.setBackground(Color.BLACK);
 
         // switch to fullscreen mode
-        GraphicsEnvironment.getLocalGraphicsEnvironment().
-                getDefaultScreenDevice().setFullScreenWindow(this);
+       GraphicsEnvironment.getLocalGraphicsEnvironment().
+       getDefaultScreenDevice().setFullScreenWindow(this);
 
         w = this.getWidth();
         h = this.getHeight();
+        
 
     }
 
@@ -867,6 +821,7 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
      * @param xmlString
      */
     private void writeScreenToFile(String xmlString) {
+        
         String prefix = "<trial>\n";
         prefix = prefix + "\t<trial_info>\n";
         prefix = prefix + "\t\t<trial_num>" + trialNum + "</trial_num>" + "\n";
@@ -884,17 +839,7 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
 
 
         xmlString = prefix + xmlString + "</trial>\n";
-
-        String distFile = FOLDER_LOGS + this.XMLFilename;
-        try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(distFile, true));
-            out.write(xmlString);
-            out.newLine();
-            out.flush();
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        writeToFile(currentSubject, PathParts.XML, xmlString);
     }
 
     /**
@@ -919,15 +864,10 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
         int dotHue = ((BasicJNDCondition) currentCondition).getDotHue();
 
         LogfileRow lr = new LogfileRow(trialNum, trial_time_in_ms, myConverge.getTrialParam(), myConverge.getTrialCompare(), Math.abs(myConverge.getTrialCompare() - myConverge.getTrialParam()), correctKey == currentKey, !isDescending, isBaseOnLeft ? LogfileRow.RIGHT : LogfileRow.LEFT, scalingVal, dotSize, numPoint, dotStyle, dotHue);
-        System.out.print(lr.toString() + "\n");
-        try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(FOLDER_LOGS + dataFilename, true));
-            out.write(lr.toString() + "\n");
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
+        String toWrite = lr.toString() + NEXTLINE;
+        System.out.print(toWrite);
+        
+        writeToFile(currentSubject, PathParts.Data, toWrite);
     }
 
     /**
@@ -944,30 +884,12 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
         int dotHue = ((BasicJNDCondition) currentCondition).getDotHue();
 
         String summary = myConverge.getTrialCompare() + "    " + isDescending + "	" + myConverge.getWindowAverage() + "	" + myConverge.getTrialsToConverge() + "    " + scalingVal + "  " + dotSize + " " + numPoints + " " + dotStyle + " " + dotHue + "\n";
-        try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(FOLDER_LOGS + summaryFilename, true));
-            out.write(summary);
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
+       
+        writeToFile(currentSubject, PathParts.Summary, summary);
     }
 
     private void doExperimentEnd() {
     }
 
-    public static void main(String[] args) {
-        BasicJNDExperiment myExperiment = new BasicJNDExperiment();
-
-        System.out.println(myExperiment.getConfString());
-        myExperiment.saveConfiguration();
-        myExperiment.loadConfiguration();
-        System.out.println("Configuration loaded");
-        myExperiment.setupConfFrame();
-        myExperiment.showConfigureFrame(true);
-        System.out.println(myExperiment.getConfString());
-        myExperiment.run();
-        //System.exit(0);
-    }
+  
 }

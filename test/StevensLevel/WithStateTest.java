@@ -4,7 +4,7 @@
  */
 package StevensLevel;
 
-import StevensLevel.WithStateWithInteractionReactorImpl;
+import StevensLevel.WithStateImpl;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -33,7 +33,7 @@ public class WithStateTest extends TestBase {
     public static void tearDownClass() throws Exception {
     }
 
-    public class StateLike extends WithStateWithInteractionReactorImpl {
+    public class StateLike extends WithStateImpl {
     }
 
     @Before

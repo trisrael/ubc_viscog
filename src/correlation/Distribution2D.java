@@ -1,5 +1,8 @@
 package correlation;
 
+import common.condition.ConditionMaps;
+import common.condition.DotHueType;
+import common.condition.DotStyleType;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
@@ -519,123 +522,34 @@ public class Distribution2D implements XMLWriteable {
 
     // a method to fill array with proper sizes
     private void fillSizes(double currSize, int length) {
-
-        switch ((int) currSize) {
-            case 1:
-                for (int i = 0; i < length; i++) {
-                    pointSizes[i] = (int) currSize;
-                }
-                break;
-            case 4:
-                for (int i = 0; i < length; i++) {
-                    pointSizes[i] = (int) currSize;
-                }
-                break;
-            case 8:
-                for (int i = 0; i < length; i++) {
-                    pointSizes[i] = (int) currSize;
-                }
-                break;
-            case 12:
-                for (int i = 0; i < length; i++) {
-                    pointSizes[i] = (int) currSize;
-                }
-                break;
-            case 16:
-                for (int i = 0; i < length; i++) {
-                    pointSizes[i] = (int) currSize;
-                }
-                break;
-            case 77:
-                for (int l = 0; l < length; l = l + 4) {
+        
+        if((int) currSize == 77){
+            for (int l = 0; l < length; l = l + 4) {
                     pointSizes[l] = 1;
                     pointSizes[l + 1] = 4;
                     pointSizes[l + 2] = 8;
                     pointSizes[l + 3] = 16;
                     //pointSizes[l] = (l % 4) + 1;
+                }}
+        else{
+            int intsize = (int) currSize;
+               for (int i = 0; i < length; i++) {
+                    pointSizes[i] = intsize;
                 }
-                break;
         }
     }
 
     // a method to fill the list of styles
     private void fillStyles(int type, int length) {
         switch (type) {
-            // types 1-5 are the dot styles condition
-            // 1: regular filled point
-            // 2: regular unfilled (white) point
-            // 3: white dot with black dot at center
-            // 4: black dot with white dot at center
-            case 1:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-
-            case 2:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-
-            case 3:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-
-            case 4:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-
             case 5:
                 for (int i = 0; i < length; i++) {
                     pointStyles[i] = (i % 4) + 1;
                 }
                 break;
-
-            // types 6-10 are the ring conditions
-            case 6:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 7:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 8:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 9:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
             case 10:
                 for (int l = 0; l < length; l++) {
                     pointStyles[l] = (l % 4) + 6;
-                }
-                break;
-            // types 11-15 are the T's and +'s
-            // 11: plusses
-            // 12: upright T's, geo center
-            // 13: rotated T's, geo center
-            // 14: rotated T's, centroid
-            // 15: T's and plusses, geo centers
-            case 11:
-                for (int l = 0; l < length; l++) {
-                    pointStyles[l] = type;
-                }
-                break;
-            case 12:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
                 }
                 break;
             // need a mix condition of 12, 13, 14, 15
@@ -656,33 +570,16 @@ public class Distribution2D implements XMLWriteable {
                     pointStyles[i] = (i % 5) + 11;
                 }
                 break;
-
-            // types 21-25 are the symmetric shapes
-            case 21:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 22:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 23:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
-            case 24:
-                for (int i = 0; i < length; i++) {
-                    pointStyles[i] = type;
-                }
-                break;
+       
             case 25:
                 for (int l = 0; l < length; l++) {
                     pointStyles[l] = (l % 4) + 21;
                 }
                 break;
+            default:
+                 for (int i = 0; i < length; i++) {
+                    pointStyles[i] = type;
+                }
 
         }
 
@@ -692,53 +589,10 @@ public class Distribution2D implements XMLWriteable {
     private void fillHues(int hue, int length) {
 
         switch (hue) {
-
-            case 1:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 2:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 3:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 4:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
             case 5:
                 for (int i = 0; i < length; i++) {
                     //pointHues[i] = 2;
                     pointHues[i] = (i % 4) + 1;
-                }
-                break;
-
-            // cases 6-10 are the colors
-            case 6:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 7:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 8:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
-                }
-                break;
-            case 9:
-                for (int i = 0; i < length; i++) {
-                    pointHues[i] = hue;
                 }
                 break;
             case 10:
@@ -746,7 +600,10 @@ public class Distribution2D implements XMLWriteable {
                     pointHues[i] = (i % 4) + 6;
                 }
                 break;
-
+            default:
+                for (int i = 0; i < length; i++) {
+                    pointHues[i] = hue;
+                }
         }
     }
 
@@ -796,6 +653,12 @@ public class Distribution2D implements XMLWriteable {
         g2.dispose();
         return Util.toImage(bi);
 
+    }
+    
+    
+    public Image getImage(int width, int height, int numPoints, double scaling, double dpointSize, DotStyleType dotStyleType, DotHueType dotHueType) {
+
+        return getImage( width,  height,  numPoints,  scaling,  dpointSize, ConditionMaps.getDotStyleIndex(dotStyleType), ConditionMaps.getDotHueIndex(dotHueType));
     }
 
     public Image getImage(int width, int height, int numPoints, double scaling, double dpointSize, int iPointStyle, int idotHue) {
@@ -889,4 +752,6 @@ public class Distribution2D implements XMLWriteable {
         System.out.println(myDist.toString());
         System.out.println(myDist.getXMLString());
     }
+
+    
 }

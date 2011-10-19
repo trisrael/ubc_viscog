@@ -10,9 +10,13 @@ import StevensLevel.listeners.StevensLevelInteractionListener;
 import StevensLevel.listeners.StevensLevelViewListener;
 import StevensLevel.screens.TaskScreen.Graphs;
 import StevensLevel.screens.TaskScreen.StevensLevelUpdateViewEvent;
+import common.condition.DotHueType;
+import common.condition.DotStyleType;
 import java.util.Arrays;
 import java.util.List;
+import render.GraphStyleSheet;
 import static StevensLevel.EventBusHelper.*;
+import StevensLevel.UserKeyInteractionListener;
 import screens.Screen;
 
 /**
@@ -27,6 +31,10 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     private final double lowCorr;
     private double adjustedCorr;
     private int numPoints;
+    private DotStyleType dotStyle;
+    private DotHueType dotHue;
+    private final GraphStyleSheet stylesheet;
+    
 
     public double getStepSize() {
         return stepSize;
@@ -56,10 +64,11 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
      * @param lowCorr
      * @param numpts 
      */
-    public Trial(double highCorr, double lowCorr, int numpts, double stepsize) {
+    public Trial(double highCorr, double lowCorr, int numpts, double stepsize, GraphStyleSheet sheet) {
         this.highCorr = highCorr;
         this.lowCorr = lowCorr;
         this.adjustedCorr = highCorr;
+        this.stylesheet = sheet;
         setNumPoints(numpts);
         setStepSize(stepsize);
         listen(this, StevensLevelInteractionListener.class);
@@ -92,17 +101,11 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
             setAdjustedCorr(CorrelationEnsurer.ensureCorr(prevCorr + toAdd));
 
             if (prevCorr != getAdjustedCorr()) { //Only send an update to the screen if value has changed to avoid user from getting confused
-                
+                eb().getPublisher(this, UserKeyInteractionListener.class).ignoreUserInteractions(); //upcoming change to screen ignore interactions
                 pb(this, StevensLevelViewListener.class).update(buildAdjustedPayload());
                 pb(this, ScreenUpdateListener.class).screenUpdated();
             }
         }
-    }
-
-    public Trial(double highCorr, double lowCorr, double startCorr, int numpts, double stepsize) {
-        this(highCorr, lowCorr, numpts, stepsize);
-        this.adjustedCorr = startCorr;
-
     }
 
     public void run() {
@@ -127,7 +130,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     }
 
     private StevensLevelUpdateViewEvent buildPayload(double corr, Graphs graph) {
-        return new StevensLevelUpdateViewEvent(corr, getNumPoints(), graph);
+        return new StevensLevelUpdateViewEvent(corr, getNumPoints(), graph, stylesheet);
     }
 
     public double getAdjustedCorr() {
@@ -163,6 +166,6 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
      * Checks whether two doubles are roughly equal using epsilon
      */
     private Boolean isFuzzyEqual(double val, double d) {
-        return Math.abs(val - d) <= 0.00001;
+        return Math.abs(val - d) <= 0.001;
     }
 }

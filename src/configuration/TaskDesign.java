@@ -1,11 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package configuration;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import util.InferenceUtil;
 
 /**
@@ -17,18 +11,18 @@ import util.InferenceUtil;
  */
 public class TaskDesign extends Design {
     public TaskDesign(){
-        setBaseDesign(new BaseDesign());
+        setBaseDesign(new Design());
     }
 
-    public BaseDesign getBaseDesign() {
+    public Design getBaseDesign() {
         return baseDesign;
     }
 
-    public void setBaseDesign(BaseDesign baseDesign) {
+    public void setBaseDesign(Design baseDesign) {
         this.baseDesign = baseDesign;
     }
     
-    private BaseDesign baseDesign;
+    private Design baseDesign;
     
     /**
      * Get properties from TaskDesign (Notice that there is no method to set them, this is to deter later setting.  All setting of properties should have been completed
@@ -40,43 +34,33 @@ public class TaskDesign extends Design {
         Exception x1 = null;
         Exception x2 = null;
         try {
-            val = InferenceUtil.prop(this, memberName);
+          return  val = InferenceUtil.prop(this, memberName);
         } catch (Exception ex) {
             x1 = ex;
         }
-
-        if (val == null) {
-            try {
-                val = InferenceUtil.prop(getBaseDesign(), memberName);
-
-            } catch (Exception ex) {
-               x2 = ex;
-            }
-        }
-        
-        if(x1 != null && x2 != null){
-            Logger.getLogger(TaskDesign.class.getName()).log(Level.WARNING, null, x1);
-        }
-
-        return val;
+        return null;
+    }
+    
+    /**
+     * Some versions of java complain when using implicit casting, using prop in this fashion makes use of class Cast options to get what one would like.
+     * @param <E>
+     * @param string
+     * @param aClass
+     * @return 
+     */
+     public <E> E prop(String string, Class<E> aClass) {
+        if(aClass == Boolean.class)
+            return aClass.cast(Boolean.parseBoolean(String.class.cast(prop(string))));
+        return aClass.cast(prop(string));
     }
     
     
     /** Additional properties **/
     
-    private double highCorr = 1.0;
-    private double lowCorr = 0.0;
-    private double stepLevel = 0.03; //Level that user will cause correlation to jump up/down
-    private Double startCorr = null;
-
-    public Double getStartCorr() {
-        return startCorr;
-    }
-
-    public void setStartCorr(Double startCorr) {
-        this.startCorr = startCorr;
-    }
-
+    private double highCorr = DEFAULT_DOUBLE;
+    private double lowCorr = DEFAULT_DOUBLE;
+    private double stepLevel =  DEFAULT_DOUBLE; //Level that user will cause correlation to jump up/down
+    
     public double getStepLevel() {
         return stepLevel;
     }

@@ -8,7 +8,7 @@ package StevensLevel;
  *Implementation of WithState interface as abstract class for extension purposes
  * @author Tristan Goffman(tgoffman@gmail.com) Aug 3, 2011
  */
-public abstract class WithStateWithInteractionReactorImpl extends WithInterationReactorImpl implements WithState, HasInteractionReactor{
+public abstract class WithStateImpl implements WithState{
     private State state = State.WAITING;
 
     public State getState() {

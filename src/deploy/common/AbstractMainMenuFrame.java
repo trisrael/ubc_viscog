@@ -195,8 +195,20 @@ public abstract class AbstractMainMenuFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
-        constructExperiment();
-        getExperiment().run();
+        //Get subject number and initials for next subject
+        StringBuffer initials = new StringBuffer(ExperimentStartDialogue.MAX_CHARS);
+        StringBuffer subjectNumber = new StringBuffer(ExperimentStartDialogue.MAX_DIGITS);
+
+        boolean isStart = ExperimentStartDialogue.showDialogue(this, initials, subjectNumber);
+
+        // don't start experiment if we hit 'cancel'
+        if (isStart == false) {
+            return;
+        }
+        
+        initials.trimToSize();
+        subjectNumber.trimToSize();
+        getExperiment().run(Integer.parseInt(subjectNumber.toString()),initials.toString());
         this.setVisible(false);
 }//GEN-LAST:event_runButtonActionPerformed
 

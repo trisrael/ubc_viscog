@@ -2,7 +2,7 @@ package StevensLevel.parts;
 
 import StevensLevel.listeners.ScreenChangeListener;
 import StevensLevel.State;
-import StevensLevel.WithStateWithInteractionReactorImpl;
+import StevensLevel.WithStateImpl;
 import StevensLevel.events.ScreenChange;
 import StevensLevel.listeners.PartInteractionListener;
 import interaction.ExperimentInteractionListener;

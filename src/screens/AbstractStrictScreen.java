@@ -11,6 +11,7 @@ import java.awt.RenderingHints;
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 16, 2011
  */
 public abstract class AbstractStrictScreen extends AbstractScreen{
+    private boolean dirty;
 
     @Override
     public Image getImage() {
@@ -39,6 +40,14 @@ public abstract class AbstractStrictScreen extends AbstractScreen{
         // Background
         g2.setColor(Color.WHITE);
         g2.fill(new Rectangle.Float(0, 0, width, height));
+    }
+
+    public boolean isDirty() {
+        return dirty;
+    }
+    
+    public void setDirty(boolean val){
+        dirty = val;
     }
 
 }

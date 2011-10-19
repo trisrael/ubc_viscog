@@ -8,6 +8,7 @@ import StevensLevel.events.StevensLevelInteraction;
 import StevensLevel.listeners.ScreenUpdateListener;
 import StevensLevel.parts.Round;
 import StevensLevel.screens.TaskScreen;
+import configuration.RoundDesign;
 import configuration.TaskDesign;
 import java.awt.Panel;
 import interaction.ExperimentInteraction;
@@ -57,7 +58,7 @@ public class ViewTest {
            eb().removeListener(instance);
            listen(spy, ScreenUpdateListener.class);
            
-            Round round = new Round(new TaskDesign());
+            Round round = new Round(new RoundDesign());
             
             round.run();
             
