@@ -437,36 +437,11 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
         this.setVisible(true);
     }
 
-    /**
-     * Shows a dialogue to get some user input, sets up some experiment
-     * parameters and runs the experiment.
-     */
-    public void run() {
+    public void run(int subjectNum, String initials) {
 
-        // TODO: figure out how to start animated loading frame in its own
-        //       thread
-        //Globals.ANIMATED_LOADING_FRAME.setVisible(true);
-
+        this.currentSubject = new Subject(subjectNum, initials, ExperimentType.JND, new JNDFilenameBuilder(expCond));
+        
         this.setupExperiment();
-
-        //Globals.ANIMATED_LOADING_FRAME.setVisible(false);
-
-        // dialogue to get subject number and initials/ID/etc.
-        StringBuffer initials = new StringBuffer(ExperimentStartDialogue.MAX_CHARS);
-        StringBuffer subjectNumber = new StringBuffer(ExperimentStartDialogue.MAX_DIGITS);
-
-        boolean isStart = ExperimentStartDialogue.showDialogue(this, initials, subjectNumber);
-
-        // don't start experiment if we hit 'cancel'
-        if (isStart == false) {
-            return;
-        }
-
-        initials.trimToSize();
-        subjectNumber.trimToSize();
-        this.currentSubject = new Subject(Integer.parseInt(subjectNumber.toString()), initials.toString(), ExperimentType.JND, new JNDFilenameBuilder(expCond));
-        
-        
         this.currentSubjectNumber = currentSubject.getNumber();
         run(currentSubject);
     }
@@ -916,17 +891,5 @@ public class BasicJNDExperiment extends JFrame implements Experiment, KeyListene
     private void doExperimentEnd() {
     }
 
-    public static void main(String[] args) {
-        BasicJNDExperiment myExperiment = new BasicJNDExperiment();
-
-        System.out.println(myExperiment.getConfString());
-        myExperiment.saveConfiguration();
-        myExperiment.loadConfiguration();
-        System.out.println("Configuration loaded");
-        myExperiment.setupConfFrame();
-        myExperiment.showConfigureFrame(true);
-        System.out.println(myExperiment.getConfString());
-        myExperiment.run();
-        //System.exit(0);
-    }
+  
 }

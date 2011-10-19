@@ -4,9 +4,10 @@ import java.io.File;
 
 public interface Experiment {
     /**
-     * Run the experiment
+     * Run the experiment given a subject number and initials.
      */
-    public void run();
+    public void run(int subjectNum, String initials);
+    
 
     /**
      * Test the experiment
@@ -58,5 +59,7 @@ public interface Experiment {
      * @return
      */
     public boolean checkConfigurationString(String conf);
+
+    
    
 }

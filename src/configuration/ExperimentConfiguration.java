@@ -7,11 +7,13 @@ import StevensLevel.filesystem.FileSystemConstants;
 import common.condition.DotHueType;
 import common.condition.DotStyleType;
 import common.filesystem.FileSystem;
+import experiment.Subject;
 import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import static util.InferenceUtil.*;
+import static sun.misc.Sort.*;
 /**
  * Experiment configuration sets up the entire experiment.
  * 
@@ -27,7 +29,8 @@ public class ExperimentConfiguration {
     }
     
     // All member variables start with defaults
-    
+    private List<RoundDesign> finalRounds;
+
     private Style style = new Style();
     private StevensLevelDesign design;
 
@@ -86,16 +89,60 @@ public class ExperimentConfiguration {
         design.setSequential(li);
     }
 
-    public Iterable<RoundDesign> getRoundDesigns() {
-        List<RoundDesign> seqs = design.getSequential();
+    /**
+     * Get the resulting RoundDesigns that this configuration implies.
+     * @return 
+     */
+    public List<RoundDesign> getRoundDesigns() {
+       return getFinalRounds();
+    }
+
+    /**
+     * Given a Subject, attempt to counter balance the rounds available if necessary
+     * @param subject 
+     */
+    public void counterbalance(Subject subject) {
+        if(needsCounterBalance()){
+            
+        }else{
+            setFinalRounds(getDesign().getSequential()); //Simply take the sequential in this case (hopefully its not null or empty, but it certainly may be)
+            addAncestorDesign();
+        }
+    }
+
+    /**
+     * Decides whether the StevensLevelDesign needs to be counter balanced. Explanation of times not needing to counterbalance.
+     * 1) List is null or empty
+     * 2) (1) && either Sequential is empty or null OR the two lists (sequential and counterbalanced) are of the same size 
+     * 
+     * @return 
+     */
+    private boolean needsCounterBalance() {
+       return getDesign().getCounterbalanced() != null && !getDesign().getCounterbalanced().isEmpty() && ((getDesign().getSequential() == null || getDesign().getSequential().isEmpty()) || getDesign().getSequential().size() == getDesign().getCounterbalanced().size());
+    }
+    
+    
+    public List<RoundDesign> getFinalRounds() {
+        return finalRounds;
+    }
+
+    private void setFinalRounds(List<RoundDesign> finalRounds) {
+        this.finalRounds = finalRounds;
+    }
+
+    /**
+     * Add an ancestor RoundDesign to each RoundDesign found with final rounds. At this point the List should have been initialized with 
+     * its final RoundDesign list
+     * @return 
+     */
+    private List<RoundDesign> addAncestorDesign() {
+        List<RoundDesign> seqs = getFinalRounds();
         for (RoundDesign roundDesign : seqs) {
-            roundDesign.setBaseDesign(design.getDesign());
+            roundDesign.setBaseDesign(getDesign().getDesign());
         }
         
         return seqs;
     }
-    
-    
    
     
 }

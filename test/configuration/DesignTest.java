@@ -84,8 +84,8 @@ public class DesignTest {
         assertThat(list.get(0).getDotStyle(), is(DotStyleType.Unfilled));
         assertThat(list.get(0).getLowCorr(), is(0.1));
         assertThat(list.get(0).getHighCorr(), is(0.8));
-        assertThat(list.get(0).getAxisOn(), is(false));
-        assertThat(list.get(0).getLabelsOn(), is(true));
+        assertThat(list.get(0).getAxisOn(), is("false"));
+        assertThat(list.get(0).getLabelsOn(), is("true"));
     }
         
         

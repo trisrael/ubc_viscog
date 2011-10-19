@@ -4,21 +4,12 @@
  */
 package util;
 
-import com.sun.org.apache.bcel.internal.generic.Select;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.IntArrayData;
-import common.condition.DotHueType;
-import common.condition.DotStyleType;
 import configuration.Design;
+import configuration.RoundDesign;
 import configuration.TaskDesign;
-import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.hamcrest.SelfDescribing;
-import org.mockito.internal.util.ArrayUtils;
 
 /**
  *
@@ -26,8 +17,8 @@ import org.mockito.internal.util.ArrayUtils;
  */
 public class InferenceUtil {
 
-    private static final String PRE_GETTER = "get";
-    private static final String PRE_SETTER = "set";
+    public static final String PRE_GETTER = "get";
+    public static final String PRE_SETTER = "set";
 
     /**
      * Set value of member on a java bean
@@ -128,5 +119,25 @@ public class InferenceUtil {
             Logger.getLogger(InferenceUtil.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
+
+    /**
+     * Given a Getter method java beans style, return the setter associated with it (assuming it has one, otherwise will blow up)
+     * @param <E>
+     * @param aClass
+     * @param method
+     * @return 
+     */
+    public static <E> Method getterFromSetter(Class<E> aClass, Method method) {
+        String str = method.getName();
+       str = str.replaceFirst(PRE_GETTER, PRE_SETTER);
+        try {
+            return aClass.getMethod(str, method.getReturnType());
+        } catch (NoSuchMethodException ex) {
+            Logger.getLogger(InferenceUtil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(InferenceUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }
