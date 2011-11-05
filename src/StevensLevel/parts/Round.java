@@ -9,10 +9,9 @@ import static StevensLevel.EventBusHelper.*;
 import StevensLevel.UserKeyInteractionListener;
 import StevensLevel.events.ScreenChange;
 import StevensLevel.listeners.ScreenChangeListener;
-import common.condition.DotHueType;
-import common.condition.DotStyleType;
 import configuration.RoundDesign;
 import render.GraphStyleSheet;
+import screens.BlankScreen;
 import screens.Screen;
 import screens.TestCorrectScreen;
 import screens.TestIncorrectScreen;
@@ -26,6 +25,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
 
     private final double lowCorr;
     private final double highCorr;
+    private final double startCorr;
     private Integer numTrials = null;
     private List<Trial> trials;
     private Trial current; //Current task in progress (or null if out
@@ -37,15 +37,13 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
 
     public Round(RoundDesign des) {
         this.des = des;
-
-
         this.lowCorr = des.prop("lowCorr", Double.class);
         this.highCorr = des.prop("highCorr", Double.class);
+        this.startCorr = des.prop("startCorr", Double.class);
         this.numTrials = des.prop("numTrials", Integer.class);
         this.numPoints = des.prop("numPoints", Integer.class);
         this.stepSize = des.prop("stepLevel", Double.class);
         this.stylesheet = new GraphStyleSheet(des);
-
     }
 
     public List<Trial> getTrials() {
@@ -84,7 +82,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
         }
 
         for (int i = 0; i < getNumTrials(); i++) {
-            pushTrial(new Trial(highCorr, lowCorr, numPoints, stepSize, stylesheet));
+            pushTrial(new Trial(highCorr, lowCorr, startCorr, numPoints, stepSize, stylesheet));
         }
     }
 
@@ -127,7 +125,6 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
             nextTrial();
             eb().removeListener(ScreenNotificationListener.class, this);
         }
-
     }
 
     /**
@@ -144,7 +141,6 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
             }
 
         }
-
     }
 
     /**
@@ -157,8 +153,8 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
             getCurrentTrial().stop();
             setState(State.WAITING); //wait for continueOn to go off before allowing completeTasks again
             eb().getPublisher(this, UserKeyInteractionListener.class).ignoreUserInteractions(); //new screen coming in
-            pb(this, ScreenChangeListener.class).changeScreen(new ScreenChange(getCurrentTrial().isCorrect() ? TestCorrectScreen.class : TestIncorrectScreen.class));
-
+            pb(this, ScreenChangeListener.class).changeScreen(new ScreenChange(BlankScreen.class));
+            continueOn();
         }
     }
 }

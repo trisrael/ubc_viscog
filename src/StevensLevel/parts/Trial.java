@@ -29,6 +29,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     //Member variables
     private final double highCorr;
     private final double lowCorr;
+    
     private double adjustedCorr;
     private int numPoints;
     private DotStyleType dotStyle;
@@ -64,10 +65,11 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
      * @param lowCorr
      * @param numpts 
      */
-    public Trial(double highCorr, double lowCorr, int numpts, double stepsize, GraphStyleSheet sheet) {
+    public Trial(double highCorr, double lowCorr, double startCorr, int numpts, double stepsize, GraphStyleSheet sheet) {
         this.highCorr = highCorr;
         this.lowCorr = lowCorr;
-        this.adjustedCorr = highCorr;
+        
+        this.adjustedCorr = startCorr;
         this.stylesheet = sheet;
         setNumPoints(numpts);
         setStepSize(stepsize);
@@ -158,14 +160,4 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
         stoplistening(this, StevensLevelInteractionListener.class);
     }
 
-    Boolean isCorrect() {
-        return isFuzzyEqual(getAdjustedCorr(), (highCorr - lowCorr)/ 2);
-    }
-
-    /*
-     * Checks whether two doubles are roughly equal using epsilon
-     */
-    private Boolean isFuzzyEqual(double val, double d) {
-        return Math.abs(val - d) <= 0.001;
-    }
 }

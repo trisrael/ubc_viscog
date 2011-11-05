@@ -60,6 +60,15 @@ public class TaskDesign extends Design {
     private double highCorr = DEFAULT_DOUBLE;
     private double lowCorr = DEFAULT_DOUBLE;
     private double stepLevel =  DEFAULT_DOUBLE; //Level that user will cause correlation to jump up/down
+    private double startCorr = DEFAULT_DOUBLE;
+
+    public double getStartCorr() {
+        return startCorr;
+    }
+
+    public void setStartCorr(double startCorr) {
+        this.startCorr = startCorr;
+    }
     
     public double getStepLevel() {
         return stepLevel;

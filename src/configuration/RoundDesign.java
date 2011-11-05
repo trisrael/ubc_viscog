@@ -4,9 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.InferenceUtil;
@@ -33,8 +31,7 @@ public class RoundDesign extends TaskDesign {
             }
         });
     }
-    
-
+   
     /**
      *Returns a map of which methods have changed from the default
      */
@@ -66,7 +63,6 @@ public class RoundDesign extends TaskDesign {
                 return !method.getName().equalsIgnoreCase("getBaseDesign") && (method.getName().startsWith(InferenceUtil.PRE_GETTER) && method.getParameterTypes().length == 0);
             }
         });
-
     }
 
     /**
@@ -89,7 +85,6 @@ public class RoundDesign extends TaskDesign {
     }
 
     interface FilterMethod {
-
         /**
          * Simple function which decided whether a function should be kept or thrown away
          * @param dsg, current rounddesign
