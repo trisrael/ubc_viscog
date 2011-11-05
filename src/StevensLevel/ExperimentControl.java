@@ -134,7 +134,6 @@ public class ExperimentControl extends WithStateImpl implements InteractionReact
         eb().getPublisher(this, UserKeyInteractionListener.class).ignoreUserInteractions(); 
         if (getPart() != null) {
             getPart().stop();
-
         }
         setPart(getSequence().get(this.partsComplete));
         getPart().setup();

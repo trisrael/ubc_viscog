@@ -77,7 +77,7 @@ public class ViewControl extends WithInterationReactorImpl implements Interactio
     }
     
     public void changeScreen(Class<? extends Screen> clazz){
-        setNewScreen(clazz);
+       setNewScreen(clazz);
        pb(this, ScreenNotificationListener.class).screenIsReady(clazz);
     }
     

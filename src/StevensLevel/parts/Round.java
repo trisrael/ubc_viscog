@@ -33,7 +33,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
     private int trialsPerformed = 0;
     private final int numPoints; // Number of points to draw on each graph (to build each correlation graph with)
     private final double stepSize;
-  private GraphStyleSheet stylesheet;
+    private GraphStyleSheet stylesheet;
 
     public Round(RoundDesign des) {
         this.des = des;
@@ -44,7 +44,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
         this.numTrials = des.prop("numTrials", Integer.class);
         this.numPoints = des.prop("numPoints", Integer.class);
         this.stepSize = des.prop("stepLevel", Double.class);
-        this.stylesheet  = new GraphStyleSheet(des);
+        this.stylesheet = new GraphStyleSheet(des);
 
     }
 
@@ -76,7 +76,6 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
         runTrial();
         trialsPerformed++; //increment trials performed
     }
-
 
     @Override
     public void setup() {
@@ -141,7 +140,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
                 eb().getPublisher(this, UserKeyInteractionListener.class).ignoreUserInteractions(); //new trial just about to start 
                 run(); //start running again (will start next trial automaticall)
             } else {
-              super.completeTask();
+                super.completeTask();
             }
 
         }
@@ -159,7 +158,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
             setState(State.WAITING); //wait for continueOn to go off before allowing completeTasks again
             eb().getPublisher(this, UserKeyInteractionListener.class).ignoreUserInteractions(); //new screen coming in
             pb(this, ScreenChangeListener.class).changeScreen(new ScreenChange(getCurrentTrial().isCorrect() ? TestCorrectScreen.class : TestIncorrectScreen.class));
-           
+
         }
     }
 }
