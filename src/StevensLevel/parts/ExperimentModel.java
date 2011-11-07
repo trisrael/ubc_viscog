@@ -28,10 +28,10 @@ public class ExperimentModel extends WithStateImpl implements Runnable, interact
     }
     
     /**
-     * Default continueOn action simply sends out another event explaining of a larger continueOn.
+     * Default spacebarPlaced action simply sends out another event explaining of a larger spacebarPlaced.
      */
     @Override
-    public void continueOn(){
+    public void spacebarPlaced(){
         completeTask();
     }
     

@@ -138,7 +138,7 @@ public class View extends WithStateImpl implements KeyListener, ScreenUpdateList
                 pb(this, ExperimentInteractionListener.class).completeTask();
                 break;
             case VK_SPACE:
-                pb(this, ExperimentInteractionListener.class).continueOn();
+                pb(this, ExperimentInteractionListener.class).spacebarPlaced();
                 break;
             default:
                 pb(this, ExperimentInteractionListener.class).invalidInteraction(); 

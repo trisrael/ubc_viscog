@@ -69,7 +69,7 @@ public class RoundTest {
             Trial nextTrial = round.getTrials().get(1);
             
             round.completeTask();
-            round.continueOn();
+            round.spacebarPlaced();
             assertEquals(round.getCurrentTrial(), nextTrial);
         }
     }

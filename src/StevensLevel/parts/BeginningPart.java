@@ -15,7 +15,7 @@ public class BeginningPart extends ExperimentPart<BeginScreen> {
     }
     
     @Override
-            public void run(){
+    public void run(){
         super.run();
         setState(State.WAITING); //Beginning screen will always be in waiting state
     }

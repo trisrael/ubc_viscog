@@ -17,6 +17,7 @@ import java.util.List;
 import render.GraphStyleSheet;
 import static StevensLevel.EventBusHelper.*;
 import StevensLevel.UserKeyInteractionListener;
+import interaction.ExperimentInteractionListener;
 import screens.Screen;
 
 /**
@@ -24,7 +25,7 @@ import screens.Screen;
  * has a correlation that is between that of two other distributions.
  * @author Tristan Goffman(tgoffman@gmail.com) Jul 17, 2011
  */
-public class Trial extends ExperimentModel implements StevensLevelInteractionListener {
+public class Trial extends ExperimentModel implements StevensLevelInteractionListener  {
 
     //Member variables
     private final double highCorr;
@@ -39,6 +40,20 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
 
     public double getStepSize() {
         return stepSize;
+    }
+
+    private void refresh() {
+        List<StevensLevelUpdateViewEvent> li = Arrays.asList(
+                this.buildPayload(lowCorr, Graphs.LOW),
+                buildAdjustedPayload(),
+                this.buildPayload(highCorr, Graphs.HIGH));
+
+
+        //Publish updates to be picked up by view for graphs and their points etc..
+        for (StevensLevelUpdateViewEvent payload : li) {
+            pb(this, StevensLevelViewListener.class).update(payload);
+        }
+        pb(this, ScreenUpdateListener.class).screenUpdated();
     }
 
     private void setStepSize(double stepSize) {
@@ -74,6 +89,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
         setNumPoints(numpts);
         setStepSize(stepsize);
         listen(this, StevensLevelInteractionListener.class);
+        listen(this, ExperimentInteractionListener.class);
     }
 
     /**
@@ -112,18 +128,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
 
     public void run() {
         setState(State.IN_PROGRESS);
-
-        List<StevensLevelUpdateViewEvent> li = Arrays.asList(
-                this.buildPayload(lowCorr, Graphs.LOW),
-                buildAdjustedPayload(),
-                this.buildPayload(highCorr, Graphs.HIGH));
-
-
-        //Publish updates to be picked up by view for graphs and their points etc..
-        for (StevensLevelUpdateViewEvent payload : li) {
-            pb(this, StevensLevelViewListener.class).update(payload);
-        }
-        pb(this, ScreenUpdateListener.class).screenUpdated();
+        refresh();
 
     }
 
@@ -159,5 +164,14 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
         super.stop();
         stoplistening(this, StevensLevelInteractionListener.class);
     }
-
+    
+    @Override
+    public void spacebarPlaced(){
+        refresh();
+    }
+  
+    @Override
+    public void completeTask(){
+            //Round deals with this action actually.
+    }
 }

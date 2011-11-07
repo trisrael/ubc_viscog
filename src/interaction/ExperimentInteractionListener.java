@@ -12,7 +12,7 @@ import java.util.EventListener;
  */
 public interface ExperimentInteractionListener extends EventListener {
     
-    public void continueOn();
+    public void spacebarPlaced();
     
     /**
      * User wishes to finish

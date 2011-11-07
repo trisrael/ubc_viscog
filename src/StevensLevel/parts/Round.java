@@ -128,9 +128,9 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
     }
 
     /**
-     * Default continueOn action simply sends out another event explaining of a larger continueOn.
+     * Default spacebarPlaced action simply sends out another event explaining of a larger spacebarPlaced.
      */
-    public void continueOn() {
+    public void spacebarPlaced() {
         if (isWaiting()) { //should be waiting from a completeTask call -> will either want to move on to nextTrack or call 
 
             if (hasNextTrial()) { //Send off first updates if running
@@ -151,10 +151,10 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
         //TODO: Is it possible that current trial could be null?
         if (isRunning()) {
             getCurrentTrial().stop();
-            setState(State.WAITING); //wait for continueOn to go off before allowing completeTasks again
+            setState(State.WAITING); //wait for spacebarPlaced to go off before allowing completeTasks again
             eb().getPublisher(this, UserKeyInteractionListener.class).ignoreUserInteractions(); //new screen coming in
             pb(this, ScreenChangeListener.class).changeScreen(new ScreenChange(BlankScreen.class));
-            continueOn();
+            spacebarPlaced();
         }
     }
 }
