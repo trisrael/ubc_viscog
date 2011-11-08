@@ -36,6 +36,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     private DotStyleType dotStyle;
     private DotHueType dotHue;
     private final GraphStyleSheet stylesheet;
+    private int timesRefreshed = 0; //Number of time 
     
 
     public double getStepSize() {
@@ -167,6 +168,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     
     @Override
     public void spacebarPlaced(){
+        timesRefreshed++;
         refresh();
     }
   

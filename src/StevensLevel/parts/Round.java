@@ -43,6 +43,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
         this.numTrials = des.prop("numTrials", Integer.class);
         this.numPoints = des.prop("numPoints", Integer.class);
         this.stepSize = des.prop("stepLevel", Double.class);
+        
         this.stylesheet = new GraphStyleSheet(des);
     }
 

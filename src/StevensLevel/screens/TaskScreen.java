@@ -135,10 +135,10 @@ public class TaskScreen extends ManyCorrelationScreen implements StevensLevelVie
             dist.setDrawAxis(styles.isAxisOn());
             dist.setDrawLabels(styles.isLabelsOn());
 
-            im = dist.getImage(gWidth, gHeight, dist.size(), 1, 1, styles.getDotStyle(), styles.getDotHue());
+            im = dist.getImage(gWidth, gHeight, dist.size(), styles.getDotScaling(),styles.getDotSize(), styles.getDotStyle(), styles.getDotHue());
 
         } else { //backup drawing when map is missing stylesheets
-            im = dist.getImage(gWidth, gHeight, dist.size(), 1, 1, DotStyleType.Filled, DotHueType.Black);
+            im = dist.getImage(gWidth, gHeight, dist.size(), 1, 3, DotStyleType.Filled, DotHueType.Black);
         }
 
 

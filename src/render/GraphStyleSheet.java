@@ -13,12 +13,17 @@ public class GraphStyleSheet {
     private boolean labelsOn;
     private DotHueType dotHue;
     private DotStyleType dotStyle;
+    private Double pointSize;
+    private Double dotScaling;
+
     
     public GraphStyleSheet(TaskDesign des){
         setAxisOn(des.prop("axisOn", Boolean.class));
         setLabelsOn(des.prop("labelsOn", Boolean.class));
         setDotHue(des.prop("dotHue", DotHueType.class));
         setDotStyle(des.prop("dotStyle", DotStyleType.class));
+        setDotSize(des.doubprop("dotSize"));
+        setDotScaling(des.doubprop("dotScaling"));
     }
 
     public boolean isAxisOn() {
@@ -51,5 +56,22 @@ public class GraphStyleSheet {
 
     private void setLabelsOn(boolean labelsOn) {
         this.labelsOn = labelsOn;
+    }
+    
+    
+    public double getDotScaling() {
+        return dotScaling;
+    }
+
+    public void setDotScaling(double dotScaling) {
+        this.dotScaling = dotScaling;
+    }
+
+    public double getDotSize() {
+        return pointSize;
+    }
+
+    public void setDotSize(double pointSize) {
+        this.pointSize = pointSize;
     }
 }

@@ -10,6 +10,8 @@ import util.InferenceUtil;
  * @author Tristan Goffman(tgoffman@gmail.com) Sep 4, 2011
  */
 public class TaskDesign extends Design {
+    
+    
     public TaskDesign(){
         setBaseDesign(new Design());
     }
@@ -54,13 +56,30 @@ public class TaskDesign extends Design {
         return aClass.cast(prop(string));
     }
     
-    
     /** Additional properties **/
     
     private double highCorr = DEFAULT_DOUBLE;
     private double lowCorr = DEFAULT_DOUBLE;
     private double stepLevel =  DEFAULT_DOUBLE; //Level that user will cause correlation to jump up/down
     private double startCorr = DEFAULT_DOUBLE;
+    private double dotSize = DEFAULT_DOUBLE;
+    private double dotScaling = DEFAULT_DOUBLE;
+
+    public double getDotScaling() {
+        return (dotScaling);
+    }
+
+    public void setDotScaling(double dotScaling) {
+        this.dotScaling = dotScaling;
+    }
+
+    public double getDotSize() {
+        return dotSize;
+    }
+
+    public void setDotSize(double pointSize) {
+        this.dotSize = pointSize;
+    }
 
     public double getStartCorr() {
         return startCorr;
