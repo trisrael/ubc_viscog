@@ -12,26 +12,28 @@ import util.InferenceUtil;
 public class RoundDesign extends TaskDesign {
 
     private static final RoundDesign defRnd = new RoundDesign();
-    
+
     /**
      * Takes a RoundDesign and gives back a list of methods that it contains 
      * @param other
      * @return 
      */
-   protected List<Method> differenceBetween(RoundDesign other){
-        final List<Method> li= difference();
-         return  filter(other.difference(), new FilterMethod() {
+    protected List<Method> differenceBetween(RoundDesign other) {
+        final List<Method> li = difference();
+        return filter(other.difference(), new FilterMethod() {
+
             @Override
             public boolean keepMethod(RoundDesign dsg, Method meth) {
                 for (Method method : li) {
-                    if(method == meth)
+                    if (method == meth) {
                         return false;
+                    }
                 }
                 return true;
             }
         });
     }
-   
+
     /**
      *Returns a map of which methods have changed from the default
      */
@@ -41,15 +43,15 @@ public class RoundDesign extends TaskDesign {
 
             @Override
             public boolean keepMethod(RoundDesign dsg, Method meth) {
-               try{
-                return !meth.invoke(dsg).equals(meth.invoke(defRnd));   
-               }catch(Exception ex){
-                return false;   
-               }
+                try {
+                    return !meth.invoke(dsg).equals(meth.invoke(defRnd));
+                } catch (Exception ex) {
+                    return false;
+                }
             }
         });
-        
-       return meths;
+
+        return meths;
     }
 
     private List<Method> getGetters() {
@@ -85,6 +87,7 @@ public class RoundDesign extends TaskDesign {
     }
 
     interface FilterMethod {
+
         /**
          * Simple function which decided whether a function should be kept or thrown away
          * @param dsg, current rounddesign
@@ -109,5 +112,29 @@ public class RoundDesign extends TaskDesign {
         }
 
         return filtered;
+    }
+
+    /**
+     * Equality is based on qualities of an object itself not those of simply its hashcode...(default behaviour)
+     * @param des
+     * @return 
+     */
+    @Override
+    public boolean equals(Object des) {
+        if (des instanceof RoundDesign) {
+            RoundDesign rdes = RoundDesign.class.cast(des);
+            return differenceBetween(rdes).size() > 0;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        String res = "";
+        for (Method meth : difference()) {
+            res += meth.getName() + ",";
+        }
+
+        return res;
     }
 }

@@ -99,6 +99,7 @@ public class ExperimentConfiguration {
      * @return 
      */
     public List<RoundDesign> getRoundDesigns() {
+       
        return getFinalRounds();
     }
 
@@ -123,7 +124,7 @@ public class ExperimentConfiguration {
         
         for (int i = 0; i < seqs.size(); i++) {
             val = seqs.get(i);
-                    val.merge(newordered.get(i));
+            val.merge(newordered.get(i));
             seqs.set(i, val);
         }
             setFinalRounds(seqs);
@@ -142,7 +143,7 @@ public class ExperimentConfiguration {
      * 
      * @return 
      */
-    private boolean needsCounterBalance() {
+    protected boolean needsCounterBalance() {
        return getDesign().getCounterbalanced() != null && !getDesign().getCounterbalanced().isEmpty() && ((getDesign().getSequential() == null || getDesign().getSequential().isEmpty()) || getDesign().getSequential().size() == getDesign().getCounterbalanced().size());
     }
     

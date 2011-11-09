@@ -4,6 +4,9 @@
  */
 package configuration;
 
+import com.sun.tools.internal.ws.processor.util.DirectoryUtil;
+import common.counterbalancing.CounterBalancedOrdering;
+import org.junit.After;
 import java.util.List;
 import org.junit.Before;
 import common.filesystem.FileSystem;
@@ -34,14 +37,13 @@ public class ExperimentConfigurationTest {
         Object res = yaml.load(new FileReader(new File(currentDir.substring(0,currentDir.length() - 1) + "test/configuration/multi_counterbalance.conf")));
         des = StevensLevelDesign.class.cast(res);
 
-        conf =
-                new ExperimentConfiguration();
+        conf = new ExperimentConfiguration();
         conf.setDesign(des);
     }
 
     @Test
     public void counterbalance() throws FileNotFoundException {
-        conf.counterbalance(new Subject(3, "TG", ExperimentType.StevensLevel));
+        conf.counterbalance(new Subject(1, "TG", ExperimentType.StevensLevel));
         List<RoundDesign> rnds = conf.getRoundDesigns();
         
         
@@ -54,6 +56,17 @@ public class ExperimentConfigurationTest {
         conf2.setDesign(des2);
         conf2.counterbalance(new Subject(2, "TG", ExperimentType.StevensLevel));
         
-        assertThat(conf2.getRoundDesigns(), not(equalTo(rnds)) );
+        assertThat(conf2.getRoundDesigns().get(0), not(equalTo(rnds.get(0))) );
     }
+    
+    @Test
+    public void needsCounterBalance(){
+        assertThat(conf.needsCounterBalance(), is(true));
+    }
+    
+    @After
+    public void tearDown(){
+        CounterBalancedOrdering.reset();
+    }        
+            
 }

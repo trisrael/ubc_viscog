@@ -1,5 +1,6 @@
 package common.counterbalancing;
 
+import java.io.File;
 import common.counterbalancing.CounterBalancedOrdering.NotEnoughPermutations;
 
 import java.util.Arrays;
@@ -83,5 +84,12 @@ public class CounterBalancedOrderingTest {
         assertThat(CounterBalancedOrdering.reorder(Arrays.asList('a', 'b', 'c', 'd', 'e', 'g', 'u', '3'), 1, 5) , not(equalTo( CounterBalancedOrdering.reorder(Arrays.asList('a', 'b', 'c', 'd', 'e', 'g', 'u', '3'), 3 , 5)) ));
         
     }        
+    
+    @Test
+    public void reset(){
+        CounterBalancedOrdering.reset();
+        assertThat(new File(CounterBalancedOrdering.foldPath).exists(), is(false));
+    }       
+        
     
 }

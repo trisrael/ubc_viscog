@@ -23,7 +23,11 @@ import org.yaml.snakeyaml.Yaml;
  * @author Tristan Goffman(tgoffman@gmail.com) Nov 7, 2011
  */
 public class CounterBalancedOrdering {
-    private static String foldPath = FileSystem.FOLDER_CONF + File.separatorChar + FileSystemConstants.COUNTERBALANCED_ORDERING_FOLDER;
+    public static String foldPath = FileSystem.FOLDER_CONF + File.separatorChar + FileSystemConstants.COUNTERBALANCED_ORDERING_FOLDER;
+
+    public static void reset() {
+       util.Util.removeDirectory(new File(foldPath));
+    }
  
 
     private int groups;
