@@ -1,5 +1,6 @@
 package common.counterbalancing;
 
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -37,14 +38,22 @@ public class CounterBalancedOrderingTest {
     @Test
     public void singleOrdering(){
      inst.setGroups(1);
-     assertThat(inst.getOrderings(),hasSize(1));
+     assertThat(inst.getOrderings(), hasSize(1));
     }
     
     @Test
     public void containsRangeOfIndexes(){
         inst.setGroups(1);
-        assertThat(inst.getOrderings().get(0), containsInAnyOrder(0, 1,3, 4));
+        assertThat(inst.getOrderings().get(0), containsInAnyOrder(0, 1,3, 2));
     }
-            
+    
+    
+    @Test
+    public void multi(){
+        inst.setGroups(2);
+        List<List<Integer>> orders = inst.getOrderings();
+        assertThat(orders, hasSize(2));
+        assertThat(orders.get(0), not(equalTo(orders.get(1))));
+    }       
     
 }

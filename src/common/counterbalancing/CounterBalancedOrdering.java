@@ -2,6 +2,7 @@ package common.counterbalancing;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -9,6 +10,7 @@ import java.util.List;
  * @author Tristan Goffman(tgoffman@gmail.com) Nov 7, 2011
  */
 public class CounterBalancedOrdering {
+
     private int groups;
     private int trials;
     private int numOrderables;
@@ -38,12 +40,42 @@ public class CounterBalancedOrdering {
     }
 
     List<List<Integer>> getOrderings() {
-        ArrayList li = new ArrayList();
-        ArrayList<Integer> temp = new ArrayList<Integer>();
-        for (int i = 0; i < this.getNumOrderables(); i++) {
-            li.add(i);
+        ArrayList<List<Integer>> li = new ArrayList<List<Integer>>();
+
+
+        final int numOs = this.getNumOrderables();
+        ArrayList<Integer> colArr = new ArrayList<Integer>();
+
+        for (int i = 0; i < numOs; i++) {
+          colArr.add(new Integer(i));
         }
-        li.add(temp);
+        
+        while (li.size() < getGroups()) {
+
+            int temp = 0;
+            //NOTE: Not the best implementation by any means
+            List<Integer> attempt = new ArrayList<Integer>();
+
+            for (int i = 0; i < numOs; i++) {
+                temp = (int) Math.floor(Math.random() * numOs);
+                attempt.add(new Integer(temp));
+            }
+
+            boolean isDup = false;
+            for (List<Integer> other : li) {
+                if (other.equals(attempt)) {
+                    isDup = true;
+                    break;
+                }
+            }
+            
+            if (!isDup && attempt.containsAll(colArr)) {
+                li.add(attempt);
+            }
+
+
+        }
+
         return li;
     }
 }
