@@ -6,11 +6,16 @@ package configuration;
 import StevensLevel.filesystem.FileSystemConstants;
 import common.condition.DotHueType;
 import common.condition.DotStyleType;
+import common.counterbalancing.CounterBalancedOrdering;
+import common.counterbalancing.CounterBalancedOrdering.NotEnoughPermutations;
 import common.filesystem.FileSystem;
 import experiment.Subject;
 import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.SizeLimitExceededException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import static util.InferenceUtil.*;
 import static sun.misc.Sort.*;
@@ -78,8 +83,8 @@ public class ExperimentConfiguration {
         cond.setHighCorr(1.0);
         cond.setDotHue(DotHueType.IsoRed);
         cond.setDotStyle(DotStyleType.MedRing);
-        cond.setNumPoints(200);
-        cond.setNumTrials(4);
+        cond.setPoints(200);
+        cond.setGroups(4);
         cond.setAxisOn("true");
         cond.setStepLevel(0.03);
         cond.setBaseDesign(baseDesign);
@@ -102,12 +107,32 @@ public class ExperimentConfiguration {
      * @param subject 
      */
     public void counterbalance(Subject subject) {
+        List<RoundDesign> newordered = null;
+        RoundDesign val;
         if(needsCounterBalance()){
-            
+            int numGroups = getDesign().getDesign().intprop("groups");
+            try {
+                newordered = CounterBalancedOrdering.reorder(getDesign().getCounterbalanced(), subject.getNumber(),  numGroups);
+            } catch (SizeLimitExceededException ex) {
+                Logger.getLogger(ExperimentConfiguration.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NotEnoughPermutations ex) {
+                Logger.getLogger(ExperimentConfiguration.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        List<RoundDesign> seqs = getDesign().getSequential();
+        
+        for (int i = 0; i < seqs.size(); i++) {
+            val = seqs.get(i);
+                    val.merge(newordered.get(i));
+            seqs.set(i, val);
+        }
+            setFinalRounds(seqs);
         }else{
             setFinalRounds(getDesign().getSequential()); //Simply take the sequential in this case (hopefully its not null or empty, but it certainly may be)
-            addAncestorDesign();
+            
         }
+        
+       addAncestorDesign();
     }
 
     /**

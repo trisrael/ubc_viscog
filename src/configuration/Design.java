@@ -17,7 +17,17 @@ public class Design{
     public static double DEFAULT_DOUBLE = -1.0;
     public static String DEFAULT_STRING = "placeholder";
     
-    protected int numTrials = DEFAULT_INT;
+    
+    protected int groups = DEFAULT_INT;
+protected int trials = DEFAULT_INT;
+
+    public int getTrials() {
+        return trials;
+    }
+
+    public void setTrials(int trials) {
+        this.trials = trials;
+    }
     private int numPoints = DEFAULT_INT; //Number of points to draw on graphs (if a graph is available)
     private String axisOn = DEFAULT_STRING;
     private String labelsOn=  DEFAULT_STRING; //Axis label     
@@ -43,21 +53,21 @@ public class Design{
     }
 
 
-    public int getNumPoints() {
+    public int getPoints() {
         return numPoints;
     }
 
-    public void setNumPoints(int numPoints) {
+    public void setPoints(int numPoints) {
         this.numPoints = numPoints;
     }
-
-
-    public int getNumTrials() {
-        return numTrials;
+    
+    
+    public int getGroups() {
+        return groups;
     }
 
-    public void setNumTrials(int numTrials) {
-        this.numTrials = numTrials;
+    public void setGroups(int groups) {
+        this.groups = groups;
     }
    
     public DotHueType getDotHue() {

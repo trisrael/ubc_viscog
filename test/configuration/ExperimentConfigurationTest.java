@@ -4,6 +4,8 @@
  */
 package configuration;
 
+import java.util.List;
+import org.junit.Before;
 import common.filesystem.FileSystem;
 import experiment.ExperimentType;
 import experiment.Subject;
@@ -21,20 +23,37 @@ import static org.hamcrest.MatcherAssert.*;
  * @author tristangoffman
  */
 public class ExperimentConfigurationTest {
-
-    @Test
-    public void counterbalance() throws FileNotFoundException {
+    private ExperimentConfiguration conf;
+    private StevensLevelDesign des;
+    
+    @Before
+    public void setup() throws FileNotFoundException{
         Yaml yaml = new Yaml(new StevensLevelDesignConstructor());
 
         String currentDir = new File(".").getAbsolutePath();
         Object res = yaml.load(new FileReader(new File(currentDir.substring(0,currentDir.length() - 1) + "test/configuration/multi_counterbalance.conf")));
-        StevensLevelDesign des = StevensLevelDesign.class.cast(res);
+        des = StevensLevelDesign.class.cast(res);
 
-        ExperimentConfiguration conf =
+        conf =
                 new ExperimentConfiguration();
         conf.setDesign(des);
+    }
+
+    @Test
+    public void counterbalance() throws FileNotFoundException {
+        conf.counterbalance(new Subject(3, "TG", ExperimentType.StevensLevel));
+        List<RoundDesign> rnds = conf.getRoundDesigns();
         
-        conf.counterbalance(new Subject(3, "TG", ExperimentType.JND));
-        assertThat(conf.getRoundDesigns().size(), is(des.getSequential().size()) );
+        
+        Yaml yaml = new Yaml(new StevensLevelDesignConstructor());
+
+        String currentDir = new File(".").getAbsolutePath();
+        Object res = yaml.load(new FileReader(new File(currentDir.substring(0,currentDir.length() - 1) + "test/configuration/multi_counterbalance.conf")));
+        StevensLevelDesign des2 = StevensLevelDesign.class.cast(res);
+        ExperimentConfiguration conf2 = new ExperimentConfiguration();
+        conf2.setDesign(des2);
+        conf2.counterbalance(new Subject(2, "TG", ExperimentType.StevensLevel));
+        
+        assertThat(conf2.getRoundDesigns(), not(equalTo(rnds)) );
     }
 }

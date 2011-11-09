@@ -104,7 +104,7 @@ public class CounterBalancedOrdering {
             Logger.getLogger(CounterBalancedOrdering.class.getName()).log(Level.WARNING, "Error while attempting to dump out yaml of orderings", ex);
         }
         
-        int rawIndex = getGroups() % subjectNumber;
+        int rawIndex =  subjectNumber % getGroups();
         
         List<Integer> reodering = orders.get(rawIndex);
         return reorderinplace(reodering, toReorder);
@@ -125,7 +125,7 @@ public class CounterBalancedOrdering {
                 InputStream input = new FileInputStream( getOrdFile(toReorder.size(), numGroups));
                 Yaml yaml = new Yaml();
                 List data = (List) yaml.load(input);
-                List arr = (List) data.get(numGroups % subjectNumber);
+                List arr = (List) data.get( subjectNumber % numGroups);
                 List<Integer> newarr = new ArrayList<Integer>();
                 
                 for (Object object : arr) {
