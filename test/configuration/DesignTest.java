@@ -47,8 +47,8 @@ public class DesignTest {
     @Test
     public void totalDots() throws ClassNotFoundException {
        
-        StevensLevelDesign bean = (StevensLevelDesign) yaml.load("design:\n  numPoints: 250");
-        assertEquals(250, bean.getDesign().getNumPoints());
+        StevensLevelDesign bean = (StevensLevelDesign) yaml.load("design:\n  points: 250");
+        assertEquals(250, bean.getDesign().getPoints());
     }
     
     public <T extends Object> List<T> ls(T[] ts){
@@ -59,9 +59,9 @@ public class DesignTest {
       @Test
     public void sequential() throws ClassNotFoundException {
        
-        StevensLevelDesign bean = (StevensLevelDesign) yaml.load("sequential:\n  - {numTrials: 3}");
+        StevensLevelDesign bean = (StevensLevelDesign) yaml.load("sequential:\n  - {trials: 3}");
         assertThat(bean.getSequential().size(), is(1) );
-        assertThat(bean.getSequential().get(0).getNumTrials(), is(3));
+        assertThat(bean.getSequential().get(0).getTrials(), is(3));
     }
     
     @Test

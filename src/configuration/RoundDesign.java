@@ -84,6 +84,7 @@ public class RoundDesign extends TaskDesign {
                 Logger.getLogger(RoundDesign.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
     }
 
     interface FilterMethod {

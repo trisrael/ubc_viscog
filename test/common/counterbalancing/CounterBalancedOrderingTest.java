@@ -6,16 +6,13 @@ import common.counterbalancing.CounterBalancedOrdering.NotEnoughPermutations;
 import java.util.Arrays;
 import java.util.List;
 import javax.naming.SizeLimitExceededException;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import static org.hamcrest.Matchers.*;
+
 /**
- *
  * @author tristangoffman
  */
 public class CounterBalancedOrderingTest {
@@ -73,7 +70,6 @@ public class CounterBalancedOrderingTest {
         inst.reorder(Arrays.asList('a', 'a', 'a'), 1);
     }
     
-    
     @Test
     public void sameOrdering() throws SizeLimitExceededException, NotEnoughPermutations{
         assertThat(CounterBalancedOrdering.reorder(Arrays.asList('a', 'b', 'c', 'd', 'e', 'g', 'u', '3'), 2, 4) , equalTo( CounterBalancedOrdering.reorder(Arrays.asList('a', 'b', 'c', 'd', 'e', 'g', 'u', '3'), 2, 4)) );
@@ -82,14 +78,21 @@ public class CounterBalancedOrderingTest {
     @Test
     public void differentOrdering() throws SizeLimitExceededException, NotEnoughPermutations{
         assertThat(CounterBalancedOrdering.reorder(Arrays.asList('a', 'b', 'c', 'd', 'e', 'g', 'u', '3'), 1, 5) , not(equalTo( CounterBalancedOrdering.reorder(Arrays.asList('a', 'b', 'c', 'd', 'e', 'g', 'u', '3'), 3 , 5)) ));
+    }     
+    
+    
+    @Test
+    public void reorderInPlace()
+    {
+        List<Character> orig = Arrays.asList('a', 'b');
         
-    }        
+        assertThat(CounterBalancedOrdering.reorderWith(Arrays.asList(0, 1),orig) , equalTo(Arrays.asList('a', 'b')) );
+        assertThat(CounterBalancedOrdering.reorderWith(Arrays.asList(1, 0),orig) , equalTo(Arrays.asList('b', 'a')) );
+    }
     
     @Test
     public void reset(){
         CounterBalancedOrdering.reset();
         assertThat(new File(CounterBalancedOrdering.foldPath).exists(), is(false));
-    }       
-        
-    
+    } 
 }

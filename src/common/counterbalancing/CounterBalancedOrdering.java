@@ -2,6 +2,7 @@ package common.counterbalancing;
 
 import common.filesystem.FileSystem;
 import common.filesystem.FileSystemConstants;
+import configuration.RoundDesign;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -111,16 +112,18 @@ public class CounterBalancedOrdering {
         int rawIndex =  subjectNumber % getGroups();
         
         List<Integer> reodering = orders.get(rawIndex);
-        return reorderinplace(reodering, toReorder);
+        return reorderWith(reodering, toReorder);
     }
     
     
-    private static <E> List<E> reorderinplace(List<Integer> reodering, List<E> toReorder) {
+    protected static <E> List<E> reorderWith(List<Integer> reodering, List<E> toReorder) {
+        Object[] arr = new Object[toReorder.size()];
+        
+        
         for (int i = 0; i < reodering.size(); i++) {
-            Integer newIndex = reodering.get(i);
-            toReorder = swap(toReorder, i, newIndex);
+            arr[reodering.get(i)]= toReorder.get(i);
         }
-        return toReorder;
+        return (List<E>) Arrays.asList(arr);
     }
     
     public static <E> List<E> reorder(List<E> toReorder, int subjectNumber, int numGroups) throws SizeLimitExceededException, NotEnoughPermutations{
@@ -136,7 +139,7 @@ public class CounterBalancedOrdering {
                     newarr.add(new Integer((int) object));
                 }
                 
-                return reorderinplace(newarr, toReorder);
+                return reorderWith(newarr, toReorder);
                 
             }catch(FileNotFoundException ex){
                 //don't do anything continue on with rest (non IO based solution
@@ -204,6 +207,24 @@ public class CounterBalancedOrdering {
             file.mkdir();
         }
         return false;
+    }
+    
+    public static void main(String[] args){
+        List<RoundDesign> li = new ArrayList<RoundDesign>();
+        li.add(new RoundDesign());
+        RoundDesign rnd = new RoundDesign();
+        rnd.setPoints(1000);
+        li.add(rnd);
+        try {
+            List<RoundDesign> frst = CounterBalancedOrdering.reorder(li, 0, 2);
+       
+            List<RoundDesign> snd = CounterBalancedOrdering.reorder(li, 1, 2);
+            snd.size();
+        } catch (SizeLimitExceededException ex) {
+            Logger.getLogger(CounterBalancedOrdering.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotEnoughPermutations ex) {
+            Logger.getLogger(CounterBalancedOrdering.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
   

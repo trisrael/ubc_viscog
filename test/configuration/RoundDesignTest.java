@@ -4,18 +4,12 @@ import java.util.List;
 import common.condition.DotHueType;
 import common.condition.DotStyleType;
 import java.lang.reflect.Method;
-import java.util.Map;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
  
 
 /**
- *
  * @author tristangoffman
  */
 public class RoundDesignTest {
@@ -28,8 +22,6 @@ public class RoundDesignTest {
         
         assertThat(map.size(), is(1));
     }
-    
-    
     
     @Test
     public void diffBet() throws NoSuchMethodException{
@@ -50,9 +42,7 @@ public class RoundDesignTest {
         rnd.setDotHue(DotHueType.IsoBlue);
         rnd2.setDotStyle(DotStyleType.Point);
         rnd.merge(rnd2);
-        
         assertThat(rnd.difference().size(), is(2));
         assertThat(rnd.getDotStyle(), is(DotStyleType.Point));
     }
 }
-            
