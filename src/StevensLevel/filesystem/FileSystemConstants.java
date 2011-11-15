@@ -9,5 +9,6 @@ package StevensLevel.filesystem;
  * @author Tristan Goffman(tgoffman@gmail.com) Oct 17, 2011
  */
 public class FileSystemConstants {
-  public static final String CONF_FILENAME = "BasicSL.conf";   
+  public static final String CONF_FILENAME = "BasicSL.conf";
+  public static String CONF_TEST_FILENAME = "TestSL.conf";
 }

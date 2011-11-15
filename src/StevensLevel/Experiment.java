@@ -50,16 +50,14 @@ public class Experiment extends AbstractExperiment{
     public void run(int subjectNum, String initials) {
         setSubject(new Subject(subjectNum, initials, ExperimentType.StevensLevel));
         
+        loadAndRun(FileSystemConstants.CONF_FILENAME);
+    }
+
+    private void loadAndRun(String filename) {
         ExperimentConfiguration conf = new ExperimentConfiguration(); 
         
-        File confFile = configuration.ConfigurationHelper.retrieveConfFile(FileSystemConstants.CONF_FILENAME);
-        BufferedReader stream = null;
         
-        try {
-            stream = new BufferedReader(new FileReader(confFile));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Experiment.class.getName()).log(Level.SEVERE, "No file: '" + FileSystemConstants.CONF_FILENAME + "' found in configuration directory. Needed to run StevensLevel experiment." , ex);
-        }
+        BufferedReader stream = getConfFileStream(filename);
         
         Yaml yaml = new Yaml(new StevensLevelDesignConstructor());
         conf.setDesign(StevensLevelDesign.class.cast(yaml.load(stream)));
@@ -71,16 +69,22 @@ public class Experiment extends AbstractExperiment{
         getExperimentControl().run();
     }
 
+    private BufferedReader getConfFileStream(String filename) {
+        File confFile = configuration.ConfigurationHelper.retrieveConfFile(filename);
+        BufferedReader stream = null;
+        try {
+            stream = new BufferedReader(new FileReader(confFile));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Experiment.class.getName()).log(Level.SEVERE, "No file: '" + filename + "' found in configuration directory. Needed to run StevensLevel experiment." , ex);
+        }
+        return stream;
+    }
+
     @Override
     public void test() {
         ExperimentConfiguration conf = new ExperimentConfiguration();
         setSubject(new Subject(1, "testSubject", ExperimentType.StevensLevel));
-        conf.setDefaultDesign();
-        
-        getExperimentControl().setConfiguration(conf); //Use default options found within ExperimentConfiguration
-        //getExperimentControl().getConfiguration().getBaseDesign().p"startTitle", "StevensLevel Test" );
-        
-        getExperimentControl().run();
+        loadAndRun(FileSystemConstants.CONF_TEST_FILENAME);
     }
 
     @Override
