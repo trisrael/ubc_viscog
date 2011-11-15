@@ -18,9 +18,6 @@ import org.junit.runner.RunWith;
 import static org.hamcrest.MatcherAssert.*;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertTrue;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.spy;
 
 /**
  *

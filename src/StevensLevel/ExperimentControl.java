@@ -56,9 +56,6 @@ public class ExperimentControl extends WithStateImpl implements InteractionReact
     public void setup() {
         listen(this, PartInteractionListener.class);
         
-        
-        
-        
         addPart(new BeginningPart());
 
         addTasks();
@@ -67,9 +64,8 @@ public class ExperimentControl extends WithStateImpl implements InteractionReact
     }
 
     protected Sequence getSequence() {
-        if (seq == null) {
-            seq = new Sequence();
-        };
+        if (seq == null)
+            setSequence(new Sequence());
         return seq;
     }
 

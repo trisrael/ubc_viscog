@@ -2,6 +2,7 @@ package StevensLevel;
 
 import experiment.Subject;
 import StevensLevel.filesystem.FileSystemConstants;
+import StevensLevel.logging.ExperimentLogging;
 import configuration.ExperimentConfiguration;
 import configuration.StevensLevelDesign;
 import experiment.AbstractExperiment;
@@ -73,10 +74,12 @@ public class Experiment extends AbstractExperiment{
     @Override
     public void test() {
         ExperimentConfiguration conf = new ExperimentConfiguration();
+        setSubject(new Subject(1, "testSubject", ExperimentType.StevensLevel));
         conf.setDefaultDesign();
         
         getExperimentControl().setConfiguration(conf); //Use default options found within ExperimentConfiguration
         //getExperimentControl().getConfiguration().getBaseDesign().p"startTitle", "StevensLevel Test" );
+        
         getExperimentControl().run();
     }
 
@@ -117,6 +120,8 @@ public class Experiment extends AbstractExperiment{
 
     private void setSubject(Subject subject) {
         this.subject = subject;
+        ExperimentLogging.setSubject(getSubject()); //used by both run/test so make sure subject is set for both
+        ExperimentLogging.setup();
     }
     
     

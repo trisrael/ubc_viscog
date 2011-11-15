@@ -33,10 +33,37 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     
     private double adjustedCorr;
     private int numPoints;
-    private DotStyleType dotStyle;
-    private DotHueType dotHue;
+
+  
     private final GraphStyleSheet stylesheet;
+
+   
     private int timesRefreshed = 0; //Number of time 
+    
+    
+      /**
+     * Builds a Trials consisting of the correlation for several graphs (High, User defined and Low) though this is
+     * just naming, it is entirely possible for user to place highCorr at lower level than lowCorr. NOTE: Refactoring naming to use left/right 
+     * might be a better model.
+     * 
+     * By default the user defined graph will take the value of highCorr. If a specific value is wished for adjustedCorr (user defined) graph than 
+     * the other constructor method should be used.
+     * @param highCorr
+     * @param lowCorr
+     * @param numpts 
+     */
+    public Trial(double highCorr, double lowCorr, double startCorr, int numpts, double stepsize, GraphStyleSheet sheet) {
+        this.highCorr = highCorr;
+        this.lowCorr = lowCorr;
+        
+        this.adjustedCorr = startCorr;
+        this.stylesheet = sheet;
+        setPoints(numpts);
+        setStepSize(stepsize);
+        listen(this, StevensLevelInteractionListener.class);
+        listen(this, ExperimentInteractionListener.class);
+    }
+
     
 
     public double getStepSize() {
@@ -62,36 +89,15 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     }
     private double stepSize;
 
-    public int getNumPoints() {
+    public int getPoints() {
         return numPoints;
     }
 
-    private void setNumPoints(int numPoints) {
+    private void setPoints(int numPoints) {
         this.numPoints = numPoints;
     }
 
-    /**
-     * Builds a Trials consisting of the correlation for several graphs (High, User defined and Low) though this is
-     * just naming, it is entirely possible for user to place highCorr at lower level than lowCorr. NOTE: Refactoring naming to use left/right 
-     * might be a better model.
-     * 
-     * By default the user defined graph will take the value of highCorr. If a specific value is wished for adjustedCorr (user defined) graph than 
-     * the other constructor method should be used.
-     * @param highCorr
-     * @param lowCorr
-     * @param numpts 
-     */
-    public Trial(double highCorr, double lowCorr, double startCorr, int numpts, double stepsize, GraphStyleSheet sheet) {
-        this.highCorr = highCorr;
-        this.lowCorr = lowCorr;
-        
-        this.adjustedCorr = startCorr;
-        this.stylesheet = sheet;
-        setNumPoints(numpts);
-        setStepSize(stepsize);
-        listen(this, StevensLevelInteractionListener.class);
-        listen(this, ExperimentInteractionListener.class);
-    }
+  
 
     /**
      * Trials at the lowest form are what react to forms of StevensLevel user interaction. Correlation Up and Correlation down
@@ -138,7 +144,7 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     }
 
     private StevensLevelUpdateViewEvent buildPayload(double corr, Graphs graph) {
-        return new StevensLevelUpdateViewEvent(corr, getNumPoints(), graph, stylesheet);
+        return new StevensLevelUpdateViewEvent(corr, getPoints(), graph, stylesheet);
     }
 
     public double getAdjustedCorr() {
@@ -175,5 +181,17 @@ public class Trial extends ExperimentModel implements StevensLevelInteractionLis
     @Override
     public void completeTask(){
             //Round deals with this action actually.
+    }
+    
+   public double getHighCorr() {
+        return highCorr;
+    }
+
+    public double getLowCorr() {
+        return lowCorr;
+    }
+    
+     public GraphStyleSheet getStylesheet() {
+        return stylesheet;
     }
 }

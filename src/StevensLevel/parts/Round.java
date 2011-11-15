@@ -9,6 +9,7 @@ import static StevensLevel.EventBusHelper.*;
 import StevensLevel.UserKeyInteractionListener;
 import StevensLevel.events.ScreenChange;
 import StevensLevel.listeners.ScreenChangeListener;
+import StevensLevel.listeners.StevensLogListener;
 import configuration.RoundDesign;
 import render.GraphStyleSheet;
 import screens.BlankScreen;
@@ -152,6 +153,7 @@ public class Round extends ExperimentPart implements ScreenNotificationListener 
         //TODO: Is it possible that current trial could be null?
         if (isRunning()) {
             getCurrentTrial().stop();
+            eb().getPublisher(this, StevensLogListener.class).logTrial(getCurrentTrial());
             setState(State.WAITING); //wait for spacebarPlaced to go off before allowing completeTasks again
             eb().getPublisher(this, UserKeyInteractionListener.class).ignoreUserInteractions(); //new screen coming in
             pb(this, ScreenChangeListener.class).changeScreen(new ScreenChange(BlankScreen.class));

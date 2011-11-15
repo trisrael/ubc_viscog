@@ -35,9 +35,10 @@ public class Subject {
     
     public Subject(int number, String initials, ExperimentType type, SubjectFilenameBuilder builder) {
         setNumber(number);
+        
         setInitials(initials);
         setType(type);
-        if(builder != null){
+        if(builder == null){
             setBuilder(new SubjectFilenameBuilderImpl());
         }
     }

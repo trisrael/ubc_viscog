@@ -113,7 +113,7 @@ public class ExperimentConfiguration {
         if(needsCounterBalance()){
             int numGroups = getDesign().getDesign().intprop("groups");
             try {
-                newordered = CounterBalancedOrdering.reorder(getDesign().getCounterbalanced(), subject.getNumber(),  numGroups);
+                 newordered = CounterBalancedOrdering.reorder(getDesign().getCounterbalanced(), subject.getNumber(),  numGroups);
             } catch (SizeLimitExceededException ex) {
                 Logger.getLogger(ExperimentConfiguration.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NotEnoughPermutations ex) {

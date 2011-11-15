@@ -23,6 +23,18 @@ public class ExperimentLogging {
     private static final String DELI = "_";
     private static String BACKSLASH = "/";
     
+    static{
+        //make the directory if it does not already exist
+        File dir = new File(FOLDER_LOGS);
+        if(!dir.isDirectory())
+            try{
+                dir.mkdir();
+            }catch(Exception e){
+                //nothing
+            }
+            
+    }
+    
     
     
 
@@ -60,6 +72,7 @@ public class ExperimentLogging {
         Folder,
         Data,
         Summary,
+        StevensTrials, 
         XML,
         Custom //enum to denote a custom file creation within data folder, the ExperimentLogging does not know more about this file
     }
@@ -67,6 +80,7 @@ public class ExperimentLogging {
     private static Map<PathParts, String> descriptMap = new HashMap<PathParts, String>();
     
     static {
+        descriptMap.put(PathParts.StevensTrials, "StevensTrials.txt");
         descriptMap.put(PathParts.Data, "data.txt");
         descriptMap.put(PathParts.Summary, "summary.txt");
         descriptMap.put(PathParts.Folder, "dir");
@@ -153,6 +167,18 @@ public class ExperimentLogging {
         }
     }
     
+    public static void writeToFile(PathParts part, Subject person, String string){
+        if(!getFile(person, part).exists())
+            createFile(part, person);
+        File file = getFile(person, part);
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(string);
+            writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ExperimentLogging.class.getName()).log(Level.SEVERE, "Unable to write out to file: " + part.toString(), ex);
+        }
+    }
     
     public static File createFile(PathParts part, Subject person){
         String path = fp(part, person);

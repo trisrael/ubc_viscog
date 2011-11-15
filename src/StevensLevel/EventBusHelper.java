@@ -16,6 +16,11 @@ import com.northconcepts.eventbus.EventFilter;
 public class EventBusHelper {
 
     private static EventBus eb;
+
+    
+    static {
+        setupEventBus();
+    }
     
     public static EventBus eb() {
         return eventbus();
@@ -23,6 +28,7 @@ public class EventBusHelper {
     }
 
     public static EventBus eventbus() {
+        
         return eb;
     }
     
